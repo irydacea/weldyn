@@ -242,6 +242,10 @@ $lang = array_merge($lang, array(
 	'USERNAME_CHARS'			=> 'Limit username chars',
 	'USERNAME_CHARS_ANY'		=> 'Any character',
 	'USERNAME_CHARS_EXPLAIN'	=> 'Restrict type of characters that may be used in usernames, spacers are: space, -, +, _, [ and ].',
+	// wesnoth mod begin
+	// WESNOTHD HACK: added USERNAME_WESNOTHD to array
+	'USERNAME_WESNOTHD' => 'MP server - alphanumeric, hyphens or underscores',
+	// wesnoth mod end
 	'USERNAME_LENGTH'			=> 'Username length',
 	'USERNAME_LENGTH_EXPLAIN'	=> 'Minimum and maximum number of characters in usernames.',
 ));
