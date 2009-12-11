@@ -27,6 +27,81 @@
 
 <link rel="stylesheet" href="{T_STYLESHEET_LINK}" type="text/css" />
 
+<!-- glamdrol mod begin -->
+<link rel="shortcut icon" href="http://www.wesnoth.org/images/w-ico.png" type="image/x-icon" />
+<style type="text/css">
+<!--
+#global {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font: 0.88em sans-serif;
+}
+
+ul {
+  line-height: 1.6em;
+}
+
+#header {
+  margin: 0;
+  padding: 0;
+  background: #444 url('http://www.wesnoth.org/mw/skins/glamdrol/headerbg.jpg') top repeat-x;
+  border-bottom: 1px solid #000;
+}
+
+#header #logo {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+#header #logo img {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+#header #logo a {
+  margin: 0;
+  padding: 0;
+  color: #654;
+  text-decoration: none;
+  font-size: 0.8em;
+}
+
+#nav {
+  margin: 0;
+  padding: 3px 4px 15px 4px;
+  background: #272727 url('http://www.wesnoth.org/mw/skins/glamdrol/navbg.png') repeat-x bottom;
+  text-align: center;
+  border-top: 1px solid #595959;
+  font-size: 150%;
+}
+
+#nav ul, #nav li {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+#nav li {
+  padding: 0 5px;
+}
+
+#nav a {
+  color: #B48648;
+  font-family: "Trebuchet MS", sans-serif;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+#nav a:hover {
+  color: #CCC;
+}
+-->
+</style>
+<!-- glamdrol mod end -->
+
 <script type="text/javascript">
 // <![CDATA[
 <!-- IF S_USER_PM_POPUP -->
@@ -143,22 +218,45 @@ function marklist(id, name, state)
 
 // ]]>
 </script>
+
+<!-- mod begin -->
+<!-- Google Analytics -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-1872754-3";
+urchinTracker();
+</script>
+<!-- mod end -->
+
 </head>
-<body class="{S_CONTENT_DIRECTION}">
+<!-- glamdrol mod begin -->
+<body>
 
 <a name="top"></a>
-
-<div id="wrapheader">
-
-	<div id="logodesc">
-		<table width="100%" cellspacing="0">
-		<tr>
-			<td><a href="{U_INDEX}">{SITE_LOGO_IMG}</a></td>
-			<td width="100%" align="center"><h1>{SITENAME}</h1><span class="gen">{SITE_DESCRIPTION}</span></td>
-		</tr>
-		</table>
+<div id="global">
+	<div id="header">
+		<div id="logo">
+			<a href="http://www.wesnoth.org/home"><img alt="Wesnoth logo" src="http://www.wesnoth.org/mw/skins/glamdrol/wesnoth-logo.jpg" /></a>
+		</div>
 	</div>
 
+	<div id="nav">
+		<ul>
+			<li><a href="http://www.wesnoth.org/">Home</a></li>
+			<li><a href="http://www.wesnoth.org/wiki/Play">Play</a></li>
+			<li><a href="http://www.wesnoth.org/wiki/Create">Create</a></li>
+			<li><a href="http://forums.wesnoth.org/">Forums</a></li>
+			<li><a href="http://www.wesnoth.org/wiki/Support">Support</a></li>
+			<li><a href="http://www.wesnoth.org/wiki/Project">Project</a></li>
+			<li><a href="http://www.wesnoth.org/wiki/Credits">Credits</a></li>
+			<li><a href="http://www.wesnoth.org/wiki/UsefulLinks">Links</a></li>
+		</ul>
+	</div>
+</div>
+<div class="{S_CONTENT_DIRECTION}">
+<div id="wrapheader">
+<!-- glamdrol mod end -->
 	<div id="menubar">
 		<table width="100%" cellspacing="0">
 		<tr>
