@@ -805,7 +805,10 @@ class acp_board
 	{
 		global $user;
 
-		$user_char_ary = array('USERNAME_CHARS_ANY', 'USERNAME_ALPHA_ONLY', 'USERNAME_ALPHA_SPACERS', 'USERNAME_LETTER_NUM', 'USERNAME_LETTER_NUM_SPACERS', 'USERNAME_ASCII');
+		// wesnoth mod begin
+		// WESNOTHD HACK: added USERNAME_WESNOTHD to array
+		$user_char_ary = array('USERNAME_CHARS_ANY', 'USERNAME_ALPHA_ONLY', 'USERNAME_ALPHA_SPACERS', 'USERNAME_LETTER_NUM', 'USERNAME_LETTER_NUM_SPACERS', 'USERNAME_ASCII', 'USERNAME_WESNOTHD');
+		// wesnoth mod end
 		$user_char_options = '';
 		foreach ($user_char_ary as $user_type)
 		{

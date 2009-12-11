@@ -476,6 +476,10 @@ $lang = array_merge($lang, array(
 	'USERNAME_ASCII_EXPLAIN'		=> 'Username must be between %1$d and %2$d chars long and use only ASCII characters, so no special symbols.',
 	'USERNAME_LETTER_NUM_EXPLAIN'	=> 'Username must be between %1$d and %2$d chars long and use only letter or number characters.',
 	'USERNAME_LETTER_NUM_SPACERS_EXPLAIN'=> 'Username must be between %1$d and %2$d chars long and use letter, number, space or -+_[] characters.',
+	// wesnoth mod begin
+	// WESNOTHD HACK: added USERNAME_WESNOTHD_EXPLAIN to array
+	'USERNAME_WESNOTHD_EXPLAIN' => 'Only alpha-numeric characters, underscores and hyphens are allowed.',
+	// wesnoth mod end
 	'USERNAME_CHARS_ANY_EXPLAIN'	=> 'Length must be between %1$d and %2$d characters.',
 	'USERNAME_TAKEN_USERNAME'		=> 'The username you entered is already in use, please select an alternative.',
 	'USERNAME_DISALLOWED_USERNAME'	=> 'The username you entered has been disallowed or contains a disallowed word. Please choose a different name.',
