@@ -16,6 +16,11 @@ if (!defined('IN_PHPBB'))
 	exit;
 }
 
+// wesnoth mod begin
+define('WESNOTH_BEYOND_LIMITS_ATTACHMENT_LIMIT', 52428800); // bytes
+define('WESNOTH_JETREL_ATTACHMENT_LIMIT', 52428800); // bytes
+// wesnoth mod end
+
 /**
 * Fill smiley templates (or just the variables) with smilies, either in a window or inline
 */
@@ -441,6 +446,34 @@ function upload_attachment($form_name, $forum_id, $local = false, $local_storage
 		}
 		else
 		{
+			// wesnoth mod begin
+
+			//Wesnoth PM attachments quota bypass
+			//Not to reinvent the wheel we need group_memberships function
+			include_once($phpbb_root_path . 'includes/functions_user.' . $phpEx);
+			//Find Beyond limits group id
+			$sql = 'SELECT group_id
+				FROM ' . GROUPS_TABLE . '
+				WHERE group_name="Beyond Limits"';
+			$result = $db->sql_query($sql);
+			$no_limits_group_id = $db->sql_fetchrow($result);
+			$db->sql_freeresult($result);
+			//Check if user is Jetrel
+			$sql = 'SELECT username
+				FROM ' . USERS_TABLE . '
+				WHERE user_id=' . $user->data['user_id'] . '
+				AND username="Jetrel"';
+			$result = $db->sql_query($sql);
+			$is_Jetrel = $db->sql_fetchrow($result);
+			$db->sql_freeresult($result);
+			//See if user belongs to Beyond Limits group and if yes override the PM attachment limit to 50MB
+			$is_no_limits_group = group_memberships($no_limits_group_id, $user->data['user_id'], true);
+			$config['max_filesize_pm'] = ($is_no_limits_group) ? WESNOTH_BEYOND_LIMITS_ATTACHMENT_LIMIT : $config['max_filesize_pm'];
+			//If user is Jetryl set the limit skyhigh
+			$$config['max_filesize_pm'] = ($is_Jetrel) ? WESNOTH_JETREL_ATTACHMENT_LIMIT : $config['max_filesize_pm'];
+
+			// wesnoth mod end
+
 			$allowed_filesize = ($is_message) ? $config['max_filesize_pm'] : $config['max_filesize'];
 		}
 
