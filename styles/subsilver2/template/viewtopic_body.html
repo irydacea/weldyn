@@ -160,11 +160,6 @@
 
 			<td valign="top" class="profile">
 				<table cellspacing="4" align="center" width="150">
-			<!-- IF postrow.ONLINE_IMG -->
-				<tr>
-					<td>{postrow.ONLINE_IMG}</td>
-				</tr>
-			<!-- ENDIF -->
 			<!-- IF postrow.RANK_TITLE -->
 				<tr>
 					<td class="postdetails">{postrow.RANK_TITLE}</td>
@@ -178,6 +173,11 @@
 			<!-- IF postrow.POSTER_AVATAR -->
 				<tr>
 					<td>{postrow.POSTER_AVATAR}</td>
+				</tr>
+			<!-- ENDIF -->
+			<!-- IF postrow.ONLINE_IMG -->
+				<tr>
+					<td>{postrow.ONLINE_IMG}</td>
 				</tr>
 			<!-- ENDIF -->
 			<!-- IF not (postrow.ONLINE_IMG or postrow.RANK_TITLE or postrow.RANK_IMG or postrow.POSTER_AVATAR) -->
