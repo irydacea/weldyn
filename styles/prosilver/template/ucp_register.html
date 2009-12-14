@@ -83,6 +83,24 @@
 	<!-- INCLUDE {CAPTCHA_TEMPLATE} -->
 <!-- ENDIF -->
 
+<!-- antibot mod begin -->
+<div class="panel">
+	<div class="inner"><span class="corners-top"><span></span></span>
+
+	<h2>{L_SECURITY_PHRASE_TITLE}</h2>
+
+	<p>{L_SECURITY_PHRASE_EXPLAIN}</p>
+
+	<fieldset class="fields2">
+		<dl>
+			<dt><label for="security_phrase">{L_SECURITY_PHRASE}:</label></dt>
+			<dd><input type="password" tabindex="5" name="confirm_phrase" id="confirm_phrase" size="25" value="" class="inputbox autowidth" title="{L_SECURITY_PHRASE}" /></dd>
+		</dl>
+	</fieldset>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+<!-- antibot mod end -->
+
 <!-- IF S_COPPA -->
 
 
