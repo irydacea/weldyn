@@ -1,0 +1,39 @@
+/* CSS for Mac browsers */
+
+th { 
+	padding-top: 0; 
+	padding-bottom: 0;
+	font-size: 12px;
+	height: 24px;
+}
+
+.cap-right {
+	padding-top: 9px;
+	height: 18px;
+}
+
+.navrow { 
+    padding: 5px;
+    height: 12px;
+}
+
+/* remove ugly bold */
+
+.titles, .pagination, pm-notify-new, .pm-notify-unread, th, caption, caption h1, caption h2, caption h3, caption h4, caption span, .cap-div, .cap-div h1, .cap-div h2, .cap-div h3, .cap-div h4, .cap-div span, p.breadcrumbs, .postsubject, .postauthor, .postreported, .postreported a:visited, .postreported a:hover, .postreported a, .postreported a:active, .postapprove, .postapprove a:visited, .postapprove a:hover, .postapprove a, .postapprove a:active, .folder-current a, .folder-current a:visited, .btnmain, .quotetitle, .attachtitle, .codetitle, h1, h2, h3, h4, p.moderators, .username-coloured, textarea {
+	font-weight: normal;
+}
+
+.poll b, .forumdesc strong, .nobold b, .nobold strong {
+	font-weight: normal;
+}
+
+textarea { font-size: 12px; font-family: Arial, Helvetica, sans-serif; font-weight: normal; }
+
+.quotetitle, .attachtitle, .codetitle { font-size: 10px; font-weight: bold; }
+.attachcontent { font-size: 11px; }
+
+
+/* change font size */ /*
+body { font-size: 11px; } */
+.gensmall { font-size: 1.1em; }
+a.forumlink, a.topictitle { font-size: 1.2em; }

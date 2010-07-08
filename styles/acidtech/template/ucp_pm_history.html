@@ -1,0 +1,56 @@
+{$CA_BLOCK_START}
+{$CA_CAP2_START}{L_MESSAGE_HISTORY} - {HISTORY_TITLE}{$CA_CAP2_END}
+<table class="tablebg" width="100%" cellspacing="0" style="border-left-width: 0; border-top-width: 0;">
+<tr>
+	<td class="row1" style="padding: 0; border-width: 0;"><div style="overflow: auto; width: 100%; height: 300px;">
+
+		<table class="tablebg" width="100%" cellspacing="{$CA_SPACING}">
+		<tr>
+			<th width="22%">{L_AUTHOR}</th>
+			<th>{L_MESSAGE}</th>
+		</tr>
+	<!-- BEGIN history_row -->
+			<!-- IF history_row.S_ROW_COUNT is even --><tr class="row1"><!-- ELSE --><tr class="row2"><!-- ENDIF -->
+			<td rowspan="2" align="{S_CONTENT_FLOW_BEGIN}" class="row" valign="top"><a name="{history_row.MSG_ID}"></a>
+				<table width="150" cellspacing="0">
+				<tr>
+					<td align="center" colspan="2"><span class="postauthor">{history_row.MESSAGE_AUTHOR_FULL}</span></td>
+				</tr>
+				</table>
+			</td>
+			<td class="row<!-- IF history_row.S_CURRENT_MSG --> history-current<!-- ENDIF -->" width="100%">
+				<div class="gensmall" style="float: {S_CONTENT_FLOW_BEGIN};"><b>{L_PM_SUBJECT}:</b>&nbsp;{history_row.SUBJECT}</div><div class="gensmall" style="float: {S_CONTENT_FLOW_END};"><b>{L_FOLDER}:</b>&nbsp;{history_row.FOLDER}</div>
+			</td>
+		</tr>
+
+		<!-- IF history_row.S_ROW_COUNT is even --><tr class="row1"><!-- ELSE --><tr class="row2"><!-- ENDIF -->
+			<td class="row" valign="top">
+				<div class="postbody">{history_row.MESSAGE}<br />
+                <div id="message_{history_row.MSG_ID}" style="display: none;">{history_row.DECODED_MESSAGE}</div>
+				<br />
+				<div style="float: {S_CONTENT_FLOW_END}" class="postdetails"><b>{L_SENT_AT}:</b> {history_row.SENT_DATE}</div>
+				<a href="{history_row.U_VIEW_MESSAGE}">{L_VIEW_PM}</a>
+				<!-- IF history_row.U_POST_REPLY_PM --> | <a href="{history_row.U_POST_REPLY_PM}">{L_POST_REPLY}</a><!-- ENDIF -->
+				</div></div>
+			</td>
+		</tr>
+
+		<!-- IF history_row.S_ROW_COUNT is even --><tr class="row1"><!-- ELSE --><tr class="row2"><!-- ENDIF -->
+			<td class="gensmall row">&nbsp;</td>
+			<td class="row">
+			    <div class="gensmall" style="float: {S_CONTENT_FLOW_BEGIN};">&nbsp;<!-- IF history_row.U_PROFILE --><a href="{history_row.U_PROFILE}">{PROFILE_IMG}</a> <!-- ENDIF --> <!-- IF history_row.U_EMAIL --><a href="{history_row.U_EMAIL}">{EMAIL_IMG}</a> <!-- ENDIF -->&nbsp;</div>
+			    <div class="gensmall" style="float: {S_CONTENT_FLOW_END};"><!-- IF history_row.U_QUOTE or history_row.MESSAGE_AUTHOR_QUOTE --><a <!-- IF history_row.U_QUOTE -->href="{history_row.U_QUOTE}"<!-- ELSE -->href="#" onclick="addquote({history_row.MSG_ID}, '{history_row.MESSAGE_AUTHOR_QUOTE}'); return false;"<!-- ENDIF -->>{QUOTE_IMG}</a> <!-- ENDIF -->&nbsp;</div>
+            </td>
+
+		</tr>
+		<tr>
+			<td class="spacer" colspan="2"><img src="images/spacer.gif" alt="" width="1" height="1" /></td>
+		</tr>
+	<!-- END history_row -->
+		</table>
+	</div></td>
+</tr>
+</table>
+{$CA_BLOCK_END}
+
+<br clear="all" />
