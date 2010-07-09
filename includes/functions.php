@@ -4448,6 +4448,10 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 	// Which timezone?
 	$tz = ($user->data['user_id'] != ANONYMOUS) ? strval(doubleval($user->data['user_timezone'])) : strval(doubleval($config['board_timezone']));
 
+	// BEGIN Moderator Needed Mod
+	include($phpbb_root_path . 'includes/moderator_needed.' . $phpEx);
+ 	moderator_needed_count();
+	// END Moderator Needed Mod
 	// Send a proper content-language to the output
 	$user_lang = $user->lang['USER_LANG'];
 	if (strpos($user_lang, '-x-') !== false)
