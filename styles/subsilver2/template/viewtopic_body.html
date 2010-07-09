@@ -309,6 +309,7 @@
 		<!-- IF not S_IS_BOT -->
 			<!-- IF S_DISPLAY_POST_INFO --><a href="{U_POST_NEW_TOPIC}">{POST_IMG}</a>&nbsp;<!-- ENDIF -->
 			<!-- IF S_DISPLAY_REPLY_INFO --><a href="{U_POST_REPLY_TOPIC}">{REPLY_IMG}</a><!-- ENDIF -->
+			<!-- IF S_QUICK_REPLY -->&nbsp;<a href="#qr_ns_editor_div" onclick="var qr = document.getElementById('qr_editor_div'); qr.style.display = (qr.style.display == 'none') ? '' : 'none'; return false;"><img src="{T_IMAGESET_LANG_PATH}/button_quick_reply.gif" alt="Quick reply" /></a><!-- ENDIF -->
 		<!-- ENDIF -->
 		</td>
 		<!-- IF TOTAL_POSTS -->
