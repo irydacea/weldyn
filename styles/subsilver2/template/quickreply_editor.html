@@ -26,7 +26,7 @@
 </div>
 </form>
 </noscript>
-<form method="post" action="{U_QR_ACTION}">
+<form id="postform" method="post" action="{U_QR_ACTION}">
 <div style="display: none" id="qr_editor_div">
 	<table class="tablebg" width="100%" cellspacing="1">
 		<tr>
@@ -37,8 +37,56 @@
 			<td  class="row2" width="78%"><input class="post" style="width:450px" type="text" name="subject" size="45" maxlength="64" tabindex="2" value="{SUBJECT}" /></td>
 		</tr>
 		<tr>
-			<td class="row1" width="22%"><b class="genmed">{L_MESSAGE}:</b></td>
-			<td class="row2" valign="top" align="left" width="78%"><textarea name="message" rows="7" cols="76" tabindex="3"  style="width: 98%;"></textarea> </td>
+			<td class="row1" width="22%"><b class="genmed">{L_MESSAGE}:</b>
+			<!-- IF S_SMILIES_ALLOWED -->
+				<table width="100%" cellspacing="5" cellpadding="0" border="0" align="center">
+				<tr>
+					<td class="gensmall" align="center"><b>{L_SMILIES}</b></td>
+				</tr>
+				<tr>
+					<td align="center">
+						<!-- BEGIN smiley -->
+							<a href="#" onclick="insert_text('{smiley.A_SMILEY_CODE}', true); return false;" style="line-height: 20px;"><img src="{smiley.SMILEY_IMG}" width="{smiley.SMILEY_WIDTH}" height="{smiley.SMILEY_HEIGHT}" alt="{smiley.SMILEY_CODE}" title="{smiley.SMILEY_DESC}" hspace="2" vspace="2" /></a>
+						<!-- END smiley -->
+					</td>
+				</tr>
+
+				<!-- IF S_SHOW_SMILEY_LINK -->
+					<tr>
+						<td align="center"><a class="nav" href="{U_MORE_SMILIES}" onclick="popup(this.href, 300, 350, '_phpbbsmilies'); return false;">{L_MORE_SMILIES}</a></td>
+					</tr>
+				<!-- ENDIF -->
+
+				</table>
+			<!-- ENDIF -->
+			</td>
+			<td class="row2" valign="top" align="left" width="78%">
+
+				<script type="text/javascript">
+				// <!--
+					var form_name = 'postform';
+					var text_name = 'message';
+				// -->
+				</script>
+
+				<table width="100%" cellspacing="0" cellpadding="0" border="0">
+				<!-- INCLUDE posting_buttons.html -->
+				<tr>
+					<td valign="top" style="width: 100%;"><textarea name="message" rows="12" cols="76" tabindex="3" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" style="width: 98%;">{MESSAGE}</textarea></td>
+					<!-- IF S_BBCODE_ALLOWED -->
+
+					<td width="80" align="center" valign="top">
+						<script type="text/javascript">
+						// <!--
+							colorPalette('v', 7, 6)
+						// -->
+						</script>
+					</td>
+					<!-- ENDIF -->
+				</tr>
+				</table>
+
+			</td>
 		</tr>
 		<tr>
 			<td class="cat" colspan="2" align="center">
