@@ -816,6 +816,11 @@ if ($get == 'reply' || $get == 'post') {
     $mode = $get;
     $message_parser = new parse_message();
     $message_parser->message = utf8_normalize_nfc(request_var('txt', '', true));
+    // shadowm mod begin
+    $message_parser->message = preg_replace(
+		"/Posted with \[url=http:\/\/www.messageforums.net\/iphoneforumreader.php\]TouchBB\[\/url\] on my .*$/",
+		"", $message_parser->message);
+	// shadowm mod end
     $title = utf8_normalize_nfc(request_var('title', '', true));
     $username = $user->data['username'];
     $update_message = true;
@@ -849,7 +854,7 @@ if ($get == 'reply' || $get == 'post') {
     }
 
     // changes title (post subject) to Re: <subject> when no title is sent, thanks Dav
-/*
+
     if (!$title) {
       $sql = "SELECT topic_title FROM " . TOPICS_TABLE . " WHERE topic_id=" . $topic_id;
       $result = $db->sql_query($sql);
@@ -859,7 +864,7 @@ if ($get == 'reply' || $get == 'post') {
 
       $db->sql_freeresult($result);
     }
-*/
+
 
     // parse message
     if ($update_message) {
