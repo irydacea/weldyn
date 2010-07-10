@@ -830,6 +830,7 @@ if ($get == 'reply' || $get == 'post') {
     $post_data['enable_bbcode'] = true;
     $post_data['enable_smilies'] = true;
     $post_data['enable_urls'] = true;
+    $post_data['enable_sig'] = true;
 
     if ($forum_id) {
       $sql = "SELECT forum_status FROM " . FORUMS_TABLE . " WHERE forum_id=" . $db->sql_escape($forum_id);
