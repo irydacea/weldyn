@@ -518,6 +518,8 @@ $lang = array_merge($lang, array(
 	'RULES_REPLY_CANNOT'		=> 'You <strong>cannot</strong> reply to topics in this forum',
 	'RULES_VOTE_CAN'			=> 'You <strong>can</strong> vote in polls in this forum',
 	'RULES_VOTE_CANNOT'			=> 'You <strong>cannot</strong> vote in polls in this forum',
+	'RULES_PAGE'				=> 'Posting Guidelines',
+	'RULES'						=> 'Posting Guidelines',
 
 	'SEARCH'					=> 'Search',
 	'SEARCH_MINI'				=> 'Search…',
