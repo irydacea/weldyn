@@ -155,7 +155,7 @@
 
 				<div class="postdetails">
 					<!-- IF postrow.POSTER_JOINED --><br /><b>{L_JOINED}:</b> {postrow.POSTER_JOINED}<!-- ENDIF -->
-					<!-- IF postrow.POSTER_POSTS != '' --><br /><b>{L_POSTS}:</b> {postrow.POSTER_POSTS}<!-- ENDIF -->
+					<!-- IF postrow.POSTER_POSTS != '' --><br /><b>{L_POSTS}:</b> {postrow.POSTER_POSTS} <!-- IF postrow.U_SEARCH and U_MCP -->[ <a href="{postrow.U_SEARCH}">{L_POSTS_VIEWTOPIC}</a> ]<!-- ENDIF --><!-- ENDIF -->
 					<!-- IF postrow.POSTER_FROM --><br /><b>{L_LOCATION}:</b> {postrow.POSTER_FROM}<!-- ENDIF -->
 
 					<!-- IF postrow.S_PROFILE_FIELD1 -->
