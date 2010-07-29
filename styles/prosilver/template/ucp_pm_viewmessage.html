@@ -11,7 +11,7 @@
 <!-- ENDIF -->
 
 
-<div id="post-{MESSAGE_ID}" class="panel clearfix post pm-panel-message pm<!-- IF S_POST_UNAPPROVED or S_POST_REPORTED --> reported<!-- ENDIF --><!-- IF S_ONLINE --> online<!-- ENDIF -->">
+<div id="post-{MESSAGE_ID}" class="panel clearfix post pm-panel-message pm<!-- IF S_POST_UNAPPROVED or S_POST_REPORTED --> reported<!-- ENDIF -->">
 <div>
 
 	<div class="postbody">
@@ -62,7 +62,7 @@
 		<!-- ENDIF -->
 	</div>
 
-	<dl class="postprofile" id="profile{MESSAGE_ID}">
+	<dl class="postprofile<!-- IF S_ONLINE --> online<!-- ENDIF -->" id="profile{MESSAGE_ID}">
 		<dt><!-- IF AUTHOR_AVATAR --><a href="{U_MESSAGE_AUTHOR}">{AUTHOR_AVATAR}</a><br /><!-- ENDIF -->{MESSAGE_AUTHOR_FULL}</dt>
 		<!-- IF RANK_TITLE --><dd>{RANK_TITLE}</dd><!-- ENDIF -->
 		<!-- IF RANK_IMG --><dd>{RANK_IMG}</dd><!-- ENDIF -->

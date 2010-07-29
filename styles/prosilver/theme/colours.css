@@ -643,6 +643,11 @@ fieldset.polls dd div {
 
 .online {
 	background-image: url("{T_IMAGESET_LANG_PATH}/icon_user_online.gif");
+	margin-top: -5px;
+}
+
+.online dt {
+	margin-top: 5px;
 }
 
 /*  	
