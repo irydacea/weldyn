@@ -578,9 +578,6 @@ dl.codebox code {
 
 .attach-image {
 	margin: 3px 0;
-	width: 100%;
-	max-height: 350px;
-	overflow: auto;
 }
 
 .attach-image img {
