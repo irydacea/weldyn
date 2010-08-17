@@ -168,6 +168,15 @@ function view_message($id, $mode, $folder_id, $msg_id, $folder, $message_row)
 	}
 
 	$url = append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=pm');
+//-- mod : Display IP address of private message ------------------------------------------
+//-- add
+	$author_ip = '';
+
+	if ( $auth->acl_get('m_display_pm_ip') )
+	{
+		$author_ip = $message_row['author_ip'];
+	}
+//-- end : Display IP address of private message ------------------------------------------
 
 	// Number of "to" recipients
 	$num_recipients = (int) preg_match_all('/:?(u|g)_([0-9]+):?/', $message_row['to_address'], $match);
@@ -175,6 +184,10 @@ function view_message($id, $mode, $folder_id, $msg_id, $folder, $message_row)
 	$bbcode_status	= ($config['allow_bbcode'] && $config['auth_bbcode_pm'] && $auth->acl_get('u_pm_bbcode')) ? true : false;
 
 	$template->assign_vars(array(
+//-- mod : Display IP address of private message ------------------------------------------
+//-- add
+		'AUTHOR_IP'					=> $author_ip,
+//-- end : Display IP address of private message ------------------------------------------
 		'MESSAGE_AUTHOR_FULL'		=> get_username_string('full', $author_id, $user_info['username'], $user_info['user_colour'], $user_info['username']),
 		'MESSAGE_AUTHOR_COLOUR'		=> get_username_string('colour', $author_id, $user_info['username'], $user_info['user_colour'], $user_info['username']),
 		'MESSAGE_AUTHOR'			=> get_username_string('username', $author_id, $user_info['username'], $user_info['user_colour'], $user_info['username']),
@@ -236,6 +249,10 @@ function view_message($id, $mode, $folder_id, $msg_id, $folder, $message_row)
 		'S_DISPLAY_NOTICE'	=> $display_notice && $message_row['message_attachment'],
 		'S_AUTHOR_DELETED'	=> ($author_id == ANONYMOUS) ? true : false,
 		'S_SPECIAL_FOLDER'	=> in_array($folder_id, array(PRIVMSGS_NO_BOX, PRIVMSGS_OUTBOX)),
+//-- mod : Display IP address of private message ------------------------------------------
+//-- add
+		'S_AUTHOR_IP'		=> ( empty($author_ip) ) ? false: true,
+//-- end : Display IP address of private message ------------------------------------------
 		'S_PM_RECIPIENTS'	=> $num_recipients,
 		'S_BBCODE_ALLOWED'	=> ($bbcode_status) ? 1 : 0,
 
