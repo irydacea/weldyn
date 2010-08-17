@@ -187,6 +187,10 @@ $lang = array_merge($lang, array(
 	'acl_m_info'	=> array('lang' => 'Can view post details', 'cat' => 'misc'),
 	'acl_m_warn'	=> array('lang' => 'Can issue warnings<br /><em>This setting is only assigned globally. It is not forum based.</em>', 'cat' => 'misc'), // This moderator setting is only global (and not local)
 	'acl_m_ban'		=> array('lang' => 'Can manage bans<br /><em>This setting is only assigned globally. It is not forum based.</em>', 'cat' => 'misc'), // This moderator setting is only global (and not local)
+//-- mod : Display IP address of private message ------------------------------------------
+//-- add
+	'acl_m_display_pm_ip'	=> array('lang'	=> 'Can display IP address of private messages', 'cat' => 'pm'),
+//-- end : Display IP address of private message ------------------------------------------
 ));
 
 // Admin Permissions
