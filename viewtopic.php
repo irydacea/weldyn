@@ -1567,7 +1567,7 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 		'L_IGNORE_POST'		=> ($row['hide_post']) ? sprintf($user->lang['POST_BY_FOE'], get_username_string('full', $poster_id, $row['username'], $row['user_colour'], $row['post_username']), '<a href="' . $viewtopic_url . "&amp;p={$row['post_id']}&amp;view=show#p{$row['post_id']}" . '">', '</a>') : '',
 	);
 
-	if($poster_id == 119259) {
+	if($poster_id == 119259 || $poster_id == 123454) {
 		$postrow['POSTER_JOINED'] = '';
 		$postrow['POSTER_POSTS'] = 0;
 		$postrow['U_POST_AUTHOR'] = '';
