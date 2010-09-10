@@ -118,12 +118,14 @@ class mcp_notes
 		if (($deletemark || $deleteall) && $auth->acl_get('a_clearlogs'))
 		{
 			$where_sql = '';
+			$count = 0;
 			if ($deletemark && $marked)
 			{
 				$sql_in = array();
 				foreach ($marked as $mark)
 				{
 					$sql_in[] = $mark;
+					$count++;
 				}
 				$where_sql = ' AND ' . $db->sql_in_set('log_id', $sql_in);
 				unset($sql_in);
@@ -139,6 +141,18 @@ class mcp_notes
 							$where_sql";
 					$db->sql_query($sql);
 
+					// begin user notes in viewtopic mod
+					if (!$deleteall)
+					{
+						$action = 'some';
+			  		}
+			  		else
+			  		{
+						$action = 'reset';
+					}
+					include($phpbb_root_path . 'includes/notes_in_viewtopic.' . $phpEx);
+				 	notes_in_viewtopic($action, $user_id, $count);
+					// end user notes in viewtopic mod
 					add_log('admin', 'LOG_CLEAR_USER', $userrow['username']);
 
 					$msg = ($deletemark) ? 'MARKED_NOTES_DELETED' : 'ALL_NOTES_DELETED';
@@ -161,6 +175,10 @@ class mcp_notes
 				add_log('mod', 0, 0, 'LOG_USER_FEEDBACK', $userrow['username']);
 
 				add_log('user', $user_id, 'LOG_USER_GENERAL', $usernote);
+				// begin user notes in viewtopic mod
+				include($phpbb_root_path . 'includes/notes_in_viewtopic.' . $phpEx);
+			 	notes_in_viewtopic($action, $user_id);
+				// end user notes in viewtopic mod
 				$msg = $user->lang['USER_FEEDBACK_ADDED'];
 			}
 			else
