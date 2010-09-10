@@ -1567,7 +1567,7 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 // original code follows
 //		'POSTER_WARNINGS'	=> $user_cache[$poster_id]['warnings'],
 		'POSTER_WARNINGS'	=> ($auth->acl_get('a_') || $auth->acl_getf_global('m_')) ? $user_cache[$poster_id]['warnings'] : '',
-		'POSTER_NOTES'      => ($auth->acl_get('a_') || $auth->acl_getf_global('m_')) ? sprintf($user->lang['NOTES'],$user_cache[$poster_id]['notes']) : '',
+		'POSTER_NOTES'      => ($auth->acl_get('a_') || $auth->acl_getf_global('m_')) ? $user_cache[$poster_id]['notes'] : '',
 // END user notes in viewtopic
 		'POSTER_AGE'		=> $user_cache[$poster_id]['age'],
 
