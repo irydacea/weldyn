@@ -492,7 +492,7 @@ function add_warning($user_row, $warning, $send_pm = true, $post_id = 0)
 	$db->sql_query('INSERT INTO ' . WARNINGS_TABLE . ' ' . $db->sql_build_array('INSERT', $sql_ary));
 
 	$sql = 'UPDATE ' . USERS_TABLE . '
-		SET user_warnings = user_warnings + 1,
+		SET user_warnings = user_warnings + 1, user_notes = user_notes + 1,
 			user_last_warning = ' . time() . '
 		WHERE user_id = ' . $user_row['user_id'];
 	$db->sql_query($sql);
