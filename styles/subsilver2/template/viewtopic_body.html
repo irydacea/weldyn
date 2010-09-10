@@ -189,7 +189,7 @@
 
 				<span class="postdetails">
    					<!-- IF postrow.POSTER_WARNINGS --><br /><b>{L_WARNINGS}:</b> <span style="color:red;">{postrow.POSTER_WARNINGS}</span><!-- ENDIF -->
-					<!-- IF postrow.U_NOTES --><br /><a href="{postrow.U_NOTES}" title="{L_VIEW_NOTES}"> {postrow.POSTER_NOTES}</a><!-- ENDIF -->
+					<!-- IF postrow.U_NOTES --><br /><b>Notes:</b> <a href="{postrow.U_NOTES}">{postrow.POSTER_NOTES}</a><!-- ENDIF -->
 					<!-- IF postrow.POSTER_JOINED --><br /><b>{L_JOINED}:</b> {postrow.POSTER_JOINED}<!-- ENDIF -->
 					<!-- IF postrow.POSTER_POSTS != '' --><br /><b>{L_POSTS}:</b> {postrow.POSTER_POSTS} <!-- IF postrow.U_SEARCH and U_MCP -->[ <a href="{postrow.U_SEARCH}">{L_POSTS_VIEWTOPIC}</a> ]<!-- ENDIF --><!-- ENDIF -->
 					<!-- IF postrow.POSTER_FROM --><br /><b>{L_LOCATION}:</b> {postrow.POSTER_FROM}<!-- ENDIF -->
