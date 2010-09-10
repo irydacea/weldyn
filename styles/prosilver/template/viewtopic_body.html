@@ -181,6 +181,9 @@
 
 		<dd>&nbsp;</dd>
 
+		<!-- IF postrow.POSTER_WARNINGS --><dd><strong>{L_WARNINGS}: </strong><span style="color:red;">{postrow.POSTER_WARNINGS}</span></dd><!-- ENDIF -->
+		<!-- IF postrow.U_NOTES --><dd><a href="{postrow.U_NOTES}" title="{L_VIEW_NOTES}"> {postrow.POSTER_NOTES}</a></dd><!-- ENDIF -->
+
 		<!-- IF postrow.POSTER_POSTS != '' --><dd><strong>{L_POSTS}:</strong> {postrow.POSTER_POSTS} <!-- IF postrow.U_SEARCH and U_MCP -->[ <a href="{postrow.U_SEARCH}">{L_POSTS_VIEWTOPIC}</a> ]<!-- ENDIF --></dd><!-- ENDIF -->
 		<!-- IF postrow.POSTER_JOINED --><dd><strong>{L_JOINED}:</strong> {postrow.POSTER_JOINED}</dd><!-- ENDIF -->
 		<!-- IF postrow.POSTER_FROM --><dd><strong>{L_LOCATION}:</strong> {postrow.POSTER_FROM}</dd><!-- ENDIF -->
