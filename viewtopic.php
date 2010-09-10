@@ -362,6 +362,10 @@ if (($topic_data['topic_type'] == POST_STICKY || $topic_data['topic_type'] == PO
 // Setup look and feel
 $user->setup('viewtopic', $topic_data['forum_style']);
 
+// BEGIN user notes in viewtopic
+$user->add_lang('mods/notes_in_viewtopic');
+// END user notes in viewtopic
+
 if (!$topic_data['topic_approved'] && !$auth->acl_get('m_approve', $forum_id))
 {
 	trigger_error('NO_TOPIC');
@@ -1123,6 +1127,9 @@ while ($row = $db->sql_fetchrow($result))
 				'user_colour'		=> $row['user_colour'],
 
 				'warnings'			=> 0,
+// BEGIN user notes in viewtopic
+				'notes'             => 0,
+// END user notes in viewtopic
 				'allow_pm'			=> 0,
 			);
 
@@ -1148,6 +1155,9 @@ while ($row = $db->sql_fetchrow($result))
 				'joined'		=> $user->format_date($row['user_regdate']),
 				'posts'			=> $row['user_posts'],
 				'warnings'		=> (isset($row['user_warnings'])) ? $row['user_warnings'] : 0,
+// BEGIN user notes in viewtopic
+				'notes'         => (isset($row['user_notes'])) ? $row['user_notes'] : 0,
+// END user notes in viewtopic
 				'from'			=> (!empty($row['user_from'])) ? $row['user_from'] : '',
 
 				'sig'					=> $user_sig,
@@ -1553,7 +1563,12 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 		'POSTER_POSTS'		=> $user_cache[$poster_id]['posts'],
 		'POSTER_FROM'		=> $user_cache[$poster_id]['from'],
 		'POSTER_AVATAR'		=> $user_cache[$poster_id]['avatar'],
-		'POSTER_WARNINGS'	=> $user_cache[$poster_id]['warnings'],
+// BEGIN user notes in viewtopic
+// original code follows
+//		'POSTER_WARNINGS'	=> $user_cache[$poster_id]['warnings'],
+		'POSTER_WARNINGS'	=> ($auth->acl_get('a_') || $auth->acl_getf_global('m_')) ? $user_cache[$poster_id]['warnings'] : '',
+		'POSTER_NOTES'      => ($auth->acl_get('a_') || $auth->acl_getf_global('m_')) ? sprintf($user->lang['NOTES'],$user_cache[$poster_id]['notes']) : '',
+// END user notes in viewtopic
 		'POSTER_AGE'		=> $user_cache[$poster_id]['age'],
 
 		'POST_DATE'			=> $user->format_date($row['post_time'], false, ($view == 'print') ? true : false),
@@ -1594,7 +1609,11 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 		'U_MINI_POST'		=> append_sid("{$phpbb_root_path}viewtopic.$phpEx", 'p=' . $row['post_id']) . (($topic_data['topic_type'] == POST_GLOBAL) ? '&amp;f=' . $forum_id : '') . '#p' . $row['post_id'],
 		'U_NEXT_POST_ID'	=> ($i < $i_total && isset($rowset[$post_list[$i + 1]])) ? $rowset[$post_list[$i + 1]]['post_id'] : '',
 		'U_PREV_POST_ID'	=> $prev_post_id,
-		'U_NOTES'			=> ($auth->acl_getf_global('m_')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=notes&amp;mode=user_notes&amp;u=' . $poster_id, true, $user->session_id) : '',
+// BEGIN user notes in viewtopic
+// original code follows
+//		'U_NOTES'			=> ($auth->acl_getf_global('m_')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=notes&amp;mode=user_notes&amp;u=' . $poster_id, true, $user->session_id) : '',
+		'U_NOTES'			=> (($auth->acl_get('a_') || $auth->acl_getf_global('m_')) && $user_cache[$poster_id]['notes']) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=notes&amp;mode=user_notes&amp;u=' . $poster_id, true, $user->session_id) : '',
+// END user notes in viewtopic
 		'U_WARN'			=> ($auth->acl_get('m_warn') && $poster_id != $user->data['user_id'] && $poster_id != ANONYMOUS) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=warn&amp;mode=warn_post&amp;f=' . $forum_id . '&amp;p=' . $row['post_id'], true, $user->session_id) : '',
 
 		'POST_ID'			=> $row['post_id'],
