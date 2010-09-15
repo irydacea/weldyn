@@ -22,7 +22,7 @@ include($phpbb_root_path . 'includes/bbcode.' . $phpEx);
 $user->session_begin();
 $auth->acl($user->data);
 // BEGIN user notes in viewtopic
-$user->add_lang('mods/notes_in_viewtopic');
+// $user->add_lang('mods/notes_in_viewtopic');
 // END user notes in viewtopic
 
 // Initial var setup
