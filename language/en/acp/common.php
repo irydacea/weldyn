@@ -288,6 +288,10 @@ $lang = array_merge($lang, array(
 	'USER_CONTROL_PANEL'	=> 'User Control Panel',
 
 	'WARNING'				=> 'Warning',
+	//-- Support Toolkit
+	//-- Add:
+	'SUPPORT_TOOL_KIT_INDEX'	=> 'Support Toolkit Index',
+	//-- End Support Toolkit
 ));
 
 // PHP info
