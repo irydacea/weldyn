@@ -144,6 +144,10 @@ function adm_page_header($page_title)
 		'S_CONTENT_ENCODING'	=> 'UTF-8',
 		'S_CONTENT_FLOW_BEGIN'	=> ($user->lang['DIRECTION'] == 'ltr') ? 'left' : 'right',
 		'S_CONTENT_FLOW_END'	=> ($user->lang['DIRECTION'] == 'ltr') ? 'right' : 'left',
+		//-- Support Toolkit
+		//-- Add:
+		'U_STK_INDEX'	=> append_sid("{$phpbb_root_path}stk/index.$phpEx"),
+		//-- End Support Toolkit
 	));
 
 	// application/xhtml+xml not used because of IE
