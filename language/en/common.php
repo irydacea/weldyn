@@ -519,7 +519,7 @@ $lang = array_merge($lang, array(
 	'RULES_VOTE_CAN'			=> 'You <strong>can</strong> vote in polls in this forum',
 	'RULES_VOTE_CANNOT'			=> 'You <strong>cannot</strong> vote in polls in this forum',
 	'RULES_PAGE'				=> 'Posting Guidelines',
-	'RULES'						=> 'Posting Guidelines',
+	'RULES'						=> 'Guidelines',
 
 	'SEARCH'					=> 'Search',
 	'SEARCH_MINI'				=> 'Search…',
