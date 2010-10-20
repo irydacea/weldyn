@@ -1136,6 +1136,10 @@ while ($row = $db->sql_fetchrow($result))
 			if ($row['user_sig'] && $config['allow_sig'] && $user->optionget('viewsigs'))
 			{
 				$user_sig = $row['user_sig'];
+//-- mod: Prime Signature Cap -----------------------------------------------//
+// If signature has more lines than allowed, then trim it down.
+				$user_sig = (empty($config['max_sig_lines']) || substr_count($user_sig, "\n") + 1 <= $config['max_sig_lines']) ? $user_sig : preg_replace("/^((?:.*?\n){" . $config['max_sig_lines'] . "})(?:.|\n)+/i", "\\1", $user_sig);
+//-- end: Prime Signature Cap -----------------------------------------------//
 			}
 
 			$id_cache[] = $poster_id;
