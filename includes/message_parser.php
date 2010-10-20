@@ -1173,6 +1173,22 @@ class parse_message extends bbcode_firstpass
 			}
 		}
 
+//-- mod: Prime Signature Cap -----------------------------------------------//
+// Restrict the number of lines in a signature.
+		if (!empty($config['max_' . $mode . '_lines']))
+		{
+			$this->message = rtrim($this->message);
+			$row_len = substr_count($this->message, "\n") + 1;
+
+			if ($row_len > $config['max_' . $mode . '_lines'])
+			{
+				$user->add_lang('mods/prime_signature_cap');
+				$this->warn_msg[] = sprintf($user->lang['TOO_MANY_LINES_' . strtoupper($mode)], $row_len, $config['max_' . $mode . '_lines']);
+				return $this->warn_msg;
+			}
+		}
+//-- end: Prime Signature Cap -----------------------------------------------//
+
 		// Check for "empty" message. We do not check here for maximum length, because bbcode, smilies, etc. can add to the length.
 		// The maximum length check happened before any parsings.
 		if ($mode === 'post' && utf8_clean_string($this->message) === '')
