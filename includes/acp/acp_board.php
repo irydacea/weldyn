@@ -202,6 +202,13 @@ class acp_board
 			break;
 
 			case 'signature':
+//-- mod: Prime Signature Cap -----------------------------------------------//
+				$user->add_lang('mods/prime_signature_cap');
+				if (!isset($config['max_sig_lines']))
+				{
+					set_config('max_sig_lines', 0);
+				}
+//-- end: Prime Signature Cap -----------------------------------------------//
 				$display_vars = array(
 					'title'	=> 'ACP_SIGNATURE_SETTINGS',
 					'vars'	=> array(
@@ -215,6 +222,9 @@ class acp_board
 
 						'legend2'				=> 'GENERAL_SETTINGS',
 						'max_sig_chars'			=> array('lang' => 'MAX_SIG_LENGTH',		'validate' => 'int:0',	'type' => 'text:5:4', 'explain' => true),
+//-- mod: Prime Signature Cap -----------------------------------------------//
+						'max_sig_lines'			=> array('lang' => 'MAX_SIG_LINES',			'validate' => 'int:0',	'type' => 'text:5:4', 'explain' => true),
+//-- end: Prime Signature Cap -----------------------------------------------//
 						'max_sig_urls'			=> array('lang' => 'MAX_SIG_URLS',			'validate' => 'int:0',	'type' => 'text:5:4', 'explain' => true),
 						'max_sig_font_size'		=> array('lang' => 'MAX_SIG_FONT_SIZE',		'validate' => 'int:0',	'type' => 'text:5:4', 'explain' => true, 'append' => ' %'),
 						'max_sig_smilies'		=> array('lang' => 'MAX_SIG_SMILIES',		'validate' => 'int:0',	'type' => 'text:5:4', 'explain' => true),
