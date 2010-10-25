@@ -20,14 +20,17 @@ include_once($phpbb_root_path . 'common.' . $phpEx);
 // setup variables
 $debug = false;
 $appName = 'TouchBB';
-$connectorVersion = '2.5';
+$connectorVersion = '2.6';
 $delims = array(chr(13), chr(10), chr(9));
+
+// let others know about your forum so they can join?
+$addMyForumToDirectory = true;
 
 // requested variables
 $get = request_var('get', '');
 $id = request_var('id', 0);
-$username = request_var('user', '');
-$password = request_var('pass', '');
+$username = utf8_normalize_nfc(request_var('user', '', true));
+$password = utf8_normalize_nfc(request_var('pass', '', true));
 $search = request_var('search', '');
 $msgsPerPage = (int)request_var('mpp', 20);
 $page = (int)(request_var('page', 1) * $msgsPerPage) - $msgsPerPage;
@@ -175,78 +178,6 @@ while ($row = $db->sql_fetchrow($result)) {
 $db->sql_freeresult($result);
 
 // ****************************
-// *** MANUAL IMAGE DISPLAY ***
-// ****************************
-if ($get == 'file') {
-  $sid = request_var('sid', '');
-  $uid = request_var('uid', '');
-
-  // make sure user is authorized to view file
-  if ($sid && $uid) {
-    $sql = 'SELECT COUNT(*) AS count FROM ' . SESSIONS_TABLE . " WHERE session_id='" . $db->sql_escape($sid) . "' AND session_user_id=" . $db->sql_escape($uid);
-    $result = $db->sql_query($sql);
-    $count = (int) $db->sql_fetchfield('count');
-    $db->sql_freeresult($result);
-
-    if (!$count) {
-      touchbb_error('Trying to load image but can\'t find users session.');
-    }
-  } else {
-    touchbb_error('Trying to load image but uid or sid not passed.');
-  }
-
-  $sql = 'SELECT attach_id,is_orphan,in_message,post_msg_id,extension,physical_filename,real_filename,mimetype,filetime FROM ' . ATTACHMENTS_TABLE . " WHERE attach_id = " . $db->sql_escape($id);
-  $result = $db->sql_query_limit($sql, 1);
-  $attachment = $db->sql_fetchrow($result);
-  $db->sql_freeresult($result);
-
-  $filename = $phpbb_root_path . $config['upload_path'] . '/' . $attachment['physical_filename'];
-  if (!@file_exists($filename)) {
-    touchbb_error($user->lang['ERROR_NO_ATTACHMENT'] . '<br /><br />' . sprintf($user->lang['FILE_NOT_FOUND_404'], $filename));
-  }
-
-  // now send the file contents to the browser
-  $size = @filesize($filename);
-
-  // check if headers already sent or not able to get the file contents
-  if (headers_sent() || !@file_exists($filename) || !@is_readable($filename)) {
-    touchbb_error('UNABLE_TO_DELIVER_FILE');
-  }
-
-  // now the tricky part... let's dance
-  header('Pragma: public');
-
-  // send out the headers. do not set content-disposition to inline please, it is a security measure for users using the internet explorer
-  header('Content-Type: ' . $attachment['mimetype']);
-  header('Content-Disposition: ' . ((strpos($attachment['mimetype'], 'image') === 0) ? 'inline' : 'attachment') . '; ' . header_filename(htmlspecialchars_decode($attachment['real_filename'])));
-
-  if ($size) {
-    header("Content-Length: $size");
-  }
-
-  // clean up properly before sending the file
-  garbage_collection();
-
-  // try to deliver in chunks
-  @set_time_limit(0);
-
-  $fp = @fopen($filename, 'rb');
-
-  if ($fp !== false) {
-    while (!feof($fp)) {
-      echo fread($fp, 8192);
-    }
-
-    fclose($fp);
-  } else {
-    @readfile($filename);
-  }
-
-  flush();
-  exit;
-}
-
-// ****************************
 // ********* READ PM **********
 // ****************************
 if ($get == 'pm') {
@@ -256,63 +187,80 @@ if ($get == 'pm') {
     $user->setup('viewforum', $user->data['user_style']);
 
     // grab the private message data
-    $sql = "SELECT username,message_text,bbcode_uid,message_time,message_attachment FROM " . PRIVMSGS_TABLE . "," . USERS_TABLE . " WHERE user_id=author_id AND msg_id=" . $db->sql_escape($id);
+    $sql = "SELECT username,message_text,bbcode_uid,message_time,message_attachment,to_address FROM " . PRIVMSGS_TABLE . "," . USERS_TABLE . " WHERE user_id=author_id AND msg_id=" . $db->sql_escape($id);
     $result = $db->sql_query($sql);
     $row = $db->sql_fetchrow($result);
     $db->sql_freeresult($result);
 
-    $message = $row['message_text'];
-
-    if ($row['message_attachment']) {
-      $sql = 'SELECT * FROM ' . ATTACHMENTS_TABLE . ' WHERE post_msg_id=' . $db->sql_escape($id) . ' AND in_message=1 ORDER BY filetime DESC, post_msg_id ASC';
-      $result = $db->sql_query($sql);
-
-      while ($row2 = $db->sql_fetchrow($result)) {
-        $attachments[$row2['post_msg_id']][] = $row2;
-      }
-
-      $db->sql_freeresult($result);
-
-      // display attached images in post
-      if (empty($extensions) || !is_array($extensions)) {
-        $extensions = $cache->obtain_attach_extensions($forum_id);
-      }
-
-      $sentAttachmentsLabel = false;
-      for ($x=0;$x<count($attachments[$id]);$x++) {
-        $attachment = $attachments[$id][$x];
-        if ($extensions[$attachment['extension']]['display_cat'] == ATTACHMENT_CATEGORY_IMAGE) {
-          if (preg_match('/\[attachment=' . $x . ':' . $row['bbcode_uid'] . '\](.*?)\[\/attachment:' . $row['bbcode_uid'] . '\]/', $message, $matches)) {
-            $message = preg_replace('/\[attachment=' . $x . ':' . $row['bbcode_uid'] . '\](.*?)\[\/attachment:' . $row['bbcode_uid'] . '\]/is', '[img:' . $row['bbcode_uid'] . ']' . generate_board_url() . '/touchbb.php?get=file&id=' . $attachment['attach_id'] . '&sid=' . $user->session_id . '&uid=' . $user->data['user_id'] . "[/img:" . $row['bbcode_uid'] . "]<br>", $message);
-          } else {
-            if (!$sentAttachmentsLabel) {
-              $message .= '<br><br><b>' . $user->lang['ATTACHMENTS'] . '</b><br>';
-              $sentAttachmentsLabel = true;
-            }
-
-            $message .= '[img]' . generate_board_url() . '/touchbb.php?get=file&id=' . $attachment['attach_id'] . '&sid=' . $user->session_id . '&uid=' . $user->data['user_id'] . '[/img]';
-          }
+    if ($row) {
+      $valid = false;
+      $to = preg_split('/:/', $row['to_address']);
+      for ($i=0;$i<count($to);$i++) {
+        if ($to[$i] == 'u_' . $user->data['user_id']) {
+          $valid = true;
         }
       }
-    }
 
-    if ($output) {
-      $output .= $delims[0];
-    }
+      if ($valid) {
+        $message = $row['message_text'];
+        $message = censor_text($message);
 
-    $output .= clean($id) . $delims[1];
-    $output .= clean($row['username']) . $delims[1];
-    $output .= clean($message, $row['bbcode_uid']) . $delims[1];
-    $output .= clean($user->format_date($row['message_time'], false, false));
+        if ($row['message_attachment']) {
+          $sql = 'SELECT * FROM ' . ATTACHMENTS_TABLE . ' WHERE post_msg_id=' . $db->sql_escape($id) . ' AND in_message=1 ORDER BY filetime DESC, post_msg_id ASC';
+          $result = $db->sql_query($sql);
 
-    // mark message as read if we didn't send it
-    if (request_var('mark', '') == 'read') {
-      $db->sql_query("UPDATE " . PRIVMSGS_TO_TABLE . " SET pm_unread=0 WHERE msg_id=" . $db->sql_escape($id));
+          while ($row2 = $db->sql_fetchrow($result)) {
+            $attachments[$row2['post_msg_id']][] = $row2;
+          }
 
-      include_once($phpbb_root_path . 'includes/functions_privmsgs.' . $phpEx);
+          $db->sql_freeresult($result);
 
-      // update PM unread status
-      update_pm_counts();
+          // display attached images in post
+          if (empty($extensions) || !is_array($extensions)) {
+            $extensions = $cache->obtain_attach_extensions($forum_id);
+          }
+
+          $sentAttachmentsLabel = false;
+          for ($x=0;$x<count($attachments[$id]);$x++) {
+            $attachment = $attachments[$id][$x];
+            if ($extensions[$attachment['extension']]['display_cat'] == ATTACHMENT_CATEGORY_IMAGE) {
+              if (preg_match('/\[attachment=' . $x . ':' . $row['bbcode_uid'] . '\](.*?)\[\/attachment:' . $row['bbcode_uid'] . '\]/', $message, $matches)) {
+                $message = preg_replace('/\[attachment=' . $x . ':' . $row['bbcode_uid'] . '\](.*?)\[\/attachment:' . $row['bbcode_uid'] . '\]/is', '[img:' . $row['bbcode_uid'] . ']' . generate_board_url() . '/download/file.php?id=' . $attachment['attach_id'] . "[/img:" . $row['bbcode_uid'] . "]<br><br>", $message);
+              } else {
+                if (!$sentAttachmentsLabel) {
+                  $message .= '<br><br><b>' . $user->lang['ATTACHMENTS'] . '</b><br>';
+                  $sentAttachmentsLabel = true;
+                }
+
+                $message .= '[img]' . generate_board_url() . '/download/file.php?id=' . $attachment['attach_id'] . '[/img]<br><br>';
+              }
+            }
+          }
+        }
+
+        if ($output) {
+          $output .= $delims[0];
+        }
+
+        $output .= clean($id) . $delims[1];
+        $output .= clean($row['username']) . $delims[1];
+        $output .= clean($message, $row['bbcode_uid']) . $delims[1];
+        $output .= clean($user->format_date($row['message_time'], false, false));
+
+        // mark message as read if we didn't send it
+        if (request_var('mark', '') == 'read') {
+          $db->sql_query("UPDATE " . PRIVMSGS_TO_TABLE . " SET pm_unread=0 WHERE msg_id=" . $db->sql_escape($id));
+
+          include_once($phpbb_root_path . 'includes/functions_privmsgs.' . $phpEx);
+
+          // update PM unread status
+          update_pm_counts();
+        }
+      } else {
+        touchbb_error('NOT_YOUR_PM');
+      }
+    } else {
+      touchbb_error('INVALID_PM');
     }
   }
 }
@@ -658,18 +606,23 @@ if ($get == 'online') {
 // ********* MEMBERS *********
 // ***************************
 if ($get == 'members') {
-  $sql = "SELECT user_id,username FROM " . USERS_TABLE . "," . GROUPS_TABLE . " WHERE " . GROUPS_TABLE . ".group_id=" . USERS_TABLE . ".group_id AND group_name!='GUESTS' AND group_name!='BOTS' AND group_type!=" . GROUP_HIDDEN . " AND user_type!=" . USER_INACTIVE . " ORDER BY LOWER(username)";
-  $result = $db->sql_query($sql);
-  while ($row = $db->sql_fetchrow($result)) {
-    if ($output) {
-      $output .= $delims[0];
+  // can this user view profiles/memberlist?
+  if ($auth->acl_gets('u_viewprofile', 'a_user', 'a_useradd', 'a_userdel')) {
+    $sql = "SELECT user_id,username FROM " . USERS_TABLE . "," . GROUPS_TABLE . " WHERE " . GROUPS_TABLE . ".group_id=" . USERS_TABLE . ".group_id AND group_name!='GUESTS' AND group_name!='BOTS' AND group_type!=" . GROUP_HIDDEN . " AND user_type!=" . USER_INACTIVE . " ORDER BY LOWER(username)";
+    $result = $db->sql_query($sql);
+    while ($row = $db->sql_fetchrow($result)) {
+      if ($output) {
+        $output .= $delims[0];
+      }
+
+      $output .= clean($row['user_id']) . $delims[1];
+      $output .= clean($row['username']);
     }
 
-    $output .= clean($row['user_id']) . $delims[1];
-    $output .= clean($row['username']);
+    $db->sql_freeresult($result);
+  } else {
+    touchbb_error('NO_MEMBER_LIST_ACCESS');
   }
-
-  $db->sql_freeresult($result);
 }
 
 // ****************************
@@ -818,9 +771,9 @@ if ($get == 'reply' || $get == 'post') {
     $message_parser->message = utf8_normalize_nfc(request_var('txt', '', true));
     // shadowm mod begin
     $message_parser->message = preg_replace(
-		"/Posted with \[url=http:\/\/www.messageforums.net\/iphoneforumreader.php\]TouchBB\[\/url\] on my .*$/",
-		"", $message_parser->message);
-	// shadowm mod end
+	    "/Posted with \[url=http:\/\/www.messageforums.net\/iphoneforumreader.php\]TouchBB\[\/url\] on my .*$/",
+	    "", $message_parser->message);
+    // shadowm mod end
     $title = utf8_normalize_nfc(request_var('title', '', true));
     $username = $user->data['username'];
     $update_message = true;
@@ -865,7 +818,6 @@ if ($get == 'reply' || $get == 'post') {
 
       $db->sql_freeresult($result);
     }
-
 
     // parse message
     if ($update_message) {
@@ -967,10 +919,11 @@ if ($search) {
   $replyStr = ($auth->acl_get('m_approve', $id)) ? 'topic_replies_real' : 'topic_replies';
 
   // topic approved
-  $sql_approved = ($auth->acl_get('m_approve', $id)) ? '' : ' AND ' . TOPICS_TABLE . '.topic_approved = 1';
+  $sql_approved = ($auth->acl_get('m_approve', $id)) ? '' : ' AND t.topic_approved = 1';
 
   // query database for search criteria
-  $sql = "SELECT topic_id,topic_moved_id,topic_title,topic_last_post_time,topic_last_poster_name,username,topic_time,topic_views,$replyStr,t.forum_id FROM (" . TOPICS_TABLE . " t," . FORUMS_TABLE . " f) LEFT JOIN " . USERS_TABLE . " ON user_id=topic_poster WHERE (t.forum_id='" . implode("' OR t.forum_id='", $forumids) . "') AND topic_title LIKE '%" . $db->sql_escape($search) . "%' AND topic_type IN (" . POST_NORMAL . ")$sql_approved AND t.forum_id=f.forum_id AND forum_password='' ORDER BY topic_type DESC,topic_last_post_time DESC LIMIT $page, $msgsPerPage";
+  $sql = "SELECT t.topic_id,topic_moved_id,topic_title,topic_last_post_time,topic_last_poster_name,topic_first_poster_name,topic_time,topic_views,$replyStr,t.forum_id" . (($user->data['is_registered']&&$config['load_db_lastread'])?',tt.mark_time':'') . " FROM (" . TOPICS_TABLE . " t," . FORUMS_TABLE . " f)" . (($user->data['is_registered']&&$config['load_db_lastread'])?' LEFT JOIN ' . TOPICS_TRACK_TABLE . ' tt ON tt.user_id = ' . $user->data['user_id'] . ' AND t.topic_id = tt.topic_id':'') . " WHERE (t.forum_id='" . implode("' OR t.forum_id='", $forumids) . "') AND topic_title LIKE '%" . $db->sql_escape($search) . "%' AND topic_type IN (" . POST_NORMAL . ")$sql_approved AND t.forum_id=f.forum_id AND forum_password='' ORDER BY topic_type DESC,topic_last_post_time DESC LIMIT $page, $msgsPerPage";
+
   $result = $db->sql_query($sql);
   while ($row = $db->sql_fetchrow($result)) {
     $data[] = $row;
@@ -999,26 +952,50 @@ if ($search) {
     // tell the application that this is a topic
     $output .= clean(1) . $delims[1];
     $output .= clean($topic_id) . $delims[1];
-    $output .= ((!$i)?clean($strings[15]):'') . $delims[1];
+    $output .= ((!$i&&!$newProtocol)?clean($strings[15]):'') . $delims[1];
     $output .= clean($row['topic_title']) . $delims[1];
 
-    if ($row[$replyStr] > 0) {
-      $output .= clean(sprintf($strings[0], $row['topic_last_poster_name'], $user->format_date($row['topic_last_post_time']))) . $delims[1];
+    if ($newProtocol) {
+      if ($row[$replyStr] > 0) {
+        $output .= clean($row['topic_last_poster_name']);
+      } else {
+        $output .= clean($row['topic_first_poster_name']);
+      }
     } else {
-      $output .= clean(sprintf($strings[3], $row['username'], $user->format_date($row['topic_time']))) . $delims[1];
-    }
-
-    if ($row['topic_views'] > 0 && $row[$replyStr] > 0) {
-      $output .= clean(sprintf($strings[5], $row[$replyStr], ($row[$replyStr]!=1)?'ies':'y', $row['topic_views'], ($row['topic_views']!=1)?'s':'', ($row[$replyStr]!=1)?'s':'', ($row[$replyStr]==1)?'a':'e', ($row['topic_views']==1)?'a':'e'));
-    } else {
-      $output .= clean($strings[4]);
+      if ($row[$replyStr] > 0) {
+        $output .= clean(sprintf($strings[0], $row['topic_last_poster_name'], $user->format_date($row['topic_last_post_time'])));
+      } else {
+        $output .= clean(sprintf($strings[3], $row['topic_first_poster_name'], $user->format_date($row['topic_time'])));
+      }
     }
 
     $output .= $delims[1];
-    $output .= clean($forum_id) . $delims[1];
-    $output .= ($user->data['is_registered'] && $row['topic_last_post_time'] > $user->data['user_lastvisit'])?1:0;
 
-    $output .= $delims[1] . ($row[$replyStr] + 1);
+    if ($newProtocol) {
+      $output .= clean($row['topic_views']);
+    } else {
+      if ($row['topic_views'] > 0 && $row[$replyStr] > 0) {
+        $output .= clean(sprintf($strings[5], $row[$replyStr], ($row[$replyStr]!=1)?'ies':'y', $row['topic_views'], ($row['topic_views']!=1)?'s':''));
+      } else {
+        $output .= clean($strings[4]);
+      }
+    }
+
+    $output .= $delims[1];
+
+    $output .= clean($forum_id) . $delims[1];
+    $output .= (($user->data['is_registered'] && $config['load_db_lastread'] && $row['topic_last_post_time'] > $row['mark_time'])?1:0) . $delims[1];
+    $output .= ($row[$replyStr] + 1);
+
+    if ($newProtocol) {
+      $output .= $delims[1];
+
+      if ($row[$replyStr] > 0) {
+        $output .= clean($user->format_date($row['topic_last_post_time']));
+      } else {
+        $output .= clean($user->format_date($row['topic_time']));
+      }
+    }
 
     // array of sent topics
     $sentTopics[] = $topic_id;
@@ -1443,14 +1420,14 @@ if ($get == 'topic') {
         $attachment = $attachments[$row['post_id']][$x];
         if ($extensions[$attachment['extension']]['display_cat'] == ATTACHMENT_CATEGORY_IMAGE) {
           if (preg_match('/\[attachment=' . $x . ':' . $row['bbcode_uid'] . '\](.*?)\[\/attachment:' . $row['bbcode_uid'] . '\]/', $message, $matches)) {
-            $message = preg_replace('/\[attachment=' . $x . ':' . $row['bbcode_uid'] . '\](.*?)\[\/attachment:' . $row['bbcode_uid'] . '\]/is', '[img:' . $row['bbcode_uid'] . ']' . generate_board_url() . '/touchbb.php?get=file&id=' . $attachment['attach_id'] . '&sid=' . $user->session_id . '&uid=' . $user->data['user_id'] . "[/img:" . $row['bbcode_uid'] . "]<br>", $message);
+            $message = preg_replace('/\[attachment=' . $x . ':' . $row['bbcode_uid'] . '\](.*?)\[\/attachment:' . $row['bbcode_uid'] . '\]/is', '[img:' . $row['bbcode_uid'] . ']' . generate_board_url() . '/download/file.php?id=' . $attachment['attach_id'] . "[/img:" . $row['bbcode_uid'] . "]<br><br>", $message);
           } else {
             if (!$sentAttachmentsLabel) {
               $message .= '<br><br><b>' . $user->lang['ATTACHMENTS'] . '</b><br>';
               $sentAttachmentsLabel = true;
             }
 
-            $message .= '[img]' . generate_board_url() . '/touchbb.php?get=file&id=' . $attachment['attach_id'] . '&sid=' . $user->session_id . '&uid=' . $user->data['user_id'] . '[/img]';
+            $message .= '[img]' . generate_board_url() . '/download/file.php?id=' . $attachment['attach_id'] . '[/img]<br><br>';
           }
         }
       }
@@ -1973,6 +1950,42 @@ if ($get == 'status') {
   $output .= 'OK' . $delims[1];
   $output .= clean($config['sitename']) . $delims[1];
   $output .= clean($msgsPerPage);
+
+  // did the user want to add their forum to the public directory?
+  if ($addMyForumToDirectory) {
+    // get system temp folder
+    $tmpFolder = sys_get_temp_dir();
+
+    // continue if we know what it is
+    if ($tmpFolder) {
+      // defaultly set lastUpdated to 0
+      $lastUpdated = 0;
+
+      // temporary file to hold time stamp
+      $tmpFile = $tmpFolder . $tmpFolder[0] . 'TouchBB.stamp';
+
+      // does the file exist?
+      if (is_file($tmpFile)) {
+        // grab the contents of this file
+        if ($handle = @fopen($tmpFile, "r")) {
+          $lastUpdated = fread($handle, filesize($tmpFile));
+          fclose($handle);
+        }
+      }
+
+      // send the details every 24 hours
+      if (($lastUpdated + 86400) < time()) {
+        // remember the last time we notified the server
+        if ($handle = @fopen($tmpFile, "w")) {
+          fwrite($handle, time());
+          fclose($handle);
+        }
+
+        $handle = @fopen('http://www.messageforums.net/touchbb.php?get=activeforum&name=' . urlencode($config['sitename']) . '&forum=' . urlencode(generate_board_url()) . '&posts=' . urlencode($config['num_posts']) . '&users=' . urlencode($config['num_users']) . '&topics=' . urlencode($config['num_topics']), "r");
+        @fclose($handle);
+      }
+    }
+  }
 }
 
 // has the script been run with parameters?
