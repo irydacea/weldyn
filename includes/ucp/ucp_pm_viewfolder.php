@@ -63,7 +63,8 @@ function view_folder($id, $mode, $folder_id, $folder)
 			);
 		}
 
-		$mark_options = array('mark_important', 'delete_marked');
+		// start mod view or mark unread posts (and end mod too)...added mark_marked_read and mark_marked_unread options to next line
+		$mark_options = array('mark_important', 'mark_marked_read', 'mark_marked_unread', 'delete_marked');
 
 		// Minimise edits
 		if (!$auth->acl_get('u_pm_delete') && $key = array_search('delete_marked', $mark_options))
@@ -83,7 +84,8 @@ function view_folder($id, $mode, $folder_id, $folder)
 		{
 			foreach ($folder as $f_id => $folder_ary)
 			{
-				if ($f_id == PRIVMSGS_OUTBOX || $f_id == PRIVMSGS_SENTBOX || $f_id == $folder_id)
+				// start mod view or mark unread posts (and end mod too)...added reference to unreadbox in next line to supress move to unread box entry in dropdown menu
+				if ($f_id == PRIVMSGS_OUTBOX || $f_id == PRIVMSGS_SENTBOX || $f_id == $folder_id || $f_id == PRIVMSGS_UNREADBOX)
 				{
 					continue;
 				}
@@ -132,7 +134,9 @@ function view_folder($id, $mode, $folder_id, $folder)
 				$folder_alt = ($row['pm_unread']) ? 'NEW_MESSAGES' : 'NO_NEW_MESSAGES';
 
 				// Generate all URIs ...
-				$view_message_url = append_sid("{$phpbb_root_path}ucp.$phpEx", "i=$id&amp;mode=view&amp;f=$folder_id&amp;p=$message_id");
+				$view_message_url = append_sid("{$phpbb_root_path}ucp.$phpEx", "i=$id&amp;mode=view&amp;f=" . $row['folder_id'] . "&amp;p=$message_id");
+				// start mod view or mark unread posts (and end mod too)...changed $folder_id to $row['folder_id']
+				// since items in the 'unread box' actually come from different folders
 				$remove_message_url = append_sid("{$phpbb_root_path}ucp.$phpEx", "i=$id&amp;mode=compose&amp;action=delete&amp;p=$message_id");
 
 				$row_indicator = '';
@@ -421,7 +425,8 @@ function get_pm_from($folder_id, $folder, $user_id)
 	$s_limit_days = $s_sort_key = $s_sort_dir = $u_sort_param = '';
 	gen_sort_selects($limit_days, $sort_by_text, $sort_days, $sort_key, $sort_dir, $s_limit_days, $s_sort_key, $s_sort_dir, $u_sort_param);
 
-	$folder_sql = 't.folder_id = ' . (int) $folder_id;
+	// start mod view or mark unread posts (and end mod too)...added test for unreads in next line
+	$folder_sql = ($folder_id == PRIVMSGS_UNREADBOX) ? '((t.pm_new = 1 OR t.pm_unread = 1) AND t.folder_id != ' . PRIVMSGS_HOLD_BOX . ')' : 't.folder_id = ' . (int) $folder_id;
 
 	// Limit pms to certain time frame, obtain correct pm count
 	if ($sort_days)

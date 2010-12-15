@@ -723,6 +723,19 @@ $lang = array_merge($lang, array(
 	'YOU_NEW_PMS'		=> 'New private messages are waiting for you in your Inbox.',
 	'YOU_NO_NEW_PM'		=> 'No new private messages are waiting for you.',
 
+
+	// start mod view or mark unread posts
+	'LOGIN_EXPLAIN_VIEWUNREADS'	=> 'You must be logged in to view your unread post list',
+	'MARK_MARKED_READ'			=> 'Mark marked as read',
+	'MARK_MARKED_UNREAD'		=> 'Mark marked as unread',
+	'MARK_PM_UNREAD'			=> 'Mark pm as unread',
+	'MARK_POST_UNREAD'			=> 'Mark post as unread',
+	'NO_UNREADS'				=> 'You have no unread posts',
+	'PM_MARKED_UNREAD'			=> 'Private message marked as unread',
+	'POST_MARKED_UNREAD'		=> 'Post marked as unread',
+	'RETURN_INBOX'				=> 'Return to pm inbox',
+	'VIEW_UNREAD_PMS'			=> 'View unread pms',
+	// end mod view or mark unread posts
 	'datetime'			=> array(
 		'TODAY'		=> 'Today',
 		'TOMORROW'	=> 'Tomorrow',

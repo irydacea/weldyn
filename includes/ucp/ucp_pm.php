@@ -62,14 +62,23 @@ class ucp_pm
 		// Folder directly specified?
 		$folder_specified = request_var('folder', '');
 
-		if (!in_array($folder_specified, array('inbox', 'outbox', 'sentbox')))
+		// start mod view or mark unread posts
+		$msg_id = request_var('mu', 0);
+		if ($msg_id)
+		{
+			mark_unread_pm($msg_id);
+		}
+
+		// the block below is in regular phpbb3 but I added refences to unreadbox
+		if (!in_array($folder_specified, array('inbox', 'outbox', 'unreadbox', 'sentbox')))
 		{
 			$folder_specified = (int) $folder_specified;
 		}
 		else
 		{
-			$folder_specified = ($folder_specified == 'inbox') ? PRIVMSGS_INBOX : (($folder_specified == 'outbox') ? PRIVMSGS_OUTBOX : PRIVMSGS_SENTBOX);
+			$folder_specified = ($folder_specified == 'inbox') ? PRIVMSGS_INBOX : (($folder_specified == 'outbox') ? PRIVMSGS_OUTBOX : (($folder_specified == 'unreadbox') ? PRIVMSGS_UNREADBOX : PRIVMSGS_SENTBOX));
 		}
+		// end mod view or mark unread posts
 
 		if (!$folder_specified)
 		{
@@ -208,7 +217,8 @@ class ucp_pm
 				$dest_folder	= request_var('dest_folder', PRIVMSGS_NO_BOX);
 
 				// Is moving PM triggered through mark options?
-				if (!in_array($mark_option, array('mark_important', 'delete_marked')) && $submit_mark)
+				// start mod view or mark unread posts (and end mod too)...added mark_marked_read and mark_marked_unread options to next line
+				if (!in_array($mark_option, array('mark_important', 'mark_marked_read', 'mark_marked_unread', 'delete_marked')) && $submit_mark)
 				{
 					$move_pm = true;
 					$dest_folder = (int) $mark_option;
@@ -331,7 +341,8 @@ class ucp_pm
 				{
 					$option = '<option' . ((!in_array($f_id, array(PRIVMSGS_INBOX, PRIVMSGS_OUTBOX, PRIVMSGS_SENTBOX))) ? ' class="sep"' : '') . ' value="' . $f_id . '"' . (($f_id == $folder_id) ? ' selected="selected"' : '') . '>' . $folder_ary['folder_name'] . (($folder_ary['unread_messages']) ? ' [' . $folder_ary['unread_messages'] . '] ' : '') . '</option>';
 
-					$s_to_folder_options .= ($f_id != PRIVMSGS_OUTBOX && $f_id != PRIVMSGS_SENTBOX) ? $option : '';
+					// start mod view or mark unread posts (and end mod too)...added reference to unreadbox in next line to supress move to unread box entry in dropdown menu
+					$s_to_folder_options .= ($f_id != PRIVMSGS_OUTBOX && $f_id != PRIVMSGS_SENTBOX && $f_id != PRIVMSGS_UNREADBOX) ? $option : '';
 					$s_folder_options .= $option;
 				}
 				clean_sentbox($folder[PRIVMSGS_SENTBOX]['num_messages']);
@@ -354,6 +365,8 @@ class ucp_pm
 					'S_PM_ACTION'			=> $this->u_action . '&amp;action=' . $action,
 
 					'U_INBOX'				=> $this->u_action . '&amp;folder=inbox',
+					'U_MARK_UNREAD'			=> append_sid("{$phpbb_root_path}ucp.$phpEx", 'i=pm&amp;f=' . $folder_id . '&amp;mu=' . $msg_id),
+					// start mod view or mark unread posts (and end mod too)...added the preceding line about marking unread pms
 					'U_OUTBOX'				=> $this->u_action . '&amp;folder=outbox',
 					'U_SENTBOX'				=> $this->u_action . '&amp;folder=sentbox',
 					'U_CREATE_FOLDER'		=> $this->u_action . '&amp;mode=options',
