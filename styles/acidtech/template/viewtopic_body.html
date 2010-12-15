@@ -217,6 +217,9 @@
 						<span class="gensmall"><br /><br />{postrow.BUMPED_MESSAGE}</span>
 					<!-- ENDIF -->
 
+					<!-- IF S_INC_UNREAD_LINK --><div style="float: {S_CONTENT_FLOW_END}"><a href="{postrow.U_MARK_UNREAD}" class="gensmall" title="{L_MARK_POST_UNREAD}">{L_MARK_POST_UNREAD}</a></div><!-- ENDIF -->
+				<!-- start mod view or mark unread posts (and end mod too) ... added mark_post_unread references in the preceding line -->
+
 					<!-- IF not postrow.S_HAS_ATTACHMENTS --><br clear="all" /><br /><!-- ENDIF -->
 			</td>
 		</tr>
