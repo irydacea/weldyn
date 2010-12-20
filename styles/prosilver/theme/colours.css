@@ -660,6 +660,9 @@ fieldset.polls dd div {
 	margin-top: 5px;
 }
 
+.online2 { margin-top: 0px; }
+.online2 dt { margin-top: 0px; }
+
 /*  	
 --------------------------------------------------------------
 Colours and backgrounds for buttons.css
