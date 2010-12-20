@@ -538,7 +538,7 @@ dl.codebox code {
 	padding: 6px;
 	background-color: #FFFFFF;
 	border: 1px dashed #d8d8d8;
-	clear: left;
+	clear: right;
 }
 
 .pm-message .attachbox {
