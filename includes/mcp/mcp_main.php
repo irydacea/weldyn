@@ -543,7 +543,7 @@ function mcp_move_topic($topic_ids, $to_junk = false)
 	}
 
 	// if we send to junk, take directly the forum id
-	$to_forum_id = $to_junk ? 3 : request_var('to_forum_id', 0);
+	$to_forum_id = $to_junk ? JMP_TO_JUNKYARD_ID : request_var('to_forum_id', 0);
 	$redirect = request_var('redirect', build_url(array('action', 'quickmod')));
 	$additional_msg = $success_msg = '';
 

@@ -276,6 +276,9 @@ define('ZEBRA_TABLE',				$table_prefix . 'zebra');
 
 // Additional tables
 
+// Move to junkyard mod
+define('JMP_TO_JUNKYARD_ID' , 3); // id of the junkyard forum.
+
 // lefty74 Announcement Centre
 define('ANNOUNCEMENTS_CENTRE_TABLE',$table_prefix . 'announcement_centre');
 define('GROUPS_ONLY', 0);
