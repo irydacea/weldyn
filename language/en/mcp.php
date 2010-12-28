@@ -222,6 +222,8 @@ $lang = array_merge($lang, array(
 	'MORE_INFO'				=> 'Further information',
 	'MOST_WARNINGS'			=> 'Users with most warnings',
 	'MOVE_TOPIC_CONFIRM'	=> 'Are you sure you want to move the topic into a new forum?',
+	'MOVE_TOPIC_JUNK_CONFIRM'=> 'Are you sure you want to move the topic to junkyard?',
+	'MOVE_TOPIC_JUNK'		=> 'Move selected topic to junk',
 	'MOVE_TOPICS'			=> 'Move selected topics',
 	'MOVE_TOPICS_CONFIRM'	=> 'Are you sure you want to move the selected topics into a new forum?',
 

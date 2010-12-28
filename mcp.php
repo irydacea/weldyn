@@ -164,6 +164,7 @@ if ($quickmod)
 		case 'make_normal':
 		case 'fork':
 		case 'move':
+		case 'move_to_junk':
 		case 'delete_post':
 		case 'delete_topic':
 			$module->load('mcp', 'main', 'quickmod');

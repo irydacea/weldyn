@@ -81,6 +81,7 @@ class mcp_main
 			break;
 
 			case 'move':
+			case 'move_to_junk':
 				$user->add_lang('viewtopic');
 
 				$topic_ids = (!$quickmod) ? request_var('topic_id_list', array(0)) : array(request_var('t', 0));
@@ -90,7 +91,7 @@ class mcp_main
 					trigger_error('NO_TOPIC_SELECTED');
 				}
 
-				mcp_move_topic($topic_ids);
+				mcp_move_topic($topic_ids, $action != "move");
 			break;
 
 			case 'fork':
@@ -528,7 +529,7 @@ function change_topic_type($action, $topic_ids)
 /**
 * Move Topic
 */
-function mcp_move_topic($topic_ids)
+function mcp_move_topic($topic_ids, $to_junk = false)
 {
 	global $auth, $user, $db, $template;
 	global $phpEx, $phpbb_root_path;
@@ -541,14 +542,15 @@ function mcp_move_topic($topic_ids)
 		return;
 	}
 
-	$to_forum_id = request_var('to_forum_id', 0);
+	// if we send to junk, take directly the forum id
+	$to_forum_id = $to_junk ? 3 : request_var('to_forum_id', 0);
 	$redirect = request_var('redirect', build_url(array('action', 'quickmod')));
 	$additional_msg = $success_msg = '';
 
 	$s_hidden_fields = build_hidden_fields(array(
 		'topic_id_list'	=> $topic_ids,
 		'f'				=> $forum_id,
-		'action'		=> 'move',
+		'action'		=> ($to_junk ? 'move_to_junk' : 'move'),
 		'redirect'		=> $redirect)
 	);
 
@@ -753,13 +755,22 @@ function mcp_move_topic($topic_ids)
 	}
 	else
 	{
-		$template->assign_vars(array(
-			'S_FORUM_SELECT'		=> make_forum_select($to_forum_id, $forum_id, false, true, true, true),
+		$vars = array(
 			'S_CAN_LEAVE_SHADOW'	=> true,
-			'ADDITIONAL_MSG'		=> $additional_msg)
-		);
+			'ADDITIONAL_MSG'		=> $additional_msg);
 
-		confirm_box(false, 'MOVE_TOPIC' . ((sizeof($topic_ids) == 1) ? '' : 'S'), $s_hidden_fields, 'mcp_move.html');
+		// let the mod select target forum
+		if ($to_junk == false)
+		{
+			$vars['S_FORUM_SELECT'] = make_forum_select($to_forum_id, $forum_id, false, true, true, true);
+		}
+
+		$template->assign_vars($vars);
+
+		confirm_box(false,
+					($to_junk ? 'MOVE_TOPIC_JUNK' : 'MOVE_TOPIC' . ((sizeof($topic_ids) == 1) ? '' : 'S')), 
+					$s_hidden_fields,
+					($to_junk ? 'mcp_move_junk.html' : 'mcp_move.html') );
 	}
 
 	$redirect = request_var('redirect', "index.$phpEx");
