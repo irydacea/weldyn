@@ -708,6 +708,7 @@ $lang = array_merge($lang, array(
 	'LOG_USER_INACTIVE'		=> '<strong>User deactivated</strong><br />» %s',
 	'LOG_USER_MOVE_POSTS'	=> '<strong>Moved user posts</strong><br />» posts by “%1$s” to forum “%2$s”',
 	'LOG_USER_NEW_PASSWORD'	=> '<strong>Changed user password</strong><br />» %s',
+	'LOG_USER_PASSWORD_FAIL'	=> '<strong>Failed login with incorrect password</strong>',
 	'LOG_USER_REACTIVATE'	=> '<strong>Forced user account reactivation</strong><br />» %s',
 	'LOG_USER_REMOVED_NR'	=> '<strong>Removed newly registered flag from user</strong><br />» %s',
 

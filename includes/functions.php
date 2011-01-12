@@ -3006,7 +3006,9 @@ function login_box($redirect = '', $l_explain = '', $l_success = '', $admin = fa
 				if ($result['error_msg'] == 'LOGIN_ERROR_USERNAME' || $result['error_msg'] == 'LOGIN_ERROR_PASSWORD')
 				{
 					$err = (!$config['board_contact']) ? sprintf($user->lang[$result['error_msg']], '', '') : sprintf($user->lang[$result['error_msg']], '<a href="mailto:' . htmlspecialchars($config['board_contact']) . '">', '</a>');
-					add_log('user', $result['user_row']['user_id'], 'Failed login with incorrect password');
+					if($result['error_msg'] == 'LOGIN_ERROR_PASSWORD') {
+						add_log('user', $result['user_row']['user_id'], 'LOG_USER_PASSWORD_FAIL');
+					}
 				}
 
 			break;
