@@ -1209,6 +1209,19 @@ while ($row = $db->sql_fetchrow($result))
 					$user_cache[$poster_id]['age'] = (int) ($now['year'] - $bday_year - $diff);
 				}
 			}
+
+			// Wesnoth mod begin
+			// Hide information for forum service accounts
+
+			if($row['group_id'] == 6649) {
+				$user_cache[$poster_id]['joined'] = '';
+				$user_cache[$poster_id]['posts'] = '';
+				$user_cache[$poster_id]['profile'] = '';
+				$user_cache[$poster_id]['online'] = false;
+				$user_cache[$poster_id]['email'] = '';
+			}
+
+			// Wesnoth mod end
 		}
 	}
 }
@@ -1598,13 +1611,6 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 		'S_IGNORE_POST'		=> ($row['hide_post']) ? true : false,
 		'L_IGNORE_POST'		=> ($row['hide_post']) ? sprintf($user->lang['POST_BY_FOE'], get_username_string('full', $poster_id, $row['username'], $row['user_colour'], $row['post_username']), '<a href="' . $viewtopic_url . "&amp;p={$row['post_id']}&amp;view=show#p{$row['post_id']}" . '">', '</a>') : '',
 	);
-
-	if($poster_id == 119259 || $poster_id == 123454 || $poster_id == 125207) {
-		$postrow['POSTER_JOINED'] = '';
-		$postrow['POSTER_POSTS'] = 0;
-		$postrow['U_POST_AUTHOR'] = '';
-		$postrow['ONLINE_IMG'] = '';
-	}
 
 	if (isset($cp_row['row']) && sizeof($cp_row['row']))
 	{
