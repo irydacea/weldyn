@@ -190,7 +190,7 @@ class ucp_register
 			'password_confirm'	=> request_var('password_confirm', '', true),
 			'email'				=> strtolower(request_var('email', '')),
 			'email_confirm'		=> strtolower(request_var('email_confirm', '')),
-			'security_phrase'	=> request_var('security_phrase', ''), // antibot mod
+			'security_phrase'	=> utf8_normalize_nfc(request_var('security_phrase', '', true)), // antibot mod
 			'lang'				=> basename(request_var('lang', $user->lang_name)),
 			'tz'				=> request_var('tz', (float) $timezone),
 		);
@@ -250,7 +250,7 @@ class ucp_register
 			$cp->submit_cp_field('register', $user->get_iso_lang_id(), $cp_data, $error);
 
 			// antibot mod begin
-			if ($data['security_phrase'] != substr($data['username'], 0, 3) . substr($data['new_password'], -3, 3))
+			if ($data['security_phrase'] != utf8_substr($data['username'], 0, 3) . utf8_normalize_nfc(utf8_substr($data['new_password'], -3, 3)))
 			{
 				// FIXME: i18n
 				$error[] = 'The security phrase you entered was incorrect.';
