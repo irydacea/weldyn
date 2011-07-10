@@ -1219,6 +1219,19 @@ while ($row = $db->sql_fetchrow($result))
 					$user_cache[$poster_id]['age'] = (int) ($now['year'] - $bday_year - $diff);
 				}
 			}
+
+			// Wesnoth mod begin
+			// Hide information for forum service accounts
+
+			if($row['group_id'] == 6649) {
+				$user_cache[$poster_id]['joined'] = '';
+				$user_cache[$poster_id]['posts'] = '';
+				$user_cache[$poster_id]['profile'] = '';
+				$user_cache[$poster_id]['online'] = false;
+				$user_cache[$poster_id]['email'] = '';
+			}
+
+			// Wesnoth mod end
 		}
 	}
 }
