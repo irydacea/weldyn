@@ -1,0 +1,15 @@
+cache
+config.php
+store
+install
+___install
+__install
+files/*
+images/*
+images/avatars/upload/*
+*.builtin
+docs
+*.patch
+*.diff
+*.reject
+*.orig
