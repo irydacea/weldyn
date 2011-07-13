@@ -278,5 +278,10 @@ define('ZEBRA_TABLE',				$table_prefix . 'zebra');
 
 // Additional tables
 
+// lefty74 Announcement Centre
+define('ANNOUNCEMENTS_CENTRE_TABLE',$table_prefix . 'announcement_centre');
+define('GROUPS_ONLY', 0);
+define('EVERYONE', 1);
+define('GUESTS_ONLY', 2);
 
 ?>
