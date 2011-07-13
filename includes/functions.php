@@ -4517,6 +4517,18 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 	// Which timezone?
 	$tz = ($user->data['user_id'] != ANONYMOUS) ? strval(doubleval($user->data['user_timezone'])) : strval(doubleval($config['board_timezone']));
 
+	if( isset($config['announcement_enable']) && isset($config['announcement_show_birthdays_always']))
+	{
+		if ( !$config['announcement_show_index'] && ($config['announcement_enable'] || $config['announcement_show_birthdays_always']) )
+		{
+			if (!function_exists('get_announcement_data'))
+			{
+				include($phpbb_root_path . 'includes/functions_announcements.' . $phpEx);
+			}
+			get_announcement_data();
+		}
+	}
+
 	// Send a proper content-language to the output
 	$user_lang = $user->lang['USER_LANG'];
 	if (strpos($user_lang, '-x-') !== false)
