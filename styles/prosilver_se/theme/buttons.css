@@ -40,6 +40,7 @@
 .pmreply-icon span	{ background: none 0 0 no-repeat; }
 .newpm-icon span 	{ background: none 0 0 no-repeat; }
 .forwardpm-icon span 	{ background: none 0 0 no-repeat; }
+.qr-icon span		{ background: transparent none 0 0 no-repeat; }
 
 /* Set big button dimensions */
 .buttons div.reply-icon		{ width: {IMG_BUTTON_TOPIC_REPLY_WIDTH}px; height: {IMG_BUTTON_TOPIC_REPLY_HEIGHT}px; }
@@ -48,6 +49,7 @@
 .buttons div.pmreply-icon	{ width: {IMG_BUTTON_PM_REPLY_WIDTH}px; height: {IMG_BUTTON_PM_REPLY_HEIGHT}px; }
 .buttons div.newpm-icon		{ width: {IMG_BUTTON_PM_NEW_WIDTH}px; height: {IMG_BUTTON_PM_NEW_HEIGHT}px; }
 .buttons div.forwardpm-icon	{ width: {IMG_BUTTON_PM_FORWARD_WIDTH}px; height: {IMG_BUTTON_PM_FORWARD_HEIGHT}px; }
+.buttons div.qr-icon		{ width: 106px; height: 25px; }
 
 /* Sub-header (navigation bar)
 --------------------------------------------- */
