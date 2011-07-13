@@ -174,6 +174,7 @@ class ucp_register
 			'password_confirm'	=> request_var('password_confirm', '', true),
 			'email'				=> strtolower(request_var('email', '')),
 			'email_confirm'		=> strtolower(request_var('email_confirm', '')),
+			'security_phrase'	=> utf8_normalize_nfc(request_var('security_phrase', '', true)), // antibot mod
 			'lang'				=> basename(request_var('lang', $user->lang_name)),
 			'tz'				=> request_var('tz', (float) $timezone),
 		);
@@ -193,6 +194,7 @@ class ucp_register
 					array('string', false, 6, 60),
 					array('email')),
 				'email_confirm'		=> array('string', false, 6, 60),
+				'security_phrase'	=> array('string', false, 6, 60), // antibot mod
 				'tz'				=> array('num', false, -14, 14),
 				'lang'				=> array('language_iso_name'),
 			));
@@ -230,6 +232,14 @@ class ucp_register
 
 			// validate custom profile fields
 			$cp->submit_cp_field('register', $user->get_iso_lang_id(), $cp_data, $error);
+
+			// antibot mod begin
+			if ($data['security_phrase'] != utf8_substr($data['username'], 0, 3) . utf8_normalize_nfc(utf8_substr($data['new_password'], -3, 3)))
+			{
+				// FIXME: i18n
+				$error[] = 'The security phrase you entered was incorrect.';
+			}
+			// antibot mod end
 
 			if (!sizeof($error))
 			{
@@ -457,6 +467,14 @@ class ucp_register
 			'PASSWORD_CONFIRM'	=> $data['password_confirm'],
 			'EMAIL'				=> $data['email'],
 			'EMAIL_CONFIRM'		=> $data['email_confirm'],
+
+			// antibot mod begin
+			'SECURITY_PHRASE'	=> $data['security_phrase'],
+			// FIXME: i18n, this should be in the language definition!!
+			'L_SECURITY_PHRASE'			=> 'Security phrase',
+			'L_SECURITY_PHRASE_TITLE'	=> 'Security phrase',
+			'L_SECURITY_PHRASE_EXPLAIN'	=> 'Enter the first three characters from your username and the last three from your password to allow you to submit the form. All letters are case sensitive.',
+			// antibot mod end
 
 			'L_REG_COND'				=> $l_reg_cond,
 			'L_USERNAME_EXPLAIN'		=> sprintf($user->lang[$config['allow_name_chars'] . '_EXPLAIN'], $config['min_name_chars'], $config['max_name_chars']),
