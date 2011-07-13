@@ -40,6 +40,7 @@
 		<tr>
 			<td class="row1" width="50" align="center">{forumrow.FORUM_FOLDER_IMG}</td>
 			<td class="row1" width="100%">
+				<!-- IF S_ENABLE_FEEDS and forumrow.S_FEED_ENABLED --><div style="float: {S_CONTENT_FLOW_END}; margin-{S_CONTENT_FLOW_END}: 5px;"><a class="feed-icon-forum" title="{L_FEED} - {forumrow.FORUM_NAME}" href="{U_FEED}?f={forumrow.FORUM_ID}"><img src="{T_THEME_PATH}/images/feed.png" alt="{L_FEED} - {forumrow.FORUM_NAME}" /></a></div><!-- ENDIF -->
 				<!-- IF forumrow.FORUM_IMAGE -->
 					<div style="float: {S_CONTENT_FLOW_BEGIN}; margin-{S_CONTENT_FLOW_END}: 5px;">{forumrow.FORUM_IMAGE}</div>
 				<!-- ENDIF -->
