@@ -676,6 +676,11 @@ fieldset.polls dd div {
 
 .online {
 	background-image: url("{IMG_ICON_USER_ONLINE_SRC}");
+	margin-top: -5px;
+}
+
+.online dt {
+	margin-top: 5px;
 }
 
 /*
