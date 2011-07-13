@@ -1745,12 +1745,35 @@ if ($s_can_vote || $s_quick_reply)
 		($s_attach_sig)					? $qr_hidden_fields['attach_sig'] = 1			: true;
 		($s_notify)						? $qr_hidden_fields['notify'] = 1				: true;
 		($topic_data['topic_status'] == ITEM_LOCKED) ? $qr_hidden_fields['lock_topic'] = 1 : true;
+		$bbcode_status = ($config['allow_bbcode'] && $auth->acl_get('f_bbcode', $forum_id)) ? true : false;
+		if($bbcode_status)
+		{
+			display_custom_bbcodes();
+		}
+
+		$smilies_status	= ($config['allow_smilies'] && $auth->acl_get('f_smilies', $forum_id)) ? true : false;
+		if($smilies_status)
+		{
+			include $phpbb_root_path . 'includes/functions_posting.' . $phpEx;
+			generate_smilies('inline', $forum_id);
+		}
+
+		if($smilies_status || $bbcode_status)
+		{
+			$user->add_lang('posting');
+		}
 
 		$template->assign_vars(array(
 			'S_QUICK_REPLY'			=> true,
 			'U_QR_ACTION'			=> append_sid("{$phpbb_root_path}posting.$phpEx", "mode=reply&amp;f=$forum_id&amp;t=$topic_id"),
 			'QR_HIDDEN_FIELDS'		=> build_hidden_fields($qr_hidden_fields),
 			'SUBJECT'				=> 'Re: ' . censor_text($topic_data['topic_title']),
+			'S_BBCODE_ALLOWED'		=> $bbcode_status,
+			'S_BBCODE_IMG'			=> ($bbcode_status && $auth->acl_get('f_img', $forum_id)) ? true : false,
+			'S_LINKS_ALLOWED'		=> ($config['allow_post_links']) ? true : false,
+			'S_BBCODE_FLASH'		=> ($bbcode_status && $auth->acl_get('f_flash', $forum_id) && $config['allow_post_flash']) ? true : false,
+			'S_BBCODE_QUOTE'		=> true,
+			'S_SMILIES_ALLOWED'		=> $smilies_status,
 		));
 	}
 }
