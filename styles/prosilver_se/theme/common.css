@@ -21,7 +21,7 @@ body {
 	/*font-size: 62.5%;			 This sets the default font size to be equivalent to 10px */
 	font-size: 10px;
 	margin: 0;
-	padding: 27px 0;
+	padding: 12px 0;
 }
 
 h1 {
@@ -146,8 +146,6 @@ p.right {
 #wrap {
 	padding: 0 20px;
 	min-width: 650px;
-	width: 900px;
-	margin: 0 auto;
 }
 
 #simple-wrap {
@@ -366,7 +364,7 @@ ul.navlinks {
 	padding-bottom: 1px;
 	margin-bottom: 1px;
 	border-bottom: 1px solid #FFFFFF;
-/*	font-weight: bold; */
+	font-weight: bold;
 }
 
 ul.leftside {
@@ -606,7 +604,6 @@ li.pagination {
 	padding: 5px;
 	text-align: center;
 	color: #555555;
-	clear: both;
 }
 
 .small {
