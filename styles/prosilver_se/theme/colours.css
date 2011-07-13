@@ -690,6 +690,7 @@ Colours and backgrounds for buttons.css
 .pmreply-icon span	{ background-image: url("{IMG_BUTTON_PM_REPLY_SRC}") ;}
 .newpm-icon span 	{ background-image: url("{IMG_BUTTON_PM_NEW_SRC}") ;}
 .forwardpm-icon span	{ background-image: url("{IMG_BUTTON_PM_FORWARD_SRC}") ;}
+.qr-icon span		{ background-image: url("{T_IMAGESET_LANG_PATH}/button_quick_reply.gif"); }
 
 a.print {
 	background-image: url("{T_THEME_PATH}/images/icon_print.gif");
