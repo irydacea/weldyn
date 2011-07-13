@@ -80,6 +80,19 @@
 <!-- INCLUDE {CAPTCHA_TEMPLATE} -->
 <!-- ENDIF -->
 
+<!-- antibot mod begin -->
+<tr>
+	<th colspan="2" valign="middle">{L_SECURITY_PHRASE_TITLE}</th>
+</tr>
+<tr>
+	<td class="row3" colspan="2"><span class="gensmall">{L_SECURITY_PHRASE_EXPLAIN}</span></td>
+</tr>
+<tr>
+	<td class="row1"><b class="genmed">{L_SECURITY_PHRASE}:</b></td>
+	<td class="row2"><input class="post" type="password" name="security_phrase" size="25" value="{SECURITY_PHRASE}" /></td>
+</tr>
+<!-- antibot mod end -->
+
 <!-- IF S_COPPA -->
 	<tr>
 		<th colspan="2" valign="middle">{L_COPPA_COMPLIANCE}</th>
