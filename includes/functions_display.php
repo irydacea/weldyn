@@ -297,6 +297,18 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 
 	// Used to tell whatever we have to create a dummy category or not.
 	$last_catless = true;
+
+	// start mod view or mark unread post
+	// initialize the flag $exists_unread to signal that we have already checked unreads in functions_display()
+	// so that when check_unread_posts() is called in the future it can skip the sql query and give the
+	// answer that there are none (this gets reset to '1' later on in functions_display() if there are unreads),
+	// but do NOT initialize if the user is on viewforum since the test for unreads may give false negatives in that context
+	if (!$sql_where)
+	{
+		global $exists_unreads;
+		$exists_unreads = -1;
+	}
+	// end mod view or mark unread posts
 	foreach ($forum_rows as $row)
 	{
 		// Empty category
@@ -388,6 +400,16 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 			}
 		}
 
+
+		// start mod view or mark unread posts
+		if ($forum_unread)
+		{
+			// if there are any unread topics, set $exists_unreads flag to 1 so that
+			// when check_unreads_flag() is called in the future it can skip the sql query
+			// and give the answer that there are unread posts'
+			$exists_unreads = 1;
+		}
+		// end mod view or mark unread posts
 		// Which folder should we display?
 		if ($row['forum_status'] == ITEM_LOCKED)
 		{

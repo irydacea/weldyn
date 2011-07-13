@@ -268,6 +268,9 @@
 
 						<table width="100%" cellspacing="0">
 						<tr valign="middle">
+
+							<!-- IF S_INC_UNREAD_LINK --><td valign="bottom"><a href="{postrow.U_MARK_UNREAD}" class="gensmall" title="{L_MARK_POST_UNREAD}">{L_MARK_POST_UNREAD}</a></td><!-- ENDIF -->
+							<!-- start mod view or mark unread posts (and end mod too) ... added mark_post_unread references in the preceding line -->
 							<td class="gensmall" align="{S_CONTENT_FLOW_END}">
 							<!-- IF not S_IS_BOT -->
 								<!-- IF postrow.U_REPORT --><a href="{postrow.U_REPORT}">{REPORT_IMG}</a> <!-- ENDIF --> 
