@@ -80,10 +80,10 @@ body {
 }
 
 .forumrules {
-	background-color: #F9CC79;
+	background-color: #DCE1E5; /* glamdrol mod */
 	border-width: 1px;
 	border-style: solid;
-	border-color: #BB9860;
+	border-color: #A9B8C2; /* glamdrol mod */
 	padding: 4px;
 	font-weight: normal;
 	font-size: 1.1em;
