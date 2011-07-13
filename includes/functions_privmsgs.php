@@ -235,7 +235,7 @@ function clean_sentbox($num_sentbox_messages)
 	$sql = 'SELECT username
 		FROM ' . USERS_TABLE . '
 		WHERE user_id=' . $user->data['user_id'] . '
-		AND username="Jetrel"';
+		AND username='."'Jetrel'";
 	$result = $db->sql_query($sql);
 	$is_Jetrel = $db->sql_fetchrow($result);
 	$db->sql_freeresult($result);
@@ -652,7 +652,7 @@ function place_pm_into_folder(&$global_privmsgs_rules, $release = false)
 	$sql = 'SELECT username
 		FROM ' . USERS_TABLE . '
 		WHERE user_id=' . $user->data['user_id'] . '
-		AND username="Jetrel"';
+		AND username='."'Jetrel'";
 	$result = $db->sql_query($sql);
 	$is_Jetrel = $db->sql_fetchrow($result);
 	$db->sql_freeresult($result);
@@ -1522,7 +1522,7 @@ function get_folder_status($folder_id, $folder)
 	$sql = 'SELECT username
 		FROM ' . USERS_TABLE . '
 		WHERE user_id=' . $user->data['user_id'] . '
-		AND username="Jetrel"';
+		AND username='."'Jetrel'";
 	$result = $db->sql_query($sql);
 	$is_Jetrel = $db->sql_fetchrow($result);
 	$db->sql_freeresult($result);
@@ -2138,7 +2138,7 @@ function set_user_message_limit()
 	$sql = 'SELECT username
 		FROM ' . USERS_TABLE . '
 		WHERE user_id=' . $user->data['user_id'] . '
-		AND username="Jetrel"';
+		AND username='."'Jetrel'";
 	$result = $db->sql_query($sql);
 	$is_Jetrel = $db->sql_fetchrow($result);
 	$db->sql_freeresult($result);
