@@ -448,6 +448,7 @@ $post_data['enable_urls'] = $post_data['enable_magic_url'];
 if ($mode != 'edit')
 {
 	$post_data['enable_sig']		= ($config['allow_sig'] && $user->optionget('attachsig')) ? true: false;
+	$post_data['topic_status']		= ($mode == 'post' && (isset($_POST['lock_topic']) && $auth->acl_get('m_lock', $forum_id))) ? true : false;
 	$post_data['enable_smilies']	= ($config['allow_smilies'] && $user->optionget('smilies')) ? true : false;
 	$post_data['enable_bbcode']		= ($config['allow_bbcode'] && $user->optionget('bbcode')) ? true : false;
 	$post_data['enable_urls']		= true;
@@ -1108,6 +1109,7 @@ if ($submit || $preview || $refresh)
 				'message'				=> $message_parser->message,
 				'attachment_data'		=> $message_parser->attachment_data,
 				'filename_data'			=> $message_parser->filename_data,
+				'topic_status'			=> $post_data['topic_status'],
 
 				'topic_approved'		=> (isset($post_data['topic_approved'])) ? $post_data['topic_approved'] : false,
 				'post_approved'			=> (isset($post_data['post_approved'])) ? $post_data['post_approved'] : false,
@@ -1443,7 +1445,7 @@ $template->assign_vars(array(
 	'S_SIGNATURE_CHECKED'		=> ($sig_checked) ? ' checked="checked"' : '',
 	'S_NOTIFY_ALLOWED'			=> (!$user->data['is_registered'] || ($mode == 'edit' && $user->data['user_id'] != $post_data['poster_id']) || !$config['allow_topic_notify'] || !$config['email_enable']) ? false : true,
 	'S_NOTIFY_CHECKED'			=> ($notify_checked) ? ' checked="checked"' : '',
-	'S_LOCK_TOPIC_ALLOWED'		=> (($mode == 'edit' || $mode == 'reply' || $mode == 'quote') && ($auth->acl_get('m_lock', $forum_id) || ($auth->acl_get('f_user_lock', $forum_id) && $user->data['is_registered'] && !empty($post_data['topic_poster']) && $user->data['user_id'] == $post_data['topic_poster'] && $post_data['topic_status'] == ITEM_UNLOCKED))) ? true : false,
+	'S_LOCK_TOPIC_ALLOWED'		=> (($mode == 'edit' || $mode == 'reply' || $mode == 'quote' || $mode == 'post') && ($auth->acl_get('m_lock', $forum_id) || ($auth->acl_get('f_user_lock', $forum_id) && $user->data['is_registered'] && !empty($post_data['topic_poster']) && $user->data['user_id'] == $post_data['topic_poster'] && $post_data['topic_status'] == ITEM_UNLOCKED))) ? true : false,
 	'S_LOCK_TOPIC_CHECKED'		=> ($lock_topic_checked) ? ' checked="checked"' : '',
 	'S_LOCK_POST_ALLOWED'		=> ($mode == 'edit' && $auth->acl_get('m_edit', $forum_id)) ? true : false,
 	'S_LOCK_POST_CHECKED'		=> ($lock_post_checked) ? ' checked="checked"' : '',
