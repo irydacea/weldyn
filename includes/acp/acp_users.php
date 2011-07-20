@@ -1041,6 +1041,9 @@ class acp_users
 					'USER_LASTACTIVE'	=> ($last_visit) ? $user->format_date($last_visit) : ' - ',
 					'USER_EMAIL'		=> $user_row['user_email'],
 					'USER_WARNINGS'		=> $user_row['user_warnings'],
+					// Search Users Post in ACP Profile Overview - Ather
+					'U_SEARCH_POSTS'   => ($auth->acl_get('u_search')) ? append_sid("{$phpbb_root_path}search.$phpEx", "author_id=$user_id&amp;sr=posts") : '',
+					// Search Users Post in ACP Profile Overview - Ather
 					'USER_POSTS'		=> $user_row['user_posts'],
 					'USER_INACTIVE_REASON'	=> $inactive_reason,
 				));
