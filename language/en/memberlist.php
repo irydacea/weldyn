@@ -113,6 +113,7 @@ $lang = array_merge($lang, array(
 	'RANK'					=> 'Rank',
 	'REAL_NAME'				=> 'Recipient name',
 	'RECIPIENT'				=> 'Recipient',
+	'REGISTRATION_IP'		=> 'Registered from IP',
 	'REMOVE_FOE'			=> 'Remove foe',
 	'REMOVE_FRIEND'			=> 'Remove friend',
 
