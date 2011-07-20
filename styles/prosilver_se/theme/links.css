@@ -1,4 +1,4 @@
-/* proSilver Link Styles
+/* Link Styles
 ---------------------------------------- */
 
 /* Links adjustment to correctly display an order of rtl/ltr mixed content */
@@ -126,7 +126,16 @@ a.topictitle:active {
 }
 
 
-/* Profile searchresults */	
+/* CSS spec requires a:link, a:visited, a:hover and a:active rules to be specified in this order. */
+/* See http://www.phpbb.com/bugs/phpbb3/59685 */
+.postprofile a:active {
+	font-weight: bold;
+	color: #898989;
+	text-decoration: none;
+}
+
+
+/* Profile searchresults */
 .search .postprofile a {
 	color: #898989;
 	text-decoration: none; 
