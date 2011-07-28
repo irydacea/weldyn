@@ -14,10 +14,10 @@
 $debugMode = false;
 
 // let others know about your forum so they can join?
-$addThisForumToDirectory = true;
+$addThisForumToDirectory = false;
 
 // alert iPhone, iPad and iPod touch users about TouchBB?
-$promptUsersAboutTouchBB = true;
+$promptUsersAboutTouchBB = false;
 
 // Some users were complaining that posts using TouchBB were
 // having to be moderated. This is standard phpBB3 behavior
