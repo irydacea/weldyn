@@ -628,9 +628,6 @@ switch ($mode)
 			'S_GROUP_OPTIONS'	=> $group_options,
 			'S_CUSTOM_FIELDS'	=> (isset($profile_fields['row']) && sizeof($profile_fields['row'])) ? true : false,
 
-			'S_USER_IP'		=> ($auth->acl_get('a_user') && $user->data['user_ip']) ? true : false,
-			'REGISTERED_IP'	=> ($auth->acl_get('a_user')) ? $user->data['user_ip'] : '',
-
 			'U_USER_ADMIN'			=> ($auth->acl_get('a_user')) ? append_sid("{$phpbb_root_path}adm/index.$phpEx", 'i=users&amp;mode=overview&amp;u=' . $user_id, true, $user->session_id) : '',
 			'U_USER_BAN'			=> ($auth->acl_get('m_ban') && $user_id != $user->data['user_id']) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=ban&amp;mode=user&amp;u=' . $user_id, true, $user->session_id) : '',
 			'U_MCP_QUEUE'			=> ($auth->acl_getf_global('m_approve')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=queue', true, $user->session_id) : '',
@@ -1711,6 +1708,7 @@ function show_profile($data, $user_notes_enabled = false, $warn_user_enabled = f
 		'S_JABBER_ENABLED'	=> ($config['jab_enable']) ? true : false,
 
 		'S_WARNINGS'	=> ($auth->acl_getf_global('m_') || $auth->acl_get('m_warn')) ? true : false,
+		'S_USER_IP'		=> ($auth->acl_get('a_user')) ? true : false,
 
 		'U_SEARCH_USER'	=> ($auth->acl_get('u_search')) ? append_sid("{$phpbb_root_path}search.$phpEx", "author_id=$user_id&amp;sr=posts") : '',
 		'U_NOTES'		=> ($user_notes_enabled && $auth->acl_getf_global('m_')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=notes&amp;mode=user_notes&amp;u=' . $user_id, true, $user->session_id) : '',
@@ -1725,6 +1723,7 @@ function show_profile($data, $user_notes_enabled = false, $warn_user_enabled = f
 		'U_MSN'			=> ($data['user_msnm'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=contact&amp;action=msnm&amp;u=' . $user_id) : '',
 		'U_JABBER'		=> ($data['user_jabber'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=contact&amp;action=jabber&amp;u=' . $user_id) : '',
 		'LOCATION'		=> ($data['user_from']) ? $data['user_from'] : '',
+		'REGISTERED_IP'	=> ($data['user_ip']) ? $data['user_ip'] : '',
 
 		'USER_ICQ'			=> $data['user_icq'],
 		'USER_AIM'			=> $data['user_aim'],
