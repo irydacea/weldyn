@@ -1723,7 +1723,7 @@ function show_profile($data, $user_notes_enabled = false, $warn_user_enabled = f
 		'U_MSN'			=> ($data['user_msnm'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=contact&amp;action=msnm&amp;u=' . $user_id) : '',
 		'U_JABBER'		=> ($data['user_jabber'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", 'mode=contact&amp;action=jabber&amp;u=' . $user_id) : '',
 		'LOCATION'		=> ($data['user_from']) ? $data['user_from'] : '',
-		'REGISTERED_IP'	=> ($auth->acl_get('a_user') && $data['user_ip']) ? $data['user_ip'] : '',
+		'REGISTERED_IP'	=> ($auth->acl_get('a_user') && !empty($data['user_ip'])) ? $data['user_ip'] : ' - ',
 
 		'USER_ICQ'			=> $data['user_icq'],
 		'USER_AIM'			=> $data['user_aim'],
