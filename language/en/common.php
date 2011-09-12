@@ -912,4 +912,8 @@ $lang = array_merge($lang, array(
 
 ));
 
+$lang = array_merge($lang, array(
+	'SEARCH_OWN'			=> 'View your topics'
+));
+
 ?>
