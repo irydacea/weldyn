@@ -61,6 +61,14 @@ switch ($search_id)
 		}
 	break;
 
+	case 'own':
+		$author_id = $user->data['user_id'];
+		if ($user->data['user_id'] == ANONYMOUS)
+		{
+			login_box('', $user->lang['LOGIN_EXPLAIN_OWN']);
+		}
+	break;
+
 	// Search for unread posts needs to be allowed and user to be logged in if topics tracking for guests is disabled
 	case 'unreadposts':
 		if (!$config['load_unreads_search'])
@@ -305,7 +313,7 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 	if (!$keywords && sizeof($author_id_ary))
 	{
 		// if it is an author search we want to show topics by default
-		$show_results = ($topic_id) ? 'posts' : request_var('sr', ($search_id == 'egosearch') ? 'topics' : 'posts');
+		$show_results = ($topic_id) ? 'posts' : request_var('sr', ($search_id == 'egosearch' || $search_id == 'own') ? 'topics' : 'posts');
 		$show_results = ($show_results == 'posts') ? 'posts' : 'topics';
 	}
 
@@ -462,6 +470,11 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 */
 					$field = 'topic_id';
 				}
+			break;
+
+			case 'own':
+				$search_fields = 'firstpost';
+				$l_search_title = $user->lang['SEARCH_OWN'];
 			break;
 
 			case 'egosearch':
