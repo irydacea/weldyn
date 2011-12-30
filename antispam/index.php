@@ -171,6 +171,9 @@ switch ($mode)
 				// 10080 = 7 days ban
 				user_ban('ip', $user_row['user_ip'], 10080, '', 0, '[OCBAN: '.$user_row['username'].'] IP address used for spamming', 'IP address used for spamming');
 				user_ban('email', $user_row['user_email'], 0, '', 0, '[OCBAN: '.$user_row['username'].'] Email address used for spamming', 'Email address used for spamming');
+
+				$db->sql_query('UPDATE ' . USERS_TABLE . ' SET user_flagged = 0 WHERE user_id = ' . $user_id);
+				add_log('admin', 'LOG_USER_UNFLAGGED', $username);
 			}
 
 			if ($config['asacp_ocban_move_to_group'])
