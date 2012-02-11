@@ -1,11 +1,9 @@
-/*  phpBB 3.0 Style Sheet
+/*  phpBB3 Style Sheet
     --------------------------------------------------------------
 	Style name:      wesnoth
 	Based on style:  subsilver2
-	Original author: subBlue ( http://www.subBlue.com/ )
-	Modified by:     Rhuvaen, Mist, shadowmaster for Wesnoth
-	
-	Copyright 2009 Battle for Wesnoth Project ( http://www.wesnoth.org/ )
+	Original author: Tom Beddard ( http://www.subblue.com/ )
+	Modified by:     The Battle for Wesnoth Project
     --------------------------------------------------------------
 */
 
@@ -207,13 +205,13 @@ p.topicdetails {
 	margin: 1px 0;
 }
 
-.postreported, .postreported a:visited, .postreported a:hover, .postreported a:link, .postreported a:active {
+.postreported, .postreported a:link, .postreported a:visited, .postreported a:hover, .postreported a:active {
 	margin: 1px 0;
 	color: red;
 	font-weight:bold;
 }
 
-.postapprove, .postapprove a:visited, .postapprove a:hover, .postapprove a:link, .postapprove a:active {
+.postapprove, .postapprove a:link, .postapprove a:visited, .postapprove a:hover, .postapprove a:active {
 	color: green;
 	font-weight:bold;
 }
@@ -376,12 +374,20 @@ hr {
 
 /* Links
  ------------ */
+
+/* Links adjustment to correctly display an order of rtl/ltr mixed content */
+.rtl a {
+	direction: rtl;
+	unicode-bidi: embed;
+}
+
+/* CSS spec requires a:link, a:visited, a:hover and a:active rules to be specified in this order. */
+/* See http://www.phpbb.com/bugs/phpbb3/59685 */
 a:link {
 	color: #a2401a;
 	text-decoration: none;
 }
 
-a:active,
 a:visited {
 	color: #a6441f;
 	text-decoration: none;
@@ -390,6 +396,11 @@ a:visited {
 a:hover {
 	color: #9d5b30;
 	text-decoration: underline;
+}
+
+a:active {
+	color: #005784;
+	text-decoration: none;
 }
 
 a.forumlink {
