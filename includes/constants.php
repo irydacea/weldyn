@@ -137,6 +137,8 @@ define('LOG_CRITICAL', 2);
 define('LOG_USERS', 3);
 
 // Private messaging - Do NOT change these values
+// start mod view or mark unread posts (and end mod too)...added the next line
+define('PRIVMSGS_UNREADBOX', -5);
 define('PRIVMSGS_HOLD_BOX', -4);
 define('PRIVMSGS_NO_BOX', -3);
 define('PRIVMSGS_OUTBOX', -2);

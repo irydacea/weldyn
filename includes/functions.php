@@ -1850,15 +1850,15 @@ function get_unread_topics($user_id = false, $sql_extra = '', $sql_sort = '', $s
 			),
 
 			'WHERE'			=> "
-				 t.topic_last_post_time > $last_mark AND
 				(
 				(tt.mark_time IS NOT NULL AND t.topic_last_post_time > tt.mark_time) OR
 				(tt.mark_time IS NULL AND ft.mark_time IS NOT NULL AND t.topic_last_post_time > ft.mark_time) OR
-				(tt.mark_time IS NULL AND ft.mark_time IS NULL)
+				(tt.mark_time IS NULL AND ft.mark_time IS NULL AND t.topic_last_post_time > $last_mark)
 				)
 				$sql_extra
 				$sql_sort",
 		);
+		// start mod view or mark unread posts (and end mod too)...reverted a 3.0.9 change to the WHERE clause above since that change is inconsistent with this mod
 
 		$sql = $db->sql_build_query('SELECT', $sql_array);
 		$result = $db->sql_query_limit($sql, $sql_limit, $sql_limit_offset);
@@ -4634,6 +4634,9 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 		}
 	}
 
+	// start mod view or mark unread posts - set flag that toggles text for link to unreads (if user not logged in or board not using db for unreads, set to true so that text will always read view unreads
+	$s_exists_unreads = check_unread_posts();
+	// end mod view or mark unread posts
 	// The following assigns all _common_ variables that may be used at any point in a template.
 	$template->assign_vars(array(
 		'SITENAME'						=> $config['sitename'],
@@ -4680,6 +4683,9 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 		'U_SEARCH_SELF'			=> append_sid("{$phpbb_root_path}search.$phpEx", 'search_id=egosearch'),
 		'U_SEARCH_NEW'			=> append_sid("{$phpbb_root_path}search.$phpEx", 'search_id=newposts'),
 		'U_SEARCH_UNANSWERED'	=> append_sid("{$phpbb_root_path}search.$phpEx", 'search_id=unanswered'),
+		// start mod view or mark unread posts
+		'S_EXISTS_UNREADS'		=> $s_exists_unreads,
+		// end mod view or mark unread posts
 		'U_SEARCH_UNREAD'		=> append_sid("{$phpbb_root_path}search.$phpEx", 'search_id=unreadposts'),
 		'U_SEARCH_ACTIVE_TOPICS'=> append_sid("{$phpbb_root_path}search.$phpEx", 'search_id=active_topics'),
 		'U_DELETE_COOKIES'		=> append_sid("{$phpbb_root_path}ucp.$phpEx", 'mode=delete_cookies'),

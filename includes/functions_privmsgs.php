@@ -133,11 +133,16 @@ function get_folder($user_id, $folder_id = false)
 	$result = $db->sql_query($sql);
 
 	$num_messages = $num_unread = array();
+	// start mod view or mark unread posts
+	// edited the block below to keep track of $total_board_unreads
+	$total_board_unreads = 0;
 	while ($row = $db->sql_fetchrow($result))
 	{
 		$num_messages[(int) $row['folder_id']] = $row['num_messages'];
 		$num_unread[(int) $row['folder_id']] = $row['num_unread'];
+		$total_board_unreads += $row['num_unread'];
 	}
+	// end mod view or mark unread posts
 	$db->sql_freeresult($result);
 
 	// Make sure the default boxes are defined
@@ -193,10 +198,19 @@ function get_folder($user_id, $folder_id = false)
 		'unread_messages'	=> $num_unread[PRIVMSGS_SENTBOX]
 	);
 
+	// start mod view or mark unread posts
+	$folder[PRIVMSGS_UNREADBOX] = array(
+		'folder_name'		=> $user->lang['UNREAD_MESSAGES'],
+		'num_messages'		=> $total_board_unreads,
+		'unread_messages'	=> $total_board_unreads
+	);
+	//end mod view or mark unread posts
+
 	// Define Folder Array for template designers (and for making custom folders usable by the template too)
 	foreach ($folder as $f_id => $folder_ary)
 	{
-		$folder_id_name = ($f_id == PRIVMSGS_INBOX) ? 'inbox' : (($f_id == PRIVMSGS_OUTBOX) ? 'outbox' : 'sentbox');
+		// start mod view or mark unread posts (and end mod too)...added reference to unreads in next line
+		$folder_id_name = ($f_id == PRIVMSGS_INBOX) ? 'inbox' : (($f_id == PRIVMSGS_OUTBOX) ? 'outbox' : (($f_id == PRIVMSGS_UNREADBOX) ? 'unreadbox' : 'sentbox'));
 
 		$template->assign_block_vars('folder', array(
 			'FOLDER_ID'			=> $f_id,
@@ -920,14 +934,44 @@ function handle_mark_actions($user_id, $mark_action)
 		return false;
 	}
 
+	// start mod view or mark unread posts (and end mod too)...in next line,
+	// we define a variable that will allow us to ignore $cur_folder_id constraint
+	// in queries when we are talking about unreadbox (since that's not a real folder);
+	// then, we use that variable rather than 'folder_id = $cur_folder_id' in the first three cases in the switch below.
+	$cur_folder_sql = ($cur_folder_id != PRIVMSGS_UNREADBOX) ? "folder_id = $cur_folder_id AND" : '';
 	switch ($mark_action)
 	{
+		// start mod view or mark unread posts
+		case 'mark_marked_read':
+
+			$sql = 'UPDATE ' . PRIVMSGS_TO_TABLE . "
+				SET pm_unread = 0
+				WHERE $cur_folder_sql
+					user_id = $user_id
+					AND " . $db->sql_in_set('msg_id', $msg_ids);
+			$db->sql_query($sql);
+			update_pm_counts();
+
+		break;
+
+		case 'mark_marked_unread':
+
+			$sql = 'UPDATE ' . PRIVMSGS_TO_TABLE . "
+				SET pm_unread = 1
+				WHERE $cur_folder_sql
+					user_id = $user_id
+					AND " . $db->sql_in_set('msg_id', $msg_ids);
+			$db->sql_query($sql);
+			update_pm_counts();
+
+		break;
+		// end mod view or mark unread posts
 		case 'mark_important':
 
 			$sql = 'UPDATE ' . PRIVMSGS_TO_TABLE . "
 				SET pm_marked = 1 - pm_marked
-				WHERE folder_id = $cur_folder_id
-					AND user_id = $user_id
+				WHERE $cur_folder_sql
+					user_id = $user_id
 					AND " . $db->sql_in_set('msg_id', $msg_ids);
 			$db->sql_query($sql);
 
@@ -982,6 +1026,11 @@ function delete_pm($user_id, $msg_ids, $folder_id)
 
 	$user_id	= (int) $user_id;
 	$folder_id	= (int) $folder_id;
+	// start mod view or mark unread posts (and end mod too)...in next line,
+	// we define a variable that will allow us to ignore $folder_id constraint
+	// in queries when we are talking about unreadbox (since that's not a real folder);
+	// then, we use that variable rather than 'folder_id = $folder_id' in several queries below.
+	$folder_sql = ($folder_id != PRIVMSGS_UNREADBOX) ? "AND folder_id = $folder_id" : '';
 
 	if (!$user_id)
 	{
@@ -1006,7 +1055,7 @@ function delete_pm($user_id, $msg_ids, $folder_id)
 	$sql = 'SELECT msg_id, pm_unread, pm_new
 		FROM ' . PRIVMSGS_TO_TABLE . '
 		WHERE ' . $db->sql_in_set('msg_id', array_map('intval', $msg_ids)) . "
-			AND folder_id = $folder_id
+			$folder_sql
 			AND user_id = $user_id";
 	$result = $db->sql_query($sql);
 
@@ -1058,7 +1107,7 @@ function delete_pm($user_id, $msg_ids, $folder_id)
 		// Delete private message data
 		$sql = 'DELETE FROM ' . PRIVMSGS_TO_TABLE . "
 			WHERE user_id = $user_id
-				AND folder_id = $folder_id
+				$folder_sql
 				AND " . $db->sql_in_set('msg_id', array_keys($delete_rows));
 		$db->sql_query($sql);
 		$num_deleted = $db->sql_affectedrows();

@@ -319,7 +319,8 @@ function toggleCodeExpand()
 	<p class="searchbar">
 		<span style="float: {S_CONTENT_FLOW_BEGIN};"><a href="{U_SEARCH_UNANSWERED}">{L_SEARCH_UNANSWERED}</a> | <a href="{U_SEARCH_ACTIVE_TOPICS}">{L_SEARCH_ACTIVE_TOPICS}</a></span>
 		<!-- IF S_USER_LOGGED_IN or S_LOAD_UNREADS -->
-		<span style="float: {S_CONTENT_FLOW_END};"><!-- IF S_LOAD_UNREADS --><a href="{U_SEARCH_UNREAD}">{L_SEARCH_UNREAD}</a><!-- IF S_USER_LOGGED_IN --> | <!-- ENDIF --><!-- ENDIF --><!-- IF S_USER_LOGGED_IN --><a href="{U_SEARCH_NEW}">{L_SEARCH_NEW}</a> | <a href="{U_SEARCH_SELF}">{L_SEARCH_SELF}</a><!-- ENDIF --></span>
+		<span style="float: {S_CONTENT_FLOW_END};"><!-- IF S_LOAD_UNREADS --><!-- IF S_EXISTS_UNREADS --><a href="{U_SEARCH_UNREAD}">{L_SEARCH_UNREAD}</a><!-- ELSE --><a href="{U_SEARCH_UNREAD}">{L_NO_UNREADS}</a><!-- ENDIF --><!-- IF S_USER_LOGGED_IN --> | <!-- ENDIF --><!-- ENDIF --><!-- IF S_USER_LOGGED_IN --><a href="{U_SEARCH_NEW}">{L_SEARCH_NEW}</a> | <a href="{U_SEARCH_SELF}">{L_SEARCH_SELF}</a><!-- ENDIF --></span>
+		<!-- start mod view or mark unread posts (and end mod too) ... added code in preceding line to toggle link text between view unread and no unreads -->
 		<!-- ENDIF -->
 	</p>
 	<!-- ENDIF -->
