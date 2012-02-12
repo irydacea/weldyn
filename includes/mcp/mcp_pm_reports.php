@@ -61,6 +61,9 @@ class mcp_pm_reports
 					include($phpbb_root_path . 'includes/mcp/mcp_reports.' . $phpEx);
 				}
 
+				// BEGIN Moderator Needed Mod
+				$cache->purge('_reported_pms');
+				// END Moderator Needed Mod
 				close_report($report_id_list, $mode, $action, true);
 
 			break;
