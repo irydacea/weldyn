@@ -4,7 +4,7 @@
 * acp_announcements_centre [English]
 *
 * @package language
-* @version $Id: announcement_centre.php 191 2009-03-17 17:56:06Z lefty74 $ 
+* @version $Id: announcement_centre.php 278 2011-02-21 14:32:49Z lefty74 $ 
 * @copyright (c) 2007 lefty74
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License 
 *
@@ -110,6 +110,7 @@ $lang = array_merge($lang, array(
 	//Installation vars
 	// Installation file stuff, not needed anymore after installation is complete
 	'AC_TABLE_CREATED'		=> 	'Announcement Centre Table and Config fields created.',
+	'AC_TABLE_UPDATED'		=> 	'Announcement Centre Table fields updated.',
 	'AC_MODULE_ADDED'		=> 	'Announcement Centre Module has been added.',
 	'AC_CONFIGS_CREATED'	=> 	'Announcement Centre config fields have been created.',
 	'AC_VERSION_UPDATED'	=> 	'Announcement Centre version updated.',

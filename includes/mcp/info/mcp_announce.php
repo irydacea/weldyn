@@ -2,7 +2,7 @@
 /**
 *
 * @package mcp
-* @version $Id: mcp_announce.php 240 2009-11-01 20:38:17Z lefty74 $
+* @version $Id: mcp_announce.php 289 2011-08-14 12:50:15Z lefty74 $
 * @copyright (c) 2008, 2009 lefty74
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
@@ -24,7 +24,7 @@ class mcp_announce_info
 		return array(
 			'filename'	=> 'mcp_announce',
 			'title'		=> 'MCP_ANNOUNCEMENTS_CENTRE',
-			'version'	=> '1.2.2',
+			'version'	=> '1.2.5',
 			'modes'		=> array(
 				'front'				=> array('title' => 'MCP_ANNOUNCE_FRONT', 'auth' => 'acl_m_announcement_centre', 'cat' => array('MCP_ANNOUNCEMENT_CENTRE')),
 			),

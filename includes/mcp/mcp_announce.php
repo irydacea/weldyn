@@ -2,7 +2,7 @@
 /**
 *
 * @package mcp
-* @version $Id: mcp_announce.php 192 2009-03-28 20:09:59Z lefty74 $
+* @version $Id: mcp_announce.php 278 2011-02-21 14:32:49Z lefty74 $
 * @copyright (c) 2008, 2009 lefty74
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
@@ -95,10 +95,10 @@ class mcp_announce
 			generate_text_for_storage($announcement_row['announcement_text'], $uid_text, $bitfield_text, $options_text, $allow_bbcode, $allow_urls, $allow_smilies);
 
 			$sql_ary = array(
-			'announcement_text' 						=> (string) $announcement_row['announcement_text'],
-			'announcement_text_bbcode_uid'		 		=> (string) $uid_text,
-			'announcement_text_bbcode_bitfield'			=> (string) $bitfield_text,
-			'announcement_text_bbcode_options' 			=> (int) 	$options_text,
+			'announcement_text' 					=> (string) $announcement_row['announcement_text'],
+			'announcement_text_uid'		 			=> (string) $uid_text,
+			'announcement_text_bitfield'			=> (string) $bitfield_text,
+			'announcement_text_options' 			=> (int) 	$options_text,
 			);
 
 			$sql = 'UPDATE ' . ANNOUNCEMENTS_CENTRE_TABLE . '
@@ -121,7 +121,7 @@ class mcp_announce
 			
 		generate_smilies('inline', '',1);
 		
-		decode_message($announcements['announcement_text'], $announcements['announcement_text_bbcode_uid']);
+		decode_message($announcements['announcement_text'], $announcements['announcement_text_uid']);
 		
 		$template->assign_vars(array(
 			'U_ACTION'			=> $this->u_action,

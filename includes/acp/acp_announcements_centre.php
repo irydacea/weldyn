@@ -2,7 +2,7 @@
 /** 
 *
 * @package acp
-* @version $Id: acp_announcements_centre.php 192 2009-03-28 20:09:59Z lefty74 $
+* @version $Id: acp_announcements_centre.php 278 2011-02-21 14:32:49Z lefty74 $
 * @copyright (c) 2007, 2008, 2009 lefty74 
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License 
 *
@@ -98,25 +98,25 @@ class acp_announcements_centre
 			generate_text_for_storage($announcement_row['announcement_draft'], $uid_draft, $bitfield_draft, $options_draft, $allow_bbcode, $allow_urls, $allow_smilies);
 
 			$sql_ary = array(
-			'announcement_forum_id' 					=> (int) $announcement_row['announcement_forum_id'],
-			'announcement_topic_id' 					=> (int) $announcement_row['announcement_topic_id'],
-			'announcement_post_id' 						=> (int) $announcement_row['announcement_post_id'],
-			'announcement_gopost' 						=> (int) $announcement_row['announcement_gopost'],
-			'announcement_first_last_post' 				=> (string) $announcement_row['announcement_first_last_post'],
-			'announcement_title' 						=> (string) $announcement_row['announcement_title'],
-			'announcement_text' 						=> (string) $announcement_row['announcement_text'],
-			'announcement_text_bbcode_uid'		 		=> (string) $uid_text,
-			'announcement_text_bbcode_bitfield'			=> (string) $bitfield_text,
-			'announcement_text_bbcode_options' 			=> (int) 	$options_text,
-			'announcement_draft' 						=> (string) $announcement_row['announcement_draft'],
-			'announcement_draft_bbcode_uid' 			=> (string) $uid_draft,
-			'announcement_draft_bbcode_bitfield' 		=> (string) $bitfield_draft,
-			'announcement_draft_bbcode_options' 		=> (int) 	$options_draft,
-			'announcement_title_guests' 				=> (string) $announcement_row['announcement_title_guests'],
-			'announcement_text_guests' 					=> (string) $announcement_row['announcement_text_guests'],
-			'announcement_text_guests_bbcode_uid' 		=> (string) $uid_text_guests,
-			'announcement_text_guests_bbcode_bitfield' 	=> (string) $bitfield_text_guests,
-			'announcement_text_guests_bbcode_options' 	=> (int) 	$options_text_guests,
+			'announcement_forum_id' 		=> (int) $announcement_row['announcement_forum_id'],
+			'announcement_topic_id' 		=> (int) $announcement_row['announcement_topic_id'],
+			'announcement_post_id' 			=> (int) $announcement_row['announcement_post_id'],
+			'announcement_gopost' 			=> (int) $announcement_row['announcement_gopost'],
+			'announcement_first_last_post' 	=> (string) $announcement_row['announcement_first_last_post'],
+			'announcement_title' 			=> (string) $announcement_row['announcement_title'],
+			'announcement_text' 			=> (string) $announcement_row['announcement_text'],
+			'announcement_text_uid'		 	=> (string) $uid_text,
+			'announcement_text_bitfield'	=> (string) $bitfield_text,
+			'announcement_text_options' 	=> (int) 	$options_text,
+			'announcement_draft' 			=> (string) $announcement_row['announcement_draft'],
+			'announcement_draft_uid' 		=> (string) $uid_draft,
+			'announcement_draft_bitfield' 	=> (string) $bitfield_draft,
+			'announcement_draft_options' 	=> (int) 	$options_draft,
+			'announcement_title_guests' 	=> (string) $announcement_row['announcement_title_guests'],
+			'announcement_text_guests' 		=> (string) $announcement_row['announcement_text_guests'],
+			'announcement_text_guests_uid' 	=> (string) $uid_text_guests,
+			'announcement_text_guests_bit' 	=> (string) $bitfield_text_guests,
+			'announcement_text_guests_opt' 	=> (int) 	$options_text_guests,
 			);
 
 			$sql = 'UPDATE ' . ANNOUNCEMENTS_CENTRE_TABLE . '
@@ -148,11 +148,11 @@ class acp_announcements_centre
 		
 		$announcement_draft = '';
 		$announcement_draft = $announcement['announcement_draft'];
-		$announcement_draft = generate_text_for_display($announcement_draft, $announcement['announcement_draft_bbcode_uid'], $announcement['announcement_draft_bbcode_bitfield'], $announcement['announcement_draft_bbcode_options']);
+		$announcement_draft = generate_text_for_display($announcement_draft, $announcement['announcement_draft_uid'], $announcement['announcement_draft_bitfield'], $announcement['announcement_draft_options']);
 	
-		decode_message($announcement['announcement_text'], $announcement['announcement_text_bbcode_uid']);
-		decode_message($announcement['announcement_draft'], $announcement['announcement_draft_bbcode_uid']);
-		decode_message($announcement['announcement_text_guests'], $announcement['announcement_text_guests_bbcode_uid']);
+		decode_message($announcement['announcement_text'], $announcement['announcement_text_uid']);
+		decode_message($announcement['announcement_draft'], $announcement['announcement_draft_uid']);
+		decode_message($announcement['announcement_text_guests'], $announcement['announcement_text_guests_uid']);
 		
 		$template->assign_vars(array(
 			'U_ACTION'		=> $this->u_action,

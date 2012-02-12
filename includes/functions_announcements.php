@@ -2,8 +2,8 @@
 /**
 *
 * @package phpBB3
-* @version $Id: functions_announcements.php 240 2009-11-01 20:38:17Z lefty74 $
-* @copyright (c) 2008,2009 lefty74
+* @version $Id: functions_announcements.php 289 2011-08-14 12:50:15Z lefty74 $
+* @copyright (c) 2008,2009,2011 lefty74
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 */
@@ -48,7 +48,7 @@ function group_select_options_selected($group_ids, $exclude_ids = false, $manage
 	while ($row = $db->sql_fetchrow($result))
 	{
 			
-		$selected = (in_array($row['group_id'], $group_ids, true)) ? ' selected="selected"' : '';
+		$selected = (in_array($row['group_id'], $group_ids)) ? ' selected="selected"' : '';
 		$s_group_options .= '<option' . (($row['group_type'] == GROUP_SPECIAL) ? ' class="sep"' : '') . ' value="' . $row['group_id'] . '"' . $selected . '>' . (($row['group_type'] == GROUP_SPECIAL) ? $user->lang['G_' . $row['group_name']] : $row['group_name']) . '</option>';
 	}
 	$db->sql_freeresult($result);
@@ -79,7 +79,7 @@ function get_announcement_data()
 			WHERE (b.ban_id IS NULL
 				OR b.ban_exclude = 1)
 				AND u.user_birthday LIKE '" . $db->sql_escape(sprintf('%2d-%2d-', $now['mday'], $now['mon'])) . "%'
-				AND u.user_type IN (" . USER_NORMAL . ', ' . USER_FOUNDER . ')';
+				AND " . $db->sql_in_set('u.user_type', array(USER_NORMAL, USER_FOUNDER));
 		$result = $db->sql_query($sql);
 
 		while ($row = $db->sql_fetchrow($result))
@@ -130,9 +130,10 @@ function get_announcement_data()
 	$sql = 'SELECT *
 		FROM ' . USER_GROUP_TABLE . '
 		WHERE ' . $db->sql_in_set('group_id', $selected_groups) . '
-			AND user_id = ' . $user->data['user_id'];
+			AND user_pending = 0
+			AND user_id = ' . (int)$user->data['user_id'];
 	$db->sql_query($sql);
-	$result = $db->sql_query_limit($sql,1,0);
+	$result = $db->sql_query_limit($sql,1);
 	$is_in_group = $db->sql_fetchrow($result);
 	$db->sql_freeresult($result);
 
@@ -182,7 +183,7 @@ function get_announcement_data()
 	}
 	else 
 	{
-		$announcement_text = generate_text_for_display($announcement['announcement_text'],$announcement['announcement_text_bbcode_uid'], $announcement['announcement_text_bbcode_bitfield'], $announcement['announcement_text_bbcode_options']);
+		$announcement_text = generate_text_for_display($announcement['announcement_text'],$announcement['announcement_text_uid'], $announcement['announcement_text_bitfield'], $announcement['announcement_text_options']);
 	}
 	
 
@@ -192,7 +193,7 @@ function get_announcement_data()
 		'ANNOUNCEMENT_BIRTHDAYS' 		=> $announcement_birthday_list,
 		'ANNOUNCEMENT_BIRTHDAY_IMG'		=> $announcement_birthday_img,
 		'ANNOUNCEMENT_TITLE_GUESTS'		=> $announcement['announcement_title_guests'],
-		'ANNOUNCEMENT_TEXT_GUESTS'		=> generate_text_for_display($announcement['announcement_text_guests'],$announcement['announcement_text_guests_bbcode_uid'], $announcement['announcement_text_guests_bbcode_bitfield'], $announcement['announcement_text_guests_bbcode_options']),
+		'ANNOUNCEMENT_TEXT_GUESTS'		=> generate_text_for_display($announcement['announcement_text_guests'],$announcement['announcement_text_guests_uid'], $announcement['announcement_text_guests_bit'], $announcement['announcement_text_guests_opt']),
 		'ANNOUNCEMENT_TITLE' 			=> $announcement['announcement_title'],
 		'ANNOUNCEMENT_TITLE_GUESTS' 	=> $announcement['announcement_title_guests'],
 		'ANNOUNCEMENT_ENABLE' 			=> $config['announcement_enable'],
@@ -247,7 +248,7 @@ function announcement_post($where_sql, $order, $gotopost)
 		FROM  ' . POSTS_TABLE . " 
 			$where_sql
 		ORDER BY post_id $order";	
-	$result = $db->sql_query_limit($sql, 1, 0);
+	$result = $db->sql_query_limit($sql,1);
 	$row = $db->sql_fetchrow($result);
 	$db->sql_freeresult($result);
 	
