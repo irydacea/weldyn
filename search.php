@@ -396,6 +396,11 @@ if ($keywords || $author || $author_id || $search_id || $submit)
 
 			case 'unreadposts':
 				$l_search_title = $user->lang['SEARCH_UNREAD'];
+				// start mod view or mark unread posts
+				$template->assign_vars(array(
+					'U_MARK_FORUMS'				=> append_sid("{$phpbb_root_path}index.$phpEx", 'hash=' . generate_link_hash('global') . '&amp;mark=forums'),
+					'S_SHOW_MARK_FORUMS_LINK'	=> true));
+				// end mod view or mark unread posts
 				// force sorting
 				$show_results = 'topics';
 				$sort_key = 't';

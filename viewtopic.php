@@ -52,6 +52,13 @@ $s_can_vote = false;
 * @todo normalize?
 */
 $hilit_words	= request_var('hilit', '', true);
+// start mod view or mark unread posts
+$unread_post_id	= request_var('mu', 0);
+if ($unread_post_id)
+{
+	mark_unread_post($unread_post_id, $forum_id);
+}
+// end mod view or mark unread posts
 
 // Do we have a topic or post id?
 if (!$topic_id && !$post_id)
@@ -671,6 +678,9 @@ $template->assign_vars(array(
 	'S_DISPLAY_POST_INFO'	=> ($topic_data['forum_type'] == FORUM_POST && ($auth->acl_get('f_post', $forum_id) || $user->data['user_id'] == ANONYMOUS)) ? true : false,
 	'S_DISPLAY_REPLY_INFO'	=> ($topic_data['forum_type'] == FORUM_POST && ($auth->acl_get('f_reply', $forum_id) || $user->data['user_id'] == ANONYMOUS)) ? true : false,
 	'S_ENABLE_FEEDS_TOPIC'	=> ($config['feed_topic'] && !phpbb_optionget(FORUM_OPTION_FEED_EXCLUDE, $topic_data['forum_options'])) ? true : false,
+	// start mod view or mark unread posts - set flag that determines if user will see mark post unread links in the posts
+	'S_INC_UNREAD_LINK'		=> ($config['load_db_lastread'] && $user->data['is_registered']) ? true : false,
+	// end mod  view or mark unread posts
 
 	'U_TOPIC'				=> "{$server_path}viewtopic.$phpEx?f=$forum_id&amp;t=$topic_id",
 	'U_FORUM'				=> $server_path,
@@ -1583,6 +1593,9 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 		'U_QUOTE'			=> ($auth->acl_get('f_reply', $forum_id)) ? append_sid("{$phpbb_root_path}posting.$phpEx", "mode=quote&amp;f=$forum_id&amp;p={$row['post_id']}") : '',
 		'U_INFO'			=> ($auth->acl_get('m_info', $forum_id)) ? append_sid("{$phpbb_root_path}mcp.$phpEx", "i=main&amp;mode=post_details&amp;f=$forum_id&amp;p=" . $row['post_id'], true, $user->session_id) : '',
 		'U_DELETE'			=> ($delete_allowed) ? append_sid("{$phpbb_root_path}posting.$phpEx", "mode=delete&amp;f=$forum_id&amp;p={$row['post_id']}") : '',
+		// start mod view or mark unread posts
+		'U_MARK_UNREAD'		=> append_sid("{$phpbb_root_path}viewtopic.$phpEx", 'mu=' . $row['post_id'] . '&amp;f=' . $forum_id),
+		// end mod  view or mark unread posts
 
 		'U_PROFILE'		=> $user_cache[$poster_id]['profile'],
 		'U_SEARCH'		=> $user_cache[$poster_id]['search'],
