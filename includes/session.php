@@ -16,6 +16,8 @@ if (!defined('IN_PHPBB'))
 	exit;
 }
 
+define('WESNOTH_BOARD_DISABLE_ADD', '<br /><br />Feel free to join us in the <tt>#wesnoth</tt> <acronym title="Internet Relay Chat" style="cursor:help;border-bottom:dotted 1px black;">IRC</acronym> channel on <tt>irc.freenode.net</tt> (<a href="irc://chat.freenode.net/wesnoth">client</a>/<a href="http://webchat.freenode.net/?channels=wesnoth">webchat</a>) to stay tuned for updates!');
+
 /**
 * Session class
 * @package phpBB3
@@ -1845,7 +1847,7 @@ class user extends session
 			}
 			else
 			{
-				$message = (!empty($config['board_disable_msg'])) ? $config['board_disable_msg'] : 'BOARD_DISABLE';
+				$message = (!empty($config['board_disable_msg'])) ? $config['board_disable_msg'].WESNOTH_BOARD_DISABLE_ADD : 'BOARD_DISABLE';
 			}
 			trigger_error($message);
 		}
@@ -1858,7 +1860,7 @@ class user extends session
 				send_status_line(503, 'Service Unavailable');
 			}
 
-			$message = (!empty($config['board_disable_msg'])) ? $config['board_disable_msg'] : 'BOARD_DISABLE';
+			$message = (!empty($config['board_disable_msg'])) ? $config['board_disable_msg'].WESNOTH_BOARD_DISABLE_ADD : 'BOARD_DISABLE';
 			trigger_error($message);
 		}
 
