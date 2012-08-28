@@ -234,7 +234,7 @@ class ucp_register
 			$cp->submit_cp_field('register', $user->get_iso_lang_id(), $cp_data, $error);
 
 			// antibot mod begin
-			if ($data['security_phrase'] != utf8_substr($data['username'], 0, 3) . utf8_normalize_nfc(utf8_substr($data['new_password'], -3, 3)))
+			if (html_entity_decode($data['security_phrase']) != utf8_substr(html_entity_decode($data['username']), 0, 3) . utf8_normalize_nfc(utf8_substr(html_entity_decode($data['new_password']), -3, 3)))
 			{
 				// FIXME: i18n
 				$error[] = 'The security phrase you entered was incorrect.';
