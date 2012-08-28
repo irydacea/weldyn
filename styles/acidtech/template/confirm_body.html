@@ -1,0 +1,28 @@
+<!-- DEFINE $CA_SKIP_PM_NOTIFY = '1' --><!-- INCLUDE overall_header.html -->
+
+<div id="pagecontent">
+
+	<form name="confirm" action="{S_CONFIRM_ACTION}" method="post">
+
+    {$CA_BLOCK_START}	
+	{$CA_CAP2_START}{MESSAGE_TITLE}{$CA_CAP2_END}
+	<table class="tablebg" width="100%" cellspacing="{$CA_SPACING}">
+	<tr>
+		<td class="row1" align="center"><br /><p class="gen">{MESSAGE_TEXT}</p><br />{S_HIDDEN_FIELDS}<input type="submit" name="confirm" value="{YES_VALUE}" class="btnmain" />&nbsp;&nbsp;<input type="submit" name="cancel" value="{L_NO}" class="btnlite" /></td>
+	</tr>
+	</table>
+	{$CA_BLOCK_END}
+	
+	</form>
+	
+</div>
+
+<br clear="all" />
+
+<!-- INCLUDE breadcrumbs.html -->
+
+<br clear="all" />
+
+<div align="{S_CONTENT_FLOW_END}"><!-- INCLUDE jumpbox.html --></div>
+
+<!-- INCLUDE overall_footer.html -->
