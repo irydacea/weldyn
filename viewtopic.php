@@ -1187,6 +1187,9 @@ while ($row = $db->sql_fetchrow($result))
 				'yim'			=> ($row['user_yim']) ? 'http://edit.yahoo.com/config/send_webmesg?.target=' . urlencode($row['user_yim']) . '&amp;.src=pg' : '',
 				'jabber'		=> ($row['user_jabber'] && $auth->acl_get('u_sendim')) ? append_sid("{$phpbb_root_path}memberlist.$phpEx", "mode=contact&amp;action=jabber&amp;u=$poster_id") : '',
 				'search'		=> ($auth->acl_get('u_search')) ? append_sid("{$phpbb_root_path}search.$phpEx", "author_id=$poster_id&amp;sr=posts") : '',
+				// START Anti-Spam ACP
+				'user_flagged'	=> $row['user_flagged'] ? true : false,
+				// END Anti-Spam ACP
 
 				'author_full'		=> get_username_string('full', $poster_id, $row['username'], $row['user_colour']),
 				'author_colour'		=> get_username_string('colour', $poster_id, $row['username'], $row['user_colour']),
@@ -1646,6 +1649,10 @@ for ($i = 0, $end = sizeof($post_list); $i < $end; ++$i)
 
 	// Dump vars into template
 	$template->assign_block_vars('postrow', $postrow);
+
+	// START Anti-Spam ACP
+	antispam::flagged_output($poster_id, $user_cache[$poster_id], 'postrow.custom_fields', $row['post_id']);
+	// END Anti-Spam ACP
 
 	if (!empty($cp_row['blockrow']))
 	{

@@ -364,6 +364,7 @@ if(navigator.userAgent && navigator.userAgent.indexOf('Mac OS X') > 0)
 			<!-- IF S_USER_LOGGED_IN -->
 				<!-- IF S_DISPLAY_PM --><a href="{U_PRIVATEMSGS}">{PRIVATE_MESSAGE_INFO}</a> &#8226; <!-- ENDIF -->
 			<!-- ELSEIF S_REGISTER_ENABLED and not (S_SHOW_COPPA or S_REGISTRATION) --><a href="{U_REGISTER}">{L_REGISTER}</a> &#8226; <!-- ENDIF -->
+						<!-- IF U_USER_FLAG_NEW --> &nbsp;<a href="{U_USER_FLAG_NEW}" style="color: red; font-weight: bold;">[ {L_USER_FLAG_NEW} ]</a><!-- ENDIF -->
 		<!-- ENDIF -->
 		<!-- IF U_RESTORE_PERMISSIONS --><a href="{U_RESTORE_PERMISSIONS}">{L_RESTORE_PERMISSIONS}</a> &#8226; <!-- ENDIF -->
 		<a href="{U_RULES}">{L_RULES}</a> &#8226; <a href="{U_FAQ}">{L_FAQ}</a>
