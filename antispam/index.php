@@ -170,7 +170,25 @@ switch ($mode)
 			// Ban the user
 			if ($config['asacp_ocban_username'])
 			{
-				user_ban('user', $user_row['username'], 0, '', false, utf8_normalize_nfc(request_var('ban_reason', '', true)), utf8_normalize_nfc(request_var('ban_reason_shown', '', true)));
+				$ban_reason_prefix = '[OCBAN: ' . $user_row['username'] . '] ';
+				$ban_reason = utf8_normalize_nfc(request_var('ban_reason', '', true));
+				$ban_reason_shown = utf8_normalize_nfc(request_var('ban_reason_shown', '', true));
+
+				$effective_ban_reason = ($ban_reason !== '' ? $ban_reason : 'Username used for spamming');
+				$effective_ban_reason_shown = ($ban_reason_shown !== '' ? $ban_reason_shown : 'Username used for spamming');
+
+				user_ban('user', $user_row['username'], 0, '', false, $ban_reason_prefix . $effective_ban_reason, $effective_ban_reason_shown);
+
+				$effective_ban_reason = ($ban_reason !== '' ? $ban_reason : 'IP address used for spamming');
+				$effective_ban_reason_shown = ($ban_reason_shown !== '' ? $ban_reason_shown : 'IP address used for spamming');
+
+				// 10080 = 7 days ban
+				user_ban('ip', $user_row['user_ip'], 10080, '', false, $ban_reason_prefix . $effective_ban_reason, $effective_ban_reason_shown);
+
+				$effective_ban_reason = ($ban_reason !== '' ? $ban_reason : 'Email address used for spamming');
+				$effective_ban_reason_shown = ($ban_reason_shown !== '' ? $ban_reason_shown : 'Email address used for spamming');
+
+				user_ban('email', $user_row['user_email'], 0, '', false, $ban_reason_prefix . $effective_ban_reason, $effective_ban_reason_shown);
 
 				// Remove the flag on the user's account if they are banned
 				$db->sql_query('UPDATE ' . USERS_TABLE . ' SET user_flagged = 0 WHERE user_id = ' . $user_id);
