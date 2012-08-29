@@ -114,6 +114,17 @@ if ($config['load_birthdays'] && $config['allow_birthdays'] && $auth->acl_gets('
 	$db->sql_freeresult($result);
 }
 
+if ( isset($config['announcement_enable']))
+{
+	if ( $config['announcement_show_index'] && ($config['announcement_enable'] || $config['announcement_show_birthdays_always']) )
+	{
+		if (!function_exists('get_announcement_data'))
+		{
+			include($phpbb_root_path . 'includes/functions_announcements.' . $phpEx);
+		}
+		get_announcement_data();
+	}
+}
 // Assign index specific vars
 $template->assign_vars(array(
 	'TOTAL_POSTS'	=> sprintf($user->lang[$l_total_post_s], $total_posts),
