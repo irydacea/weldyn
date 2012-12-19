@@ -668,6 +668,8 @@ textarea.posting-textarea, #ie8#fix {
 	font-family: Monaco, 'Courier New', monospace;
 	background-color: #2E2E2E;
 	color: #EEE;
+	max-height: 200px;
+	overflow: auto;
 }
 
 .quotewrapper, .codewrapper, .attachwrapper {
