@@ -607,6 +607,8 @@ input:focus, select:focus, textarea:focus {
 	font-size: 0.85em;
 	font-family: Monaco, 'Courier New', monospace;
 	background-color: #FAFAFA;
+	max-height: 200px;
+	overflow: auto;
 }
 
 .syntaxbg {
