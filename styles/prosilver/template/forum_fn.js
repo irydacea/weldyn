@@ -242,6 +242,32 @@ function selectCode(a)
 	}
 }
 
+function toggleCodeExpand(a, expandText, collapseText)
+{
+	// Get ID of code block
+	var e = a.parentNode.parentNode.getElementsByTagName('CODE')[0];
+
+	if (!e.vaHeight)
+	{
+		// Store viewable area height before changing style to auto
+		e.vaHeight = e.offsetHeight;
+		e.vaMaxHeight = e.style.maxHeight;
+		e.style.height = 'auto';
+		e.style.maxHeight = 'none';
+
+		a.innerHTML = collapseText;
+	}
+	else
+	{
+		// Restore viewable area height to the default
+		e.offsetHeight = e.vaHeight;
+		e.style.maxHeight = e.vaMaxHeight;
+		e.vaHeight = false;
+
+		a.innerHTML = expandText;
+	}
+}
+
 /**
 * Play quicktime file by determining it's width/height
 * from the displayed rectangle area
