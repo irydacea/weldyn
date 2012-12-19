@@ -260,7 +260,6 @@ function toggleCodeExpand(a, expandText, collapseText)
 	else
 	{
 		// Restore viewable area height to the default
-		e.offsetHeight = e.vaHeight;
 		e.style.maxHeight = e.vaMaxHeight;
 		e.vaHeight = false;
 
