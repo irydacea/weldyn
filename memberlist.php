@@ -1249,6 +1249,13 @@ switch ($mode)
 			$sql_where .= " AND ug.user_pending = 0 AND u.user_id = ug.user_id AND ug.group_id = $group_id";
 			$sql_where_data = " AND u.user_id = ug.user_id AND ug.group_id = $group_id";
 		}
+		// Wesnoth mod begin
+		// Hide information forum service accounts from overall listing
+		else
+		{
+			$sql_where .= ' AND u.group_id <> 6649';
+		}
+		// Wesnoth mod end
 
 		// Sorting and order
 		if (!isset($sort_key_sql[$sort_key]))
