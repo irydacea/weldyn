@@ -242,8 +242,48 @@ function selectCode(a)
 	}
 }
 
+function getCodeBoxes() {
+	// May return a NodeList, a HTMLCollection, or an Array; only safe
+	// to use getCodeBoxes().length and getCodeBoxes()[i].
+
+	// For modern browsers:
+	if (document.getElementsByClassName)
+		return document.getElementsByClassName('codebox');
+	// For IE8:
+	if (document.querySelectorAll)
+		return document.querySelectorAll('.codebox');
+	// For IE7:
+	var i, r = [], dls = document.getElementsByTagName('dl');
+	for (i = 0; i !== dls.length; ++i)
+		if (dls[i].className === 'codebox')
+			r.push(dls[i]);
+	return r;
+}
+
+function applyCodeBoxExpanders() {
+	var c, i, cb, df, codeBoxes = getCodeBoxes();
+	for (i = 0; i !== codeBoxes.length; ++i) {
+		cb = codeBoxes[i];
+		c = cb.lastChild.firstChild; // The <code> element.
+		if (c.clientWidth !== c.scrollWidth) { // Has scrollbar.
+			df = document.createDocumentFragment();
+			(df.textContent || df.innerText) = " &#8226; ";
+			c = document.createElement('a');
+			(c.textContent || c.innerText) = CodeboxExpandText;
+			c.href = '#';
+			c.onclick = toggleCodeExpand;
+			df.appendChild(c);
+			cb.firstChild.appendChild(df);
+		}
+	}
+}
+
+onload_functions.push('applyCodeBoxExpanders()');
+
 function toggleCodeExpand(a, expandText, collapseText)
 {
+	a = a || this;
+
 	// Get ID of code block
 	var e = a.parentNode.parentNode.getElementsByTagName('CODE')[0];
 
@@ -255,7 +295,7 @@ function toggleCodeExpand(a, expandText, collapseText)
 		e.style.height = 'auto';
 		e.style.maxHeight = 'none';
 
-		a.innerHTML = collapseText;
+		a.innerHTML = collapseText || CodeboxCollapseText;
 	}
 	else
 	{
@@ -263,7 +303,7 @@ function toggleCodeExpand(a, expandText, collapseText)
 		e.style.maxHeight = e.vaMaxHeight;
 		e.vaHeight = false;
 
-		a.innerHTML = expandText;
+		a.innerHTML = expandText || CodeboxExpandText;
 	}
 }
 
