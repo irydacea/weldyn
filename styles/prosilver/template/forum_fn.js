@@ -242,10 +242,53 @@ function selectCode(a)
 	}
 }
 
-function toggleCodeExpand(a, expandText, collapseText)
+function getCodeBoxes() {
+	// May return a NodeList, a HTMLCollection, or an Array; only safe
+	// to use getCodeBoxes().length and getCodeBoxes()[i].
+
+	// For modern browsers:
+	if (document.getElementsByClassName)
+		return document.getElementsByClassName('codebox');
+	// For IE8:
+	if (document.querySelectorAll)
+		return document.querySelectorAll('.codebox');
+	// For IE7:
+	var i, r = [], dls = document.getElementsByTagName('dl');
+	for (i = 0; i !== dls.length; ++i)
+		if (dls[i].className === 'codebox')
+			r.push(dls[i]);
+	return r;
+}
+
+function applyCodeBoxExpanders() {
+	var c, i, cb, df, codeBoxes = getCodeBoxes();
+	for (i = 0; i !== codeBoxes.length; ++i) {
+		cb = codeBoxes[i];
+		c = cb.lastChild.firstChild; // The <code> element.
+		if (c.clientHeight < c.scrollHeight) { // Has scrollbar.
+			df = document.createDocumentFragment();
+			df.appendChild(document.createTextNode(" \u2022 "));
+			c = document.createElement('a');
+			if ("textContent" in c) {
+				c.textContent = CodeboxExpandText;
+			}
+			else {
+				c.innerText = CodeboxExpandText;
+			}
+			c.href = '#';
+			c.onclick = toggleCodeExpand;
+			df.appendChild(c);
+			cb.firstChild.appendChild(df);
+		}
+	}
+}
+
+onload_functions.push('applyCodeBoxExpanders()');
+
+function toggleCodeExpand()
 {
 	// Get ID of code block
-	var e = a.parentNode.parentNode.getElementsByTagName('CODE')[0];
+	var e = this.parentNode.parentNode.getElementsByTagName('CODE')[0];
 
 	if (!e.vaHeight)
 	{
@@ -255,7 +298,7 @@ function toggleCodeExpand(a, expandText, collapseText)
 		e.style.height = 'auto';
 		e.style.maxHeight = 'none';
 
-		a.innerHTML = collapseText;
+		this.innerHTML = CodeboxCollapseText;
 	}
 	else
 	{
@@ -263,8 +306,10 @@ function toggleCodeExpand(a, expandText, collapseText)
 		e.style.maxHeight = e.vaMaxHeight;
 		e.vaHeight = false;
 
-		a.innerHTML = expandText;
+		this.innerHTML = CodeboxExpandText;
 	}
+
+	return false;
 }
 
 /**
