@@ -269,7 +269,10 @@ function applyCodeBoxExpanders() {
 			df = document.createDocumentFragment();
 			(df.textContent || df.innerText) = " &#8226; ";
 			c = document.createElement('a');
-			(c.textContent || c.innerText) = CodeboxExpandText;
+			if ("textContent" in c)
+				c.textContent = CodeboxExpandText;
+			else
+				c.innerText = CodeboxExpandText;
 			c.href = '#';
 			c.onclick = toggleCodeExpand;
 			df.appendChild(c);
