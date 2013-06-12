@@ -283,12 +283,10 @@ function applyCodeBoxExpanders() {
 
 onload_functions.push('applyCodeBoxExpanders()');
 
-function toggleCodeExpand(a, expandText, collapseText)
+function toggleCodeExpand()
 {
-	a = a || this;
-
 	// Get ID of code block
-	var e = a.parentNode.parentNode.getElementsByTagName('CODE')[0];
+	var e = this.parentNode.parentNode.getElementsByTagName('CODE')[0];
 
 	if (!e.vaHeight)
 	{
@@ -298,7 +296,7 @@ function toggleCodeExpand(a, expandText, collapseText)
 		e.style.height = 'auto';
 		e.style.maxHeight = 'none';
 
-		a.innerHTML = collapseText || CodeboxCollapseText;
+		this.innerHTML = CodeboxCollapseText;
 	}
 	else
 	{
@@ -306,7 +304,7 @@ function toggleCodeExpand(a, expandText, collapseText)
 		e.style.maxHeight = e.vaMaxHeight;
 		e.vaHeight = false;
 
-		a.innerHTML = expandText || CodeboxExpandText;
+		this.innerHTML = CodeboxExpandText;
 	}
 }
 
