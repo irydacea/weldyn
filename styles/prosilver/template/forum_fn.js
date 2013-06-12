@@ -265,7 +265,7 @@ function applyCodeBoxExpanders() {
 	for (i = 0; i !== codeBoxes.length; ++i) {
 		cb = codeBoxes[i];
 		c = cb.lastChild.firstChild; // The <code> element.
-		if (c.clientHeight !== c.scrollHeight) { // Has scrollbar.
+		if (c.clientHeight < c.scrollHeight) { // Has scrollbar.
 			df = document.createDocumentFragment();
 			c = document.createElement('a');
 			if ("textContent" in c) {
