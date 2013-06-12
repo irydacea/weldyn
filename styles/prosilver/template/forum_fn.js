@@ -267,12 +267,15 @@ function applyCodeBoxExpanders() {
 		c = cb.lastChild.firstChild; // The <code> element.
 		if (c.clientWidth !== c.scrollWidth) { // Has scrollbar.
 			df = document.createDocumentFragment();
-			(df.textContent || df.innerText) = " &#8226; ";
 			c = document.createElement('a');
-			if ("textContent" in c)
+			if ("textContent" in c) {
+				df.textContent = " &#8226; ";
 				c.textContent = CodeboxExpandText;
-			else
+			}
+			else {
+				df.innerText = " &#8226; ";
 				c.innerText = CodeboxExpandText;
+			}
 			c.href = '#';
 			c.onclick = toggleCodeExpand;
 			df.appendChild(c);
