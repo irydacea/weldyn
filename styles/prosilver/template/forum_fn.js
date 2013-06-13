@@ -308,6 +308,8 @@ function toggleCodeExpand()
 
 		this.innerHTML = CodeboxExpandText;
 	}
+
+	return false;
 }
 
 /**
