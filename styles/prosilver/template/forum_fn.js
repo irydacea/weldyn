@@ -267,7 +267,7 @@ function applyCodeBoxExpanders() {
 		c = cb.lastChild.firstChild; // The <code> element.
 		if (c.clientHeight < c.scrollHeight) { // Has scrollbar.
 			df = document.createDocumentFragment();
-			df.innerHTML = " &#8226; ";
+			df.appendChild(document.createTextNode(" \u2022 "));
 			c = document.createElement('a');
 			if ("textContent" in c) {
 				c.textContent = CodeboxExpandText;
