@@ -24,6 +24,16 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 	global $db, $auth, $user, $template;
 	global $phpbb_root_path, $phpEx, $config;
 
+//-- mod : latest topic title --------------------------------------------------
+//-- add
+	// let's check if the install is good !
+	ltt_check_install();
+
+	// grab icons from cache
+	global $cache;
+
+	$icons = $cache->obtain_icons();
+//-- fin mod : latest topic title ----------------------------------------------
 	$forum_rows = $subforums = $forum_ids = $forum_ids_moderator = $forum_moderators = $active_forum_ary = array();
 	$parent_id = $visible_forums = 0;
 	$sql_from = '';
@@ -99,6 +109,11 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 		}
 	}
 
+//-- mod : latest topic title --------------------------------------------------
+//-- add
+	$sql_array['LEFT_JOIN'][] = array('FROM' => array(TOPICS_TABLE => 't'), 'ON' => 'f.forum_last_post_id = t.topic_last_post_id');
+	$sql_array['SELECT'] .= ', t.topic_id, t.topic_title, t.icon_id, t.topic_status, t.topic_moved_id';
+//-- fin mod : latest topic title ----------------------------------------------
 	if ($show_active)
 	{
 		$sql_array['LEFT_JOIN'][] = array(
@@ -269,6 +284,20 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 				$forum_rows[$parent_id]['forum_last_poster_name'] = $row['forum_last_poster_name'];
 				$forum_rows[$parent_id]['forum_last_poster_colour'] = $row['forum_last_poster_colour'];
 				$forum_rows[$parent_id]['forum_id_last_post'] = $forum_id;
+//-- mod : latest topic title --------------------------------------------------
+//-- add
+				$forum_rows[$parent_id]['topic_id'] = $row['topic_id'];
+				$forum_rows[$parent_id]['topic_title'] = $row['topic_title'];
+				$forum_rows[$parent_id]['topic_status'] = $row['topic_status'];
+				$forum_rows[$parent_id]['topic_moved_id'] = $row['topic_moved_id'];
+
+				$forum_rows[$parent_id]['icon_id'] = '';
+				if ( $row['enable_icons'] && !empty($row['icon_id']) )
+				{
+					$forum_rows[$parent_id]['enable_icons'] = $row['enable_icons'];
+					$forum_rows[$parent_id]['icon_id'] = $row['icon_id'];
+				}
+//-- fin mod : latest topic title ----------------------------------------------
 			}
 		}
 	}
@@ -518,6 +547,26 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 			'U_LAST_POST'		=> $last_post_url)
 		);
 
+//-- mod : latest topic title --------------------------------------------------
+//-- add
+		$row['topic_id'] = (($row['topic_status'] == ITEM_MOVED) && !empty($row['topic_moved_id'])) ? $row['topic_moved_id'] : $row['topic_id'];
+
+		$template->alter_block_array('forumrow', array(
+			'LATEST_TOPIC_TITLE_SHORT' => ltt_max_chars($row['topic_title']),
+			'LATEST_TOPIC_TITLE_FULL' => censor_text($row['topic_title']),
+			'U_FIRST_POST' => append_sid("{$phpbb_root_path}viewtopic.$phpEx", 'f=' . $row['forum_id'] . '&amp;t=' . $row['topic_id']),
+			'U_NEWEST_POST' => append_sid("{$phpbb_root_path}viewtopic.$phpEx", 'f=' . $row['forum_id'] . '&amp;t=' . $row['topic_id'] . '&amp;view=unread') . '#unread',
+		), true, 'change');
+
+		if ( $row['enable_icons'] && !empty($row['icon_id']) )
+		{
+			$template->alter_block_array('forumrow', array(
+				'TOPIC_ICON_IMG' => $icons[$row['icon_id']]['img'],
+				'TOPIC_ICON_IMG_WIDTH' => $icons[$row['icon_id']]['width'],
+				'TOPIC_ICON_IMG_HEIGHT' => $icons[$row['icon_id']]['height'],
+			), true, 'change');
+		}
+//-- fin mod : latest topic title ----------------------------------------------
 		// Assign subforums loop for style authors
 		foreach ($subforums_list as $subforum)
 		{
@@ -539,6 +588,13 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 		'UNAPPROVED_IMG'	=> $user->img('icon_topic_unapproved', 'TOPICS_UNAPPROVED'),
 	));
 
+//-- mod : latest topic title --------------------------------------------------
+//-- add
+	$template->assign_vars(array(
+		'S_LTT' => $config['ltt_url'],
+		'S_LTT_ICONS' => $config['ltt_icons'],
+	));
+//-- fin mod : latest topic title ----------------------------------------------
 	if ($return_moderators)
 	{
 		return array($active_forum_ary, $forum_moderators);

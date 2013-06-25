@@ -199,6 +199,10 @@ class acp_board
 						'legend3'					=> 'ACP_SUBMIT_CHANGES',
 					)
 				);
+//-- mod : latest topic title --------------------------------------------------
+//-- add
+				ltt_config($display_vars);
+//-- fin mod : latest topic title ----------------------------------------------
 			break;
 
 			case 'signature':
