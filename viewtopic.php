@@ -21,9 +21,6 @@ include($phpbb_root_path . 'includes/bbcode.' . $phpEx);
 // Start session management
 $user->session_begin();
 $auth->acl($user->data);
-// BEGIN user notes in viewtopic
-// $user->add_lang('mods/notes_in_viewtopic');
-// END user notes in viewtopic
 
 // Initial var setup
 $forum_id	= request_var('f', 0);
@@ -364,6 +361,10 @@ if (($topic_data['topic_type'] == POST_STICKY || $topic_data['topic_type'] == PO
 
 // Setup look and feel
 $user->setup('viewtopic', $topic_data['forum_style']);
+
+// BEGIN user notes in viewtopic
+$user->add_lang('mods/notes_in_viewtopic');
+// END user notes in viewtopic
 
 if (!$topic_data['topic_approved'] && !$auth->acl_get('m_approve', $forum_id))
 {
