@@ -44,8 +44,8 @@
 					<dd class="posts">{forumrow.POSTS} <dfn>{L_POSTS}</dfn></dd>
 					<dd class="lastpost"><span>
 						<!-- IF forumrow.U_UNAPPROVED_TOPICS --><a href="{forumrow.U_UNAPPROVED_TOPICS}">{UNAPPROVED_IMG}</a><!-- ENDIF -->
-						<!-- IF forumrow.LAST_POST_TIME --><dfn>{L_LAST_POST}</dfn> <!-- IF not S_IS_BOT --><!-- IF S_LTT_ICONS && forumrow.TOPIC_ICON_IMG --><img src="{T_ICONS_PATH}{forumrow.TOPIC_ICON_IMG}" width="{forumrow.TOPIC_ICON_IMG_WIDTH}" height="{forumrow.TOPIC_ICON_IMG_HEIGHT}" alt="" /> <!-- ENDIF --><a href="<!-- IF S_LTT == 1 -->{forumrow.U_LAST_POST}<!-- ELSEIF S_LTT == 2 -->{forumrow.U_NEWEST_POST}<!-- ELSE -->{forumrow.U_FIRST_POST}<!-- ENDIF -->" title="{forumrow.LATEST_TOPIC_TITLE_FULL}">{forumrow.LATEST_TOPIC_TITLE_SHORT}</a><!-- ENDIF --><br />{L_POST_BY_AUTHOR} {forumrow.LAST_POSTER_FULL}
-						<!-- IF not S_IS_BOT --><!-- IF S_LTT != 1 --><a href="{forumrow.U_LAST_POST}">{LAST_POST_IMG}</a> <!-- ENDIF --><!-- ENDIF --><br />{forumrow.LAST_POST_TIME}<!-- ELSE -->{L_NO_POSTS}<br />&nbsp;<!-- ENDIF --></span>
+						<!-- IF forumrow.LAST_POST_TIME --><dfn>{L_LAST_POST}</dfn> {L_POST_BY_AUTHOR} {forumrow.LAST_POSTER_FULL}
+						<!-- IF not S_IS_BOT --><a href="{forumrow.U_LAST_POST}">{LAST_POST_IMG}</a> <!-- ENDIF --><br />{forumrow.LAST_POST_TIME}<!-- ELSE -->{L_NO_POSTS}<br />&nbsp;<!-- ENDIF --></span>
 					</dd>
 				<!-- ENDIF -->
 			</dl>

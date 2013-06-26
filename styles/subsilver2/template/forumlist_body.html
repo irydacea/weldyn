@@ -57,10 +57,9 @@
 			<td class="row2" align="center"><p class="topicdetails">{forumrow.POSTS}</p></td>
 			<td class="row2" align="center" nowrap="nowrap">
 				<!-- IF forumrow.LAST_POST_TIME -->
-					<!-- IF not S_IS_BOT --><p class="topicdetails"><!-- IF S_LTT_ICONS && forumrow.TOPIC_ICON_IMG --><img src="{T_ICONS_PATH}{forumrow.TOPIC_ICON_IMG}" width="{forumrow.TOPIC_ICON_IMG_WIDTH}" height="{forumrow.TOPIC_ICON_IMG_HEIGHT}" alt="" title="" /> <!-- ENDIF --><a href="<!-- IF S_LTT == 1 -->{forumrow.U_LAST_POST}<!-- ELSEIF S_LTT == 2 -->{forumrow.U_NEWEST_POST}<!-- ELSE -->{forumrow.U_FIRST_POST}<!-- ENDIF -->" title="{forumrow.LATEST_TOPIC_TITLE_FULL}">{forumrow.LATEST_TOPIC_TITLE_SHORT}</a></p><!-- ENDIF -->
 					<p class="topicdetails"><!-- IF forumrow.U_UNAPPROVED_TOPICS --><a href="{forumrow.U_UNAPPROVED_TOPICS}">{UNAPPROVED_IMG}</a>&nbsp;<!-- ENDIF -->{forumrow.LAST_POST_TIME}</p>
 					<p class="topicdetails">{forumrow.LAST_POSTER_FULL}
-						<!-- IF not S_IS_BOT --><!-- IF S_LTT != 1 --><a href="{forumrow.U_LAST_POST}">{LAST_POST_IMG}</a><!-- ENDIF --><!-- ENDIF -->
+						<!-- IF not S_IS_BOT --><a href="{forumrow.U_LAST_POST}">{LAST_POST_IMG}</a><!-- ENDIF -->
 					</p>
 				<!-- ELSE -->
 					<p class="topicdetails">{L_NO_POSTS}</p>
