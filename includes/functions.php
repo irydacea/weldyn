@@ -4166,6 +4166,7 @@ function obtain_users_online($item_id = 0, $item = 'forum')
 		'visible_online'		=> 0,
 		'hidden_online'			=> 0,
 		'guests_online'			=> 0,
+		'bots_online'			=> 0,
 	);
 
 	if ($config['load_online_guests'])
@@ -4216,6 +4217,10 @@ function obtain_users_online($item_id = 0, $item = 'forum')
 function obtain_users_online_string($online_users, $item_id = 0, $item = 'forum')
 {
 	global $config, $db, $user, $auth;
+	global $online_botlist, $bots_online;
+	$online_botlist = '';
+	$bots_online = 0;
+	$in_index = (defined('IN_FORUM_INDEX')) ? true : false;
 
 	$user_online_link = $online_userlist = '';
 	// Need caps version of $item for language-strings
@@ -4242,7 +4247,17 @@ function obtain_users_online_string($online_users, $item_id = 0, $item = 'forum'
 				if (!isset($online_users['hidden_users'][$row['user_id']]) || $auth->acl_get('u_viewonline'))
 				{
 					$user_online_link = get_username_string(($row['user_type'] <> USER_IGNORE) ? 'full' : 'no_profile', $row['user_id'], $row['username'], $row['user_colour']);
-					$online_userlist .= ($online_userlist != '') ? ', ' . $user_online_link : $user_online_link;
+					if($row['user_type'] == USER_IGNORE && $in_index)
+					{
+						$online_botlist .= ($online_botlist != '') ? ', ' . $user_online_link : $user_online_link;
+						$bots_online++;
+						$online_users['visible_online']--;
+						$online_users['bots_online']++;
+					}
+					else
+					{
+						$online_userlist .= ($online_userlist != '') ? ', ' . $user_online_link : $user_online_link;
+					}
 				}
 			}
 		}
@@ -4272,12 +4287,13 @@ function obtain_users_online_string($online_users, $item_id = 0, $item = 'forum'
 		'ONLINE'	=> array('total_online', 'l_t_user_s', 0),
 		'REG'		=> array('visible_online', 'l_r_user_s', !$config['load_online_guests']),
 		'HIDDEN'	=> array('hidden_online', 'l_h_user_s', $config['load_online_guests']),
-		'GUEST'		=> array('guests_online', 'l_g_user_s', 0)
+		'GUEST'		=> array('guests_online', 'l_g_user_s', 0),
+		'BOT'      => array('bots_online', 'l_b_user_s', 0),
 	);
 
 	foreach ($vars_online as $l_prefix => $var_ary)
 	{
-		if ($var_ary[2])
+		if (isset($var_ary[3]) && $var_ary[3])
 		{
 			$l_suffix = '_AND';
 		}
@@ -4305,7 +4321,7 @@ function obtain_users_online_string($online_users, $item_id = 0, $item = 'forum'
 	$l_online_users = sprintf($l_t_user_s, $online_users['total_online']);
 	$l_online_users .= sprintf($l_r_user_s, $online_users['visible_online']);
 	$l_online_users .= sprintf($l_h_user_s, $online_users['hidden_online']);
-
+	$l_online_users .= sprintf($l_b_user_s, $online_users['bots_online']);
 	if ($config['load_online_guests'])
 	{
 		$l_online_users .= sprintf($l_g_user_s, $online_users['guests_online']);
@@ -4627,8 +4643,22 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 	// start mod view or mark unread posts - set flag that toggles text for link to unreads (if user not logged in or board not using db for unreads, set to true so that text will always read view unreads
 	$s_exists_unreads = check_unread_posts();
 	// end mod view or mark unread posts
+	// Generate bots list start.
+	global $online_botlist, $bots_online;
+	$in_index = (defined('IN_FORUM_INDEX')) ? true : false;
+
+	if($in_index)
+	{
+		$online_botlist = (($bots_online > 0) ? $user->lang['BOTS_ONLINE'] . $online_botlist : $user->lang['BOTS_ONLINE'] . $user->lang['BOTS_ZERO_ONLINE']);
+	}
+	else
+	{
+		$online_botlist = '';
+	}
+	// Generate bots list end.
 	// The following assigns all _common_ variables that may be used at any point in a template.
 	$template->assign_vars(array(
+		'ONLINE_BOTLIST' => $online_botlist,
 		'SITENAME'						=> $config['sitename'],
 		'SITE_DESCRIPTION'				=> $config['site_desc'],
 		'PAGE_TITLE'					=> $page_title,
