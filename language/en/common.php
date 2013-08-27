@@ -913,4 +913,14 @@ $lang = array_merge($lang, array(
 	'SEARCH_OWN'			=> 'View your topics'
 ));
 
+$lang = array_merge($lang, array(
+	'BOT_USERS_ONLINE' => '%d bots online',
+	'BOT_USERS_TOTAL' => ', %d bots and ',
+	'BOT_USERS_ZERO_ONLINE' => '0 bots online',
+	'BOT_USERS_ZERO_TOTAL' => ', 0 bots and ',
+	'BOT_USER_ONLINE' => '%d bot online',
+	'BOT_USER_TOTAL' => ', %d bot and ',
+	'BOTS_ONLINE' => 'Bots: ',
+	'BOTS_ZERO_ONLINE' => 'No bots online',
+));
 ?>
