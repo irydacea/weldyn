@@ -1,6 +1,20 @@
 	<!-- IF not S_IS_BOT -->{RUN_CRON_TASK}<!-- ENDIF -->
 </div>
 
+<!-- IF S_USER_PM_POPUP and S_USER_UNREAD_PRIVMSG != 0 -->
+<div class="forumrules" style="padding: 0.5em; position: fixed; bottom: 1em; right: 1em; border: 1px solid #444;">
+	<div style="float: left; text-align: left; margin: 0 0.1em;"><strong style="font-size:4em;">!</strong></div>
+	<div style="float: right; text-align: right;">
+		<strong>{L_PRIVATE_MESSAGES}</strong>
+		<br /><br />
+		<ul style="list-style-type:none;">
+			<!-- IF S_USER_NEW_PRIVMSG != 0 --><li><a href="{U_PRIVATEMSGS}">{PRIVATE_MESSAGE_INFO}</a></li><!-- ENDIF -->
+			<li><a href="{U_PRIVATEMSGS}">{PRIVATE_MESSAGE_INFO_UNREAD}</a></li>
+		</ul>
+	</div>
+</div>
+<!-- ENDIF -->
+
 <div id="wrapfooter">
 	<!-- IF U_ACP --><span class="gensmall">[ <a href="{U_ACP}">{L_ACP}</a> ]</span><br /><br /><!-- ENDIF -->
 	<span class="copyright">{CREDIT_LINE}
