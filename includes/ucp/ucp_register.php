@@ -37,6 +37,10 @@ class ucp_register
 
 		include($phpbb_root_path . 'includes/functions_profile_fields.' . $phpEx);
 
+		// START Anti-Spam ACP
+		antispam::ucp_preregister();
+		// END Anti-Spam ACP
+
 		$coppa			= (isset($_REQUEST['coppa'])) ? ((!empty($_REQUEST['coppa'])) ? 1 : 0) : false;
 		$agreed			= (!empty($_POST['agreed'])) ? 1 : 0;
 		$submit			= (isset($_POST['submit'])) ? true : false;
@@ -254,6 +258,10 @@ class ucp_register
 				}
 			}
 
+			// START Anti-Spam ACP
+			antispam::ucp_register($data, $error);
+			// END Anti-Spam ACP
+
 			if (!sizeof($error))
 			{
 				$server_url = generate_board_url();
@@ -316,6 +324,10 @@ class ucp_register
 
 				// Register user...
 				$user_id = user_add($user_row, $cp_data);
+
+				// START Anti-Spam ACP
+				antispam::ucp_postregister($user_id, $user_row);
+				// END Anti-Spam ACP
 
 				// This should not happen, because the required variables are listed above...
 				if ($user_id === false)

@@ -339,6 +339,10 @@ class ucp_profile
 						$error[] = 'FORM_INVALID';
 					}
 
+					// START Anti-Spam ACP
+					antispam::ucp_profile($data, $error);
+					// END Anti-Spam ACP
+
 					if (!sizeof($error))
 					{
 						$data['notify'] = $user->data['user_notify_type'];
@@ -433,6 +437,10 @@ class ucp_profile
 					'INTERESTS'	=> $data['interests'],
 				));
 
+				// START Anti-Spam ACP
+				antispam::ucp_profile_display();
+				// END Anti-Spam ACP
+
 				// Get additional profile fields and assign them to the template block var 'profile_fields'
 				$user->get_profile_fields($user->data['user_id']);
 
@@ -457,6 +465,10 @@ class ucp_profile
 				$signature		= utf8_normalize_nfc(request_var('signature', (string) $user->data['user_sig'], true));
 
 				add_form_key('ucp_sig');
+
+				// START Anti-Spam ACP
+				antispam::ucp_signature($signature, $error);
+				// END Anti-Spam ACP
 
 				if ($submit || $preview)
 				{
