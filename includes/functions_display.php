@@ -480,6 +480,8 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 			}
 		}
 
+		$last_post_subject_censored = censor_text($last_post_subject);
+
 		$template->assign_block_vars('forumrow', array(
 			'S_IS_CAT'			=> false,
 			'S_NO_CAT'			=> $catless && !$last_catless,
@@ -501,7 +503,8 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 			'FORUM_FOLDER_IMG_ALT'	=> isset($user->lang[$folder_alt]) ? $user->lang[$folder_alt] : '',
 			'FORUM_IMAGE'			=> ($row['forum_image']) ? '<img src="' . $phpbb_root_path . $row['forum_image'] . '" alt="' . $user->lang[$folder_alt] . '" />' : '',
 			'FORUM_IMAGE_SRC'		=> ($row['forum_image']) ? $phpbb_root_path . $row['forum_image'] : '',
-			'LAST_POST_SUBJECT'		=> censor_text($last_post_subject),
+			'LAST_POST_SUBJECT'		=> $last_post_subject_censored,
+			'LAST_POST_SUBJECT_TRUNCATED'	=> (utf8_strlen($last_post_subject_censored) > 29) ? utf8_substr($last_post_subject_censored, 0, 29) . '&#8230' : $last_post_subject_censored,
 			'LAST_POST_TIME'		=> $last_post_time,
 			'LAST_POSTER'			=> get_username_string('username', $row['forum_last_poster_id'], $row['forum_last_poster_name'], $row['forum_last_poster_colour']),
 			'LAST_POSTER_COLOUR'	=> get_username_string('colour', $row['forum_last_poster_id'], $row['forum_last_poster_name'], $row['forum_last_poster_colour']),

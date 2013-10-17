@@ -134,6 +134,15 @@ a.topictitle:hover, .postbody a:hover {
 	color: #F0E80A;
 }
 
+a.lastsubject {
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a.lastsubject:hover {
+	text-decoration: underline;
+}
+
 /* Header and logo */
 #maintable {
 	border-style: solid;
