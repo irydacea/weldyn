@@ -481,7 +481,7 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 		}
 
 		$last_post_subject_censored = censor_text($last_post_subject);
-		$last_post_subject_truncated = truncate_string($last_post_subject_censored, 30, 255, false, '&#8230;');
+		$last_post_subject_truncated = truncate_string($last_post_subject_censored, 30, 255, false, '…');
 
 		$template->assign_block_vars('forumrow', array(
 			'S_IS_CAT'			=> false,
