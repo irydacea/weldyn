@@ -251,7 +251,9 @@ $lang = array_merge($lang, array(
 	'GUEST_USERS_ZERO_TOTAL'	=> '0 guests',
 	'GUEST_USER_ONLINE'			=> 'There is %d guest user online',
 	'GUEST_USER_TOTAL'			=> '%d guest',
-	'G_ADMINISTRATORS'			=> 'Administrators',
+	// Wesnoth mod begin: Administrators -> Forum Administrators
+	'G_ADMINISTRATORS'			=> 'Forum Administrators',
+	// Wesnoth mod end: Administrators -> Forum Administrators
 	'G_BOTS'					=> 'Bots',
 	'G_GUESTS'					=> 'Guests',
 	'G_REGISTERED'				=> 'Registered users',
