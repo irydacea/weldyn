@@ -1,0 +1,24 @@
+<!-- DEFINE $CA_SKIP_PM_NOTIFY = '1' --><!-- IF S_SIMPLE_MESSAGE -->
+	<!-- INCLUDE simple_header.html -->
+<!-- ELSE -->
+	<!-- INCLUDE overall_header.html -->
+<!-- ENDIF -->
+
+{$CA_BLOCK_START}
+{$CA_CAP2_START}{MESSAGE_TITLE}{$CA_CAP2_END}
+<table class="tablebg" width="100%" cellspacing="{$CA_SPACING}">
+<tr> 
+	<td class="row1" align="center"><br /><p class="gen">{MESSAGE_TEXT}</p><br /></td>
+</tr>
+</table>
+{$CA_BLOCK_END}
+
+<br clear="all" />
+
+<!-- INCLUDE breadcrumbs.html -->
+
+<!-- IF S_SIMPLE_MESSAGE -->
+	<!-- INCLUDE simple_footer.html -->
+<!-- ELSE -->
+	<!-- INCLUDE overall_footer.html -->
+<!-- ENDIF -->
