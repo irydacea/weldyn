@@ -7,6 +7,7 @@ __install
 files/*
 images/*
 images/avatars/upload/*
+.well-known
 *.builtin
 docs
 *.patch
