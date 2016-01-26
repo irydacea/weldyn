@@ -753,7 +753,4 @@ $lang = array_merge($lang, array(
 	'LOG_WORD_EDIT'			=> '<strong>Edited word censor</strong><br />» %s',
 ));
 
-$lang = array_merge($lang, array(
-	'LOG_ANNOUNCEMENT_UPDATED'			=> '<strong>Announcement(s) updated</strong>',
-));
 ?>

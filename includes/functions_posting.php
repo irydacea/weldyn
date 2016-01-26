@@ -24,7 +24,7 @@ define('WESNOTH_JETREL_ATTACHMENT_LIMIT', 52428800); // bytes
 /**
 * Fill smiley templates (or just the variables) with smilies, either in a window or inline
 */
-function generate_smilies($mode, $forum_id, $acp_announce = false)
+function generate_smilies($mode, $forum_id)
 {
 	global $auth, $db, $user, $config, $template;
 	global $phpEx, $phpbb_root_path;
@@ -64,7 +64,7 @@ function generate_smilies($mode, $forum_id, $acp_announce = false)
 		$db->sql_freeresult($result);
 
 		$template->set_filenames(array(
-			'body' => ( $acp_announce ) ? 'announcement_smilies.html' : 'posting_smilies.html')
+			'body' => 'posting_smilies.html')
 		);
 
 		$template->assign_var('PAGINATION',
@@ -136,7 +136,7 @@ function generate_smilies($mode, $forum_id, $acp_announce = false)
 	{
 		$template->assign_vars(array(
 			'S_SHOW_SMILEY_LINK' 	=> true,
-			'U_MORE_SMILIES'       => ( $acp_announce ) ? append_sid("{$phpbb_root_path}posting.$phpEx", 'mode=smilies&amp;announce=1') : append_sid("{$phpbb_root_path}posting.$phpEx", 'mode=smilies&amp;f=' . $forum_id))
+			'U_MORE_SMILIES' 		=> append_sid("{$phpbb_root_path}posting.$phpEx", 'mode=smilies&amp;f=' . $forum_id))
 		);
 	}
 

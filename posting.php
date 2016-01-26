@@ -123,14 +123,7 @@ switch ($mode)
 
 	case 'smilies':
 		$sql = '';
-		if ( request_var('announce', 0) == 1 )
-		{
-		 generate_smilies('window', 0, 1);
-		}
-		else
-		{
-		 generate_smilies('window', $forum_id);
-		}
+		generate_smilies('window', $forum_id);
 	break;
 
 	case 'popup':
