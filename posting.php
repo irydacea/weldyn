@@ -1001,45 +1001,6 @@ if ($submit || $preview || $refresh)
 		}
 	}
 
-	// START Anti-Spam ACP
-	$sc_title = (empty($post_data['topic_title'])) ? $post_data['post_subject'] : $post_data['topic_title'];
-	$asacp_is_spam = false;
-	if (!sizeof($error) && $config['asacp_spam_words_posting_action'] && antispam::spam_words(array($sc_title, $message_parser->message)))
-	{
-		switch ($config['asacp_spam_words_posting_action'])
-		{
-			case 1 :
-				$user->add_lang('mods/asacp');
-				$log_message = $message_parser->message;
-				decode_message($log_message, $message_parser->bbcode_uid);
-				antispam::add_log('LOG_SPAM_POST_DENIED', array($sc_title, $log_message));
-				$error[] = $user->lang['SPAM_DENIED'];
-			break;
-
-			case 2 :
-				$asacp_is_spam = true;
-			break;
-		}
-	}
-	if (!sizeof($error) && $config['asacp_akismet_post_action'] && antispam::akismet($message_parser->message))
-	{
-		switch ($config['asacp_akismet_post_action'])
-		{
-			case 1 :
-				$user->add_lang('mods/asacp');
-				$log_message = $message_parser->message;
-				decode_message($log_message, $message_parser->bbcode_uid);
-				antispam::add_log('LOG_SPAM_POST_DENIED_AKISMET', array($sc_title, $log_message));
-				$error[] = $user->lang['SPAM_DENIED'];
-			break;
-
-			case 2 :
-				$asacp_is_spam = true;
-			break;
-		}
-	}
-	// END Anti-Spam ACP
-
 	// Store message, sync counters
 	if (!sizeof($error) && $submit)
 	{
@@ -1185,19 +1146,8 @@ if ($submit || $preview || $refresh)
 			// post's poster, not the poster of the current post). See: PHPBB3-11769 for more information.
 			$post_author_name = ((!$user->data['is_registered'] || $mode == 'edit') && $post_data['username'] !== '') ? $post_data['username'] : '';
 
-			// START Anti-Spam ACP
-			if ($asacp_is_spam)
-			{
-				$data['force_approved_state'] = false;
-			}
-			// END Anti-Spam ACP
-
 			// The last parameter tells submit_post if search indexer has to be run
 			$redirect_url = submit_post($mode, $post_data['post_subject'], $post_author_name, $post_data['topic_type'], $poll, $data, $update_message, ($update_message || $update_subject) ? true : false);
-
-			// START Anti-Spam ACP
-			antispam::submit_post($mode, $data['post_id']);
-			// END Anti-Spam ACP
 
 			if ($config['enable_post_confirm'] && !$user->data['is_registered'] && (isset($captcha) && $captcha->is_solved() === true) && ($mode == 'post' || $mode == 'reply' || $mode == 'quote'))
 			{

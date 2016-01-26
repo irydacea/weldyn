@@ -712,29 +712,6 @@ function compose_pm($id, $mode, $action, $user_folders = array())
 			}
 		}
 
-		// START Anti-Spam ACP
-		if (!sizeof($error) && $config['asacp_spam_words_pm_action'] && antispam::spam_words(array($subject, $message_parser->message)))
-		{
-			$user->add_lang('mods/asacp');
-			$log_message = $message_parser->message;
-			decode_message($log_message, $message_parser->bbcode_uid);
-			antispam::add_log('LOG_SPAM_PM_DENIED', array($subject, $log_message));
-			$error[] = $user->lang['SPAM_DENIED'];
-		}
-		if (!sizeof($error) && $config['asacp_akismet_pm_action'] && antispam::akismet($message_parser->message))
-		{
-			$user->add_lang('mods/asacp');
-			$log_message = $message_parser->message;
-			decode_message($log_message, $message_parser->bbcode_uid);
-			antispam::add_log('LOG_SPAM_PM_DENIED_AKISMET', array($subject, $log_message));
-			$error[] = $user->lang['SPAM_DENIED'];
-		}
-		if (!sizeof($error) && $submit && $user->data['user_flagged'])
-		{
-			antispam::add_log('LOG_SENT_PM', array('pm' => $address_list), 'flag');
-		}
-		// END Anti-Spam ACP
-
 		// Store message, sync counters
 		if (!sizeof($error) && $submit)
 		{
