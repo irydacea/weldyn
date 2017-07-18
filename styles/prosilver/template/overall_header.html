@@ -30,78 +30,12 @@
 	Modified by:
 -->
 
-<!-- glamdrol mod begin -->
-<link rel="shortcut icon" href="//www.wesnoth.org/favicon.ico" type="image/x-icon" />
-<link href="//www.wesnoth.org/mw/skins/glamdrol/forum.css" rel="stylesheet" type="text/css" />
-<style type="text/css">
-<!--
-#wglobal {
-  width: 100%;
-  margin-top: 0;
-  padding-top: 0;
-  font: 0.88em sans-serif;
-}
-
-#wheader {
-  margin: 0;
-  padding: 0;
-  background: #444 url('//www.wesnoth.org/mw/skins/glamdrol/headerbg.jpg') top repeat-x;
-  border-bottom: 1px solid #000;
-}
-
-#wheader #wlogo {
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
-
-#wheader #wlogo img {
-  margin: 0;
-  padding: 0;
-  border: none;
-}
-
-#wheader #wlogo a {
-  margin: 0;
-  padding: 0;
-  color: #654;
-  text-decoration: none;
-  font-size: 0.8em;
-}
-
-#wnav {
-  margin: 0;
-  padding: 3px 4px 15px 4px;
-  background: #272727 url('//www.wesnoth.org/mw/skins/glamdrol/navbg.png') repeat-x bottom;
-  text-align: center;
-  border-top: 1px solid #595959;
-  font-size: 150%;
-}
-
-#wnav ul, #wnav li {
-  display: inline;
-  margin: 0;
-  padding: 0;
-}
-
-#wnav li {
-  padding: 0 5px;
-}
-
-#wnav a {
-  /*color: #A74;*/
-  color: #B48648;
-  font-family: "Trebuchet MS", sans-serif;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-#wnav a:hover {
-  color: #CCC;
-}
--->
-</style>
-<!-- glamdrol mod end -->
+<!-- wesmere mod begin -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montaga%7COpen+Sans:400,400i,700,700i" type="text/css" />
+<link rel="icon" type="image/png" href="https://www.wesnoth.org/wesmere/img/favicon-32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="https://www.wesnoth.org/wesmere/img/favicon-16.png" sizes="16x16" />
+<script src="//www.wesnoth.org/wesmere/js/modernizr.js"></script>
+<!-- wesmere mod end -->
 
 <script type="text/javascript">
 // <![CDATA[
@@ -160,7 +94,8 @@
 	<link href="{T_THEME_PATH}/bidi.css" rel="stylesheet" type="text/css" media="screen, projection" />
 <!-- ENDIF -->
 
-<!-- mod begin -->
+<!-- wesmere mod begin -->
+<link href="//www.wesnoth.org/wesmere/css/forums-1.0.0.css" rel="stylesheet" type="text/css" />
 <!-- Google Analytics -->
 <script type="text/javascript">
 
@@ -175,40 +110,49 @@
   })();
 
 </script>
-<!-- mod end -->
+<!-- wesmere mod end -->
 
 </head>
 
-<!-- glamdrol mod begin -->
+<!-- wesmere mod begin -->
 
-<body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}" style="padding-top: 0px">
+<body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}">
 
-<div id="wglobal">
-<div id="wheader">
-  <div id="wlogo" style="max-height:74px;">
-    <a href="//www.wesnoth.org/"><img alt="Wesnoth logo" src="//www.wesnoth.org/mw/skins/glamdrol/wesnoth-logo.jpg" /></a>
-  </div>
+<div id="wesmere-embed">
+
+<div id="nav" role="banner">
+<div class="centerbox">
+	<div id="logo">
+		<a href="/"><img alt="Wesnoth logo" src="//www.wesnoth.org/wesmere/img/logo-minimal-64.png" width="64" height="64" data-retina="1" /></a>
+	</div>
+
+	<ul id="navlinks" role="navigation">
+		<li><a href="/">Home</a></li>
+		<li><a href="https://forums.wesnoth.org/viewforum.php?f=62">News</a></li>
+		<li><a href="https://wiki.wesnoth.org/Play">Play</a></li>
+		<li><a href="https://wiki.wesnoth.org/Create">Create</a></li>
+		<li><a href="https://forums.wesnoth.org/">Forums</a></li>
+		<li><a href="https://wiki.wesnoth.org/Project">About</a></li>
+	</ul>
+
+	<!-- IF S_DISPLAY_SEARCH -->
+	<div id="sitesearch" role="search">
+		<form method="get" action="{U_SEARCH}">
+			<i class="search-icon" aria-hidden="true"></i>
+			<input id="searchbox" type="search" name="keywords" placeholder="{L_SEARCH}" title="Search these forums" accesskey="f" tabindex="1" />
+		</form>
+	</div>
+	<!-- ENDIF -->
+
+	<div class="reset"></div>
+</div>
 </div>
 
-<div id="wnav">
-  <ul style="line-height: 1.6em">
-    <li><a href="//www.wesnoth.org/">Home</a></li>
-
-    <li><a href="//wiki.wesnoth.org/Play">Play</a></li>
-    <li><a href="//wiki.wesnoth.org/Create">Create</a></li>
-    <li><a href="//forums.wesnoth.org/">Forums</a></li>
-    <li><a href="//wiki.wesnoth.org/Support">Support</a></li>
-    <li><a href="//wiki.wesnoth.org/Project">Project</a></li>
-    <li><a href="//wiki.wesnoth.org/Credits">Credits</a></li>
-    <li><a href="//wiki.wesnoth.org/UsefulLinks">Links</a></li>
-
-  </ul>
-</div>
 </div>
 
-<div id="wrap" style="padding-top: 6px">
+<div id="content"><div id="wrap">
 
-<!-- glamdrol mod end -->
+<!-- wesmere mod end -->
 
 	<a id="top" name="top" accesskey="t"></a>
 	<div id="page-header">
@@ -247,7 +191,6 @@
 			<ul class="linklist rightside">
 				<li class="icon-rules"><a href="{U_RULES}" title="{L_RULES_PAGE}">{L_RULES}</a></li>
 				<li class="icon-faq"><a href="{U_FAQ}" title="{L_FAQ_EXPLAIN}">{L_FAQ}</a></li>
-				<li class="icon-search"><a href="{U_SEARCH}" title="{L_SEARCH}">{L_SEARCH}</a></li>
 				<!-- IF not S_IS_BOT -->
 					<!-- IF S_DISPLAY_MEMBERLIST --><li class="icon-members"><a href="{U_MEMBERLIST}" title="{L_MEMBERLIST_EXPLAIN}">{L_MEMBERLIST}</a></li><!-- ENDIF -->
 					<!-- IF not S_USER_LOGGED_IN and S_REGISTER_ENABLED and not (S_SHOW_COPPA or S_REGISTRATION) --><li class="icon-register"><a href="{U_REGISTER}">{L_REGISTER}</a></li><!-- ENDIF -->
