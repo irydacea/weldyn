@@ -310,8 +310,17 @@ function toggleCodeExpand()
 	<!-- IF S_DISPLAY_SEARCH -->
 	<div id="sitesearch" role="search">
 		<form method="get" action="{U_SEARCH}">
-			<i class="search-icon" aria-hidden="true"></i>
-			<input id="searchbox" type="search" name="keywords" placeholder="{L_SEARCH}" title="Search these forums" accesskey="f" tabindex="1" />
+			<input id="searchbox" class="has-advanced-search" type="search" name="keywords" placeholder="{L_SEARCH}" title="Search these forums [Alt+Shift+f]" accesskey="f" tabindex="1" />
+			<span id="searchbox-controls">
+				<button id="search-go" class="search-button" type="submit" title="Search" tabindex="2">
+					<i class="search-icon" aria-hidden="true"></i>
+					<span class="sr-label">Search</span>
+				</button>
+				<a id="search-opts" class="search-button" href="{U_SEARCH}" title="Advanced search">
+					<i class="advsearch-icon" aria-hidden="true"></i>
+					<span class="sr-label">Advanced search</span>
+				</a>
+			</span>
 		</form>
 	</div>
 	<!-- ENDIF -->
