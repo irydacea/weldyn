@@ -204,10 +204,18 @@ function selectCode(a)
 	if (window.getSelection)
 	{
 		var s = window.getSelection();
-		// Safari
+		// Safari and Chrome
 		if (s.setBaseAndExtent)
 		{
-			s.setBaseAndExtent(e, 0, e, e.innerText.length - 1);
+			var l = (e.innerText.length > 1) ? e.innerText.length - 1 : 1;
+			try {
+				s.setBaseAndExtent(e, 0, e, l);
+			} catch (error) {
+				var r = document.createRange();
+				r.selectNodeContents(e);
+				s.removeAllRanges();
+				s.addRange(r);
+			}
 		}
 		// Firefox and Opera
 		else

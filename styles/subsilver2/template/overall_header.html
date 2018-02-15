@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="{S_CONTENT_DIRECTION}" lang="{S_USER_LANG}" xml:lang="{S_USER_LANG}">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="{S_CONTENT_DIRECTION}" lang="{S_USER_LANG}" xml:lang="{S_USER_LANG}" class="no-js subsilver2">
 <head>
 
 <meta http-equiv="content-type" content="text/html; charset={S_CONTENT_ENCODING}" />
@@ -11,7 +11,7 @@
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 {META}
-<title>{SITENAME} &bull; <!-- IF S_IN_MCP -->{L_MCP} &bull; <!-- ELSEIF S_IN_UCP -->{L_UCP} &bull; <!-- ENDIF -->{PAGE_TITLE}</title>
+<title><!-- IF S_IN_MCP -->{L_MCP} &bull; <!-- ELSEIF S_IN_UCP -->{L_UCP} &bull; <!-- ENDIF -->{PAGE_TITLE} &bull; {SITENAME}</title>
 
 <!-- IF S_ENABLE_FEEDS -->
 	<!-- IF S_ENABLE_FEEDS_OVERALL --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {SITENAME}" href="{U_FEED}" /><!-- ENDIF -->
@@ -25,81 +25,13 @@
 
 <link rel="stylesheet" href="{T_STYLESHEET_LINK}" type="text/css" />
 
-<!-- glamdrol mod begin -->
-<link rel="shortcut icon" href="//www.wesnoth.org/favicon.ico" type="image/x-icon" />
-<link href="//www.wesnoth.org/mw/skins/glamdrol/forum.css" rel="stylesheet" type="text/css" />
-<style type="text/css">
-<!--
-#global {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  font: 0.88em sans-serif;
-}
-
-ul {
-  line-height: 1.6em;
-}
-
-#header {
-  margin: 0;
-  padding: 0;
-  background: #444 url('//www.wesnoth.org/mw/skins/glamdrol/headerbg.jpg') top repeat-x;
-  border-bottom: 1px solid #000;
-}
-
-#header #logo {
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
-
-#header #logo img {
-  margin: 0;
-  padding: 0;
-  border: none;
-}
-
-#header #logo a {
-  margin: 0;
-  padding: 0;
-  color: #654;
-  text-decoration: none;
-  font-size: 0.8em;
-}
-
-#nav {
-  margin: 0;
-  padding: 3px 4px 15px 4px;
-  background: #272727 url('//www.wesnoth.org/mw/skins/glamdrol/navbg.png') repeat-x bottom;
-  text-align: center;
-  border-top: 1px solid #595959;
-  font-size: 150%;
-}
-
-#nav ul, #nav li {
-  display: inline;
-  margin: 0;
-  padding: 0;
-}
-
-#nav li {
-  padding: 0 5px;
-}
-
-#nav a {
-  color: #B48648;
-  font-family: "Trebuchet MS", sans-serif;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-#nav a:hover {
-  color: #CCC;
-}
--->
-</style>
-<!-- glamdrol mod end -->
+<!-- wesmere mod begin -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montaga%7COpen+Sans:400,400i,700,700i" type="text/css" />
+<link href="https://www.wesnoth.org/wesmere/css/forums-1.1.0.css" rel="stylesheet" type="text/css" />
+<link rel="icon" type="image/png" href="https://www.wesnoth.org/wesmere/img/favicon-32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="https://www.wesnoth.org/wesmere/img/favicon-16.png" sizes="16x16" />
+<script src="https://www.wesnoth.org/wesmere/js/modernizr.js"></script>
+<!-- wesmere mod end -->
 
 <script type="text/javascript">
 // <![CDATA[
@@ -355,33 +287,54 @@ function toggleCodeExpand()
 <!-- mod end -->
 
 </head>
-<!-- glamdrol mod begin -->
+<!-- wesmere mod begin -->
 <body>
 
-<a name="top"></a>
-<div id="global">
-	<div id="header">
-		<div id="logo">
-			<a href="//www.wesnoth.org/home"><img alt="Wesnoth logo" src="//www.wesnoth.org/mw/skins/glamdrol/wesnoth-logo.jpg" /></a>
-		</div>
+<div id="wesmere-embed">
+
+<div id="nav" role="banner">
+<div class="centerbox">
+	<div id="logo">
+		<a href="https://www.wesnoth.org/" aria-label="Wesnoth logo"></a>
 	</div>
 
-	<div id="nav">
-		<ul>
-			<li><a href="//www.wesnoth.org/">Home</a></li>
-			<li><a href="//wiki.wesnoth.org/Play">Play</a></li>
-			<li><a href="//wiki.wesnoth.org/Create">Create</a></li>
-			<li><a href="//forums.wesnoth.org/">Forums</a></li>
-			<li><a href="//wiki.wesnoth.org/Support">Support</a></li>
-			<li><a href="//wiki.wesnoth.org/Project">Project</a></li>
-			<li><a href="//wiki.wesnoth.org/Credits">Credits</a></li>
-			<li><a href="//wiki.wesnoth.org/UsefulLinks">Links</a></li>
-		</ul>
+	<ul id="navlinks" role="navigation">
+		<li><a href="https://www.wesnoth.org/">Home</a></li>
+		<li><a href="https://forums.wesnoth.org/viewforum.php?f=62">News</a></li>
+		<li><a href="https://wiki.wesnoth.org/Play">Play</a></li>
+		<li><a href="https://wiki.wesnoth.org/Create">Create</a></li>
+		<li><a href="https://forums.wesnoth.org/">Forums</a></li>
+		<li><a href="https://wiki.wesnoth.org/Project">About</a></li>
+	</ul>
+
+	<!-- IF S_DISPLAY_SEARCH -->
+	<div id="sitesearch" role="search">
+		<form method="get" action="{U_SEARCH}">
+			<input id="searchbox" class="has-advanced-search" type="search" name="keywords" placeholder="{L_SEARCH}" title="Search these forums [Alt+Shift+f]" accesskey="f" />
+			<span id="searchbox-controls">
+				<button id="search-go" class="search-button" type="submit" title="Search">
+					<i class="search-icon" aria-hidden="true"></i>
+					<span class="sr-label">Search</span>
+				</button>
+				<a id="search-opts" class="search-button" href="{U_SEARCH}" title="Advanced search">
+					<i class="advsearch-icon" aria-hidden="true"></i>
+					<span class="sr-label">Advanced search</span>
+				</a>
+			</span>
+		</form>
 	</div>
+	<!-- ENDIF -->
+
+	<div class="reset"></div>
 </div>
-<div class="{S_CONTENT_DIRECTION}">
+</div>
+
+</div>
+
+<div id="content"><div id="wrap" class="{S_CONTENT_DIRECTION}">
+<a name="top"></a>
 <div id="wrapheader">
-<!-- glamdrol mod end -->
+<!-- wesmere mod end -->
 	<div id="menubar">
 		<table width="100%" cellspacing="0">
 		<tr>
